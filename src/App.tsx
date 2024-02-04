@@ -44,15 +44,24 @@
 //   )
 // }
 
+
+import React from "react";
+import { BrowserRouter as Router, Route, } from "react-router-dom";
 import Registration from "./components/Registration"
+
 
 function App() {
   return (
-    <div className="p-2">
-      <Registration />
-    </div>
+    <Router>
+
+        <Route path="/register">
+          <div className="p-2">
+            <Registration />
+          </div>
+        </Route>
+       
+    </Router>
   )
 }
-
 
 export default App
