@@ -1,7 +1,7 @@
 // import { useState } from "react"
 // import ListGroup from "./ListGroup"
 // import Alert from "./Alert"
-<<<<<<< HEAD
+
 
 // function App() {
 //   const [cities, setCities] = useState(["London", "New York", "Paris", "Tokyo", "Delhi", "Dubai"])
@@ -46,8 +46,7 @@
 // }
 
 // import PostsList from "./PostsList"
-=======
->>>>>>> 967eed626b4a37b71d39dc740d6f1c0f241d8572
+
 
 // function App() {
 //   const [cities, setCities] = useState(["London", "New York", "Paris", "Tokyo", "Delhi", "Dubai"])
@@ -91,21 +90,9 @@
 //   )
 // }
 
-<<<<<<< HEAD
-import StudentForm from "./StudentForm"
 
-function App() {
 
-  return (
-    <div className="p-2">
-      <StudentForm />
-    </div>
-  )
-}
-
-=======
 import Profile from "./components/Profile_component"
->>>>>>> 967eed626b4a37b71d39dc740d6f1c0f241d8572
 
 function App() {
   return (

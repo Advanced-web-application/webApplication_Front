@@ -1,17 +1,8 @@
 import apiClient, { CanceledError } from "./api-client"
-
-export interface IUser {
-    fullName: string;
-    age: number;
-    gender: string;
-    _id: string;
-    image?: string;
-    email: string;
-    password: string;
-    refreshTokens?: string[];
-  }
+import { IUser } from '../Profile'
 
 export { CanceledError }
+
 const getUserById = () => {
     const abortController = new AbortController()
     const req = apiClient.get<IUser[]>('user', { signal: abortController.signal })

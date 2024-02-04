@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { IUser } from './Profile_component'
-import profileService, { CanceledError } from "./services/profile"
+import { IUser } from '../Profile'
+import profileService, { CanceledError } from "../services/profile-service"
+import Profile from "../Profile"
 
 function ProfileDetalis() {
-        const [users, setUser] = useState<IUser[]>([])
+        const [user, setUser] = useState<IUser[]>([])
         const [error, setError] = useState()
         useEffect(() => {
             const { req, abort } = profileService.getUserById()
@@ -19,11 +20,20 @@ function ProfileDetalis() {
             }
         
         }, [])
-        // return (
-        //     <div>
-        //         {posts.map((post, index) => <Post key={index} post={post} />)}
-        //     </div>
-        // )
+        return (
+            <>
+            <div>
+                {error && <p className='text-danger'>{error}</p>}
+            </div>
+            
+            <div className="p-4">
+                {user && user.filter(user => user._id === '1234567890').map(user => <Profile key={user._id} profile={user} />)}
+        
+           </div>
+           </>
+        )
         
 }
+
+export default ProfileDetalis
     
