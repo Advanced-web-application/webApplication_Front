@@ -44,12 +44,12 @@
 //   )
 // }
 
-import Registration from "./components/Registration"
+import Profile from "./components/Profile_component"
 
 function App() {
   return (
     <div className="p-2">
-      <Registration />
+      <Profile />
     </div>
   )
 }
