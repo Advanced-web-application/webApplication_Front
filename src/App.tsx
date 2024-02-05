@@ -92,7 +92,8 @@
 
 
 
-import Profile from "./components/Profile_component"
+//import Profile from "./components/Profile_component"
+import Profile from "./components/Profile_edit"
 //import Registration from "./components/Registration"
 
 function App() {

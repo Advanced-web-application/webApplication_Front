@@ -4,7 +4,7 @@ import profileService, { CanceledError } from "../services/profile-service"
 import Profile from "../Profile"
 
 const handleEdit = (userId: string) => {
-    // Handle the edit functionality here
+    // render to the edit profile page
     console.log(`Editing user with id: ${userId}`);
 }
 
