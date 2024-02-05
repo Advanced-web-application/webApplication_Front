@@ -17,10 +17,10 @@ function EditProfile() {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const { req, abort } = profileService.getUserById()
+        const { req, abort } = profileService.getUserById('123456789')
         req.then((res) => {
             const data = res.data;
-            const user = data.filter((user: IUser) => user._id === '123456789')[0];
+            const user = data;
             if (user) {
                 setFullName(user.fullName);
                 setAge(user.age);
