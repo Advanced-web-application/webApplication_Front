@@ -11,12 +11,13 @@ const handleEdit = (userId: string) => {
 
 
 function ProfileDetalis() {
-        const [user, setUser] = useState<IUser[]>([])
+        const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
         useEffect(() => {
-            const { req, abort } = profileService.getUserById()
+            const { req, abort } = profileService.getUserById('123456789')
             req.then((res) => {
                 setUser(res.data)
+                console.log("userId:" +res.data._id)
             }).catch((err) => {
                 console.log(err)
                 if (err instanceof CanceledError) return
@@ -39,14 +40,25 @@ function ProfileDetalis() {
         
            </div> */}
 
-            <div className="p-4">
+            {/* <div className="p-4">
                 {user && user.filter(user => user._id === '123456789').map(user => (
                     <div key={user._id}>
                         <Profile profile={user} />
                         <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
                     </div>
                 ))}
-            </div> 
+            </div>  */}
+
+           
+
+            <div className="p-4">
+                {user && 
+                    <div key={user._id}>
+                        <Profile profile={user} />     
+                        <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
+                    </div>
+                }
+            </div>
   
            </>
         )

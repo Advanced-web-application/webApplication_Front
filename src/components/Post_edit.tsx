@@ -1,13 +1,11 @@
 
-
-
 import { ChangeEvent, useEffect, useState } from 'react';
 import postService , { CanceledError } from '../services/post-service';
 import { PostData } from '../Post';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-
+//when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function EditPost() {
    
@@ -29,7 +27,6 @@ function EditPost() {
                 setDescription(post.description);
                 setPrice(post.price);
                 setOwner(post.owner);
-
             }
         }).catch((err) => {
             console.log(err)
@@ -56,7 +53,7 @@ function EditPost() {
             owner
         };
 
-        const res =  postService.editPost(name, updatedPost)
+        const res =  postService.editPost(name, updatedPost) //needs to get the post id...
         console.log(res);
 
     };

@@ -3,13 +3,14 @@ import { PostData } from '../Post'
 import postService, { CanceledError } from "../services/post-service"
 import Post from "../Post"
 
+
 //TODO: Add the handleEdit function here OF POST
 const handleEdit = (postname: string) => {
     // render to the edit profile page
     console.log(`Editing user with name: ${postname}`);
 }
 
-
+//when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function PostDetalis() {
         const [post, setPost] = useState<PostData[]>([])
@@ -35,7 +36,14 @@ function PostDetalis() {
                 {error && <p className='text-danger'>{error}</p>}
             </div>
             
-        
+            {/* <div className="p-4">
+                {post && 
+                    <div key={post.name}>
+                        <Post post={post} />     
+                        <button className="btn btn-primary" onClick={() => handleEdit(post.name)}>Edit Profile</button>
+                    </div>
+                }
+            </div> */}
 
             <div className="p-4">
                 {post && post.filter(post => post.name === 'test post').map(post => (

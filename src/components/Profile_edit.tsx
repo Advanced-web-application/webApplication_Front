@@ -1,12 +1,8 @@
 
-
-
 import { ChangeEvent, useEffect, useState } from 'react';
 import profileService , { CanceledError } from '../services/profile-service';
 import { IUser } from '../Profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 
 
 function EditProfile() {
@@ -21,10 +17,10 @@ function EditProfile() {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const { req, abort } = profileService.getUserById()
+        const { req, abort } = profileService.getUserById('123456789')
         req.then((res) => {
             const data = res.data;
-            const user = data.filter((user: IUser) => user._id === '123456789')[0];
+            const user = data;
             if (user) {
                 setFullName(user.fullName);
                 setAge(user.age);
@@ -66,6 +62,8 @@ function EditProfile() {
 
     };
     return (
+    
+
         <form onSubmit={handleSubmit} className="m-3">
         <h1>Edit Profile</h1>
         <div className="mb-3">
@@ -73,7 +71,7 @@ function EditProfile() {
                     <label className="form-label"></label>
                     <input type="file" className="form-control" onChange={(e) =>  {if(e.target.files!=null) setImage(URL.createObjectURL(e.target.files[0]))}} />
                 </div>
-        {}
+        
         <div className="mb-3">
             <label className="form-label">Full Name:</label>
             <input type="text" className="form-control" value={fullName} onChange={(e) => setFullName(e.target.value)} />
