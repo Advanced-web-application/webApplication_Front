@@ -12,13 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function EditPost() {
    
     const [error, setError] = useState()
-    //const [fullName, setFullName] = useState('');
-    // const [age, setAge] = useState(0);
-    // const [gender, setGender] = useState('');
-    // const [_id, setId] = useState('');
     const [image, setImage] =useState('')
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -30,13 +24,7 @@ function EditPost() {
             const data = res.data;
             const post = data.filter((post: PostData) => post.name === 'test post')[0];
             if (post) {
-                // setFullName(user.fullName);
-                // setAge(user.age);
-                // setGender(user.gender);
-                // setId(user._id);
-                // setImage(user.image?? '');
-                // setEmail(user.email);
-                // setPassword('');
+                setImage(post.image);
                 setName(post.name);
                 setDescription(post.description);
                 setPrice(post.price);
@@ -62,6 +50,7 @@ function EditPost() {
     
         const updatedPost = {
             name,
+            image,
             description,
             price,
             owner
@@ -93,7 +82,7 @@ function EditPost() {
             <input type="number" className="form-control" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
         </div>
         <div className="mb-3">
-            <label className="form-label">Owner:</label>
+            <label className="form-label">Owner ID:</label>
             <input type="text" className="form-control" value={owner} onChange={(e) => setOwner(e.target.value)} />
         </div>
         <button type="submit" className="btn btn-primary">Save Changes</button>

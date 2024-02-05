@@ -4,6 +4,7 @@ export interface PostData {
     description: string
     price: number
     owner: string
+    image: string
 }
 
 interface PostProps {
