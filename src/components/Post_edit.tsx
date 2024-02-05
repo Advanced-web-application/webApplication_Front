@@ -43,8 +43,6 @@ function EditPost() {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-
-    
         const updatedPost = {
             name,
             image,

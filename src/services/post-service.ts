@@ -9,7 +9,10 @@ const getPostByName = () => {
     return { req, abort: () => abortController.abort() }
 
 }
-// const getPostByName = (id: string) => {
+
+//need to use with the PostID!
+
+// const getPostByID = (id: string) => {
 //     const abortController = new AbortController();
 //     const req = apiClient.get<PostData>(`post/${id}`, { signal: abortController.signal });
 //     return { req, abort: () => abortController.abort() };
@@ -21,4 +24,10 @@ const editPost = (id: string, postData: PostData) => {
     return { req, abort: () => abortController.abort() }
 }
 
-export default { getPostByName, editPost}
+const addComment= (id: string, comment: string) => {
+    const abortController = new AbortController()
+    const req = apiClient.post<PostData>(`post/comment/${id}`, {comment}, { signal: abortController.signal })
+    return { req, abort: () => abortController.abort() }
+}
+
+export default { getPostByName, editPost, addComment}
