@@ -31,7 +31,7 @@ function PostDetalis() {
 
 
         useEffect(() => {
-            const { req, abort } = postService.getPostByName()
+            const { req, abort } = postService.getPosts()
             req.then((res) => {
                 setPost(res.data)
             }).catch((err) => {

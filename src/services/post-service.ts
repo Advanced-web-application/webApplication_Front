@@ -3,7 +3,7 @@ import { PostData } from '../Post'
 
 export { CanceledError }
 
-const getPostByName = () => {
+const getPosts = () => {
     const abortController = new AbortController()
     const req = apiClient.get<PostData[]>('post', { signal: abortController.signal })
     return { req, abort: () => abortController.abort() }
@@ -30,4 +30,10 @@ const addComment= (id: string, comment: string) => {
     return { req, abort: () => abortController.abort() }
 }
 
-export default { getPostByName, editPost, addComment}
+const deletePost = (id: string) => {
+    const abortController = new AbortController()
+    const req = apiClient.delete<PostData>(`post/${id}`, { signal: abortController.signal })
+    return { req, abort: () => abortController.abort() }
+}
+
+export default { getPosts, editPost, addComment, deletePost}
