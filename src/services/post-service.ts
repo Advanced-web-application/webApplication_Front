@@ -10,11 +10,10 @@ const getPostByName = () => {
 
 }
 
-const editPost = () => {
+const editPost = (name: string, postData: PostData) => {
     const abortController = new AbortController()
-    const req = apiClient.get<PostData[]>('user', { signal: abortController.signal })
+    const req = apiClient.put<PostData>(`post/${name}`, postData, { signal: abortController.signal })
     return { req, abort: () => abortController.abort() }
-
 }
 
-export default { getPostByName }
+export default { getPostByName, editPost}
