@@ -93,8 +93,9 @@
 
 
 //import Profile from "./components/Profile_component"
-import Post from "./components/Post_component"
+// import Post from "./components/Post_component"
 //import Profile from "./components/Profile_edit"
+import Post from "./components/Post_edit"
 //import Registration from "./components/Registration"
 
 function App() {
