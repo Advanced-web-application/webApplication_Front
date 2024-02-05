@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export interface IUser {
     fullName: string;
@@ -13,15 +14,20 @@ interface ProfileProps {
     profile: IUser
 }
 
+
 function Profile({ profile }: ProfileProps) {
     return (
-        <div>
-            <h2>{profile.image}</h2>
-            <h2>Name:{profile.fullName}</h2>
-            <h2>Age:{profile.age}</h2>
-            <h2>Gender:{profile.gender}</h2>
-            <h2>ID:{profile._id}</h2>  
-            <h2>Mail:{profile.email}</h2>
+        <div className="card">
+            <img src={profile.image} className="card-img-top img-fluid" style={{maxWidth: '200px'}} alt={profile.fullName} />
+            <div className="card-body">
+                <h5 className="card-title">{profile.fullName}</h5>
+                <p className="card-text">
+                    <strong>Age:</strong> {profile.age}<br />
+                    <strong>Gender:</strong> {profile.gender}<br />
+                    <strong>ID:</strong> {profile._id}<br />
+                    <strong>Email:</strong> {profile.email}
+                </p>
+            </div>
         </div>
     )
 }

@@ -93,6 +93,7 @@
 
 
 import Profile from "./components/Profile_component"
+//import Registration from "./components/Registration"
 
 function App() {
   return (

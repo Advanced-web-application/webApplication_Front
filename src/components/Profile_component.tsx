@@ -29,6 +29,7 @@ function ProfileDetalis() {
         }, [])
         return (
             <>
+             <h1>Profile Details</h1>
             <div>
                 {error && <p className='text-danger'>{error}</p>}
             </div>
@@ -39,7 +40,7 @@ function ProfileDetalis() {
            </div> */}
 
             <div className="p-4">
-                {user && user.filter(user => user._id === '12345678').map(user => (
+                {user && user.filter(user => user._id === '123456789').map(user => (
                     <div key={user._id}>
                         <Profile profile={user} />
                         <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
@@ -53,4 +54,3 @@ function ProfileDetalis() {
 }
 
 export default ProfileDetalis
-    
