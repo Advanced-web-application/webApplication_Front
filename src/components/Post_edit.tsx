@@ -17,10 +17,10 @@ function EditPost() {
     const [owner, setOwner] = useState('');
 
     useEffect(() => {
-        const { req, abort } = postService.getPostByName()
+        const { req, abort } = postService.getPosts()
         req.then((res) => {
             const data = res.data;
-            const post = data.filter((post: PostData) => post.name === 'test post')[0];
+            const post = data.filter((post: PostData) => post.name === 'test post')[0]; //needs to get the post id...
             if (post) {
                 setImage(post.image);
                 setName(post.name);
@@ -38,6 +38,11 @@ function EditPost() {
         }
     
     }, [])
+
+    const handleDelete = () => {
+        console.log("deleting post: " + name );
+        postService.deletePost(name) //needs to get the post id...      
+    };
 
 
 
@@ -81,6 +86,11 @@ function EditPost() {
             <input type="text" className="form-control" value={owner} onChange={(e) => setOwner(e.target.value)} />
         </div>
         <button type="submit" className="btn btn-primary">Save Changes</button>
+
+    
+        <button type="button" className="btn btn-danger ml-2" onClick={handleDelete}>Delete Post</button>
+
+        
     </form>
     )
 
