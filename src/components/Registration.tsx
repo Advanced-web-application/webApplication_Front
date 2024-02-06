@@ -3,9 +3,8 @@ import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
-//import { registrUser, googleSignin, IUser } from '../services/user-service'
-import { registrUser, IUser } from '../services/user-service'
-//import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import { registrUser, googleSignin, IUser } from '../services/user-service'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>()
@@ -31,22 +30,22 @@ function Registration() {
             const user: IUser = {
                 email: emailInputRef.current?.value,
                 password: passwordInputRef.current?.value,
-                imgUrl: url
+               image: url
             }
             const res = await registrUser(user)
             console.log(res)
         }
     }
 
-    // const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-    //     console.log(credentialResponse)
-    //     try {
-    //         const res = await googleSignin(credentialResponse)
-    //         console.log(res)
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+    const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+        console.log(credentialResponse)
+        try {
+            const res = await googleSignin(credentialResponse)
+            console.log(res)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     const onGoogleLoginFailure = () => {
         console.log("Google login failed")
@@ -73,7 +72,7 @@ function Registration() {
             </div>
             <button type="button" className="btn btn-primary" onClick={register}>Register</button>
 
-            {/* <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} /> */}
+            <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
         </div>)
 }
 
