@@ -103,7 +103,7 @@ import Currancy from "./components/Currancy-convertion"
 function App() {
   return (
     <div className="p-2">
-      <Currancy />
+      <Feed />
     </div>
   )
 }
