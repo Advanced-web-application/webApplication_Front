@@ -7,6 +7,8 @@ import { IUser } from '../Profile'
 import { registrUser, googleSignin } from '../services/user-service'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 
+ export let userID: string
+
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>()
 
@@ -44,12 +46,13 @@ function Registration() {
                image: url
             }
             const res = await registrUser(user)
+            userID = res._id ?? '';
             console.log(res)
 
-             // Store tokens in localStorage
-        if (res.accessToken) {
-            localStorage.setItem('accessToken', res.accessToken);
-        }
+            // Store tokens in localStorage
+            if (res.accessToken) {
+                localStorage.setItem('accessToken', res.accessToken);
+            }
         if (res.refreshToken) {
             localStorage.setItem('refreshToken', res.refreshToken);
         }

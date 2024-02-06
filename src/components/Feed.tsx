@@ -40,14 +40,32 @@ function Feed() {
                 {error && <p className='text-danger'>{error}</p>}
             </div>
                
-            <div className="p-4">
+            {/* <div className="p-4">
                 {post && post.map(post => (
                     <div key={post.name} style={{ marginBottom: '20px' }}>
                         <Post post={post} />
                         <button className="btn btn-primary" onClick={() => handleEdit(post.name)}>See Post Details</button>  
                     </div>
                 ))}
+            </div> */}
+
+            <div className="container">
+                {post.map((post, index) => (
+                    <div key={index} className="card mb-3">
+                        <div className="card-header">
+                            <h2 className="card-title">{post.name}</h2>
+                        </div>
+                        <div className="card-body">
+                            <p><img src={post.image} className="card-img-top img-fluid" style={{maxWidth: '200px'}}  /></p>
+                            <p><strong>Description:</strong> {post.description}</p>
+                            <p><strong>Price:</strong> {post.price}</p>
+                            <p><strong>Owner:</strong> {post.owner}</p>
+                            <p><strong>Number of Comments:</strong> {post.comments ? post.comments.length : 0}</p>
+                            <button className="btn btn-primary" onClick={() => handleEdit(post.name)}>See Post Details And Comment</button> 
+                        </div>
             </div>
+        ))}
+    </div>
 
            </>
         )
