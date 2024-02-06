@@ -9,9 +9,28 @@ export { CanceledError }
 //     return { req, abort: () => abortController.abort() }
 
 // }
+// const getUserById = (id: string) => {
+//     const accessToken = localStorage.getItem("accessToken");
+//     if (!accessToken) {
+//         throw new Error("No access token found");
+//     }
+//     const abortController = new AbortController();
+//     const req = apiClient.get<IUser>(`user/${id}`, { signal: abortController.signal });
+//     return { req, abort: () => abortController.abort() };
+// }
+
 const getUserById = (id: string) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+        throw new Error("No access token found");
+    }
     const abortController = new AbortController();
-    const req = apiClient.get<IUser>(`user/${id}`, { signal: abortController.signal });
+    const req = apiClient.get<IUser>(`user/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        },
+        signal: abortController.signal
+    });
     return { req, abort: () => abortController.abort() };
 }
 
@@ -21,4 +40,4 @@ const editUser = (id: string, userData: IUser) => {
     return { req, abort: () => abortController.abort() }
 }
 
-export default { getUserById, editUser }
+export default { getUserById, editUser}
