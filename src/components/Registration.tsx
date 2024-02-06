@@ -3,13 +3,18 @@ import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
-import { registrUser, googleSignin, IUser } from '../services/user-service'
+import { IUser } from '../Profile'
+import { registrUser, googleSignin } from '../services/user-service'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 
 function Registration() {
     const [imgSrc, setImgSrc] = useState<File>()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const nameInputRef = useRef<HTMLInputElement>(null);
+    const ageInputRef = useRef<HTMLInputElement>(null);
+    const genderInputRef = useRef<HTMLInputElement>(null);
+    const idInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null)
     const passwordInputRef = useRef<HTMLInputElement>(null)
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +31,14 @@ function Registration() {
     const register = async () => {
         const url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
-        if (emailInputRef.current?.value && passwordInputRef.current?.value) {
+        if (nameInputRef.current?.value &&  ageInputRef.current?.value &&
+            genderInputRef.current?.value&& idInputRef.current?.value &&
+            emailInputRef.current?.value && passwordInputRef.current?.value) {
             const user: IUser = {
+                fullName: nameInputRef.current?.value,
+                age: Number(ageInputRef.current?.value),
+                gender: genderInputRef.current?.value,
+                _id: idInputRef.current?.value,
                 email: emailInputRef.current?.value,
                 password: passwordInputRef.current?.value,
                image: url
@@ -61,6 +72,23 @@ function Registration() {
             </div>
 
             <input style={{ display: "none" }} ref={fileInputRef} type="file" onChange={imgSelected}></input>
+
+            <div className="form-floating">
+                <input ref={nameInputRef} type="text" className="form-control" id="floatingName" placeholder="" />
+                <label htmlFor="floatingName">Name</label>
+            </div>
+            <div className="form-floating">
+                <input ref={ageInputRef} type="number" className="form-control" id="floatingAge" placeholder="" />
+                <label htmlFor="floatingAge">Age</label>
+            </div>
+            <div className="form-floating">
+                <input ref={genderInputRef} type="text" className="form-control" id="floatingGender" placeholder="" />
+                <label htmlFor="floatingGender">Gender</label>
+            </div>
+            <div className="form-floating">
+                <input ref={idInputRef} type="text" className="form-control" id="floatingId" placeholder="" />
+                <label htmlFor="floatingId">ID</label>
+            </div>
 
             <div className="form-floating">
                 <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />
