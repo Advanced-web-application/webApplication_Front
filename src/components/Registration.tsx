@@ -45,6 +45,14 @@ function Registration() {
             }
             const res = await registrUser(user)
             console.log(res)
+
+             // Store tokens in localStorage
+        if (res.accessToken) {
+            localStorage.setItem('accessToken', res.accessToken);
+        }
+        if (res.refreshToken) {
+            localStorage.setItem('refreshToken', res.refreshToken);
+        }
         }
     }
 

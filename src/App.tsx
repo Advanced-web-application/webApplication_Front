@@ -99,12 +99,13 @@
 // import Registration from "./components/Registration"
 // import Feed from "./components/Feed"
 // import Currancy from "./components/Currancy-convertion"
-import LogIn from "./components/Login_components"
+// import LogIn from "./components/Login_components"
+import Registration from "./components/Registration"
 
 function App() {
   return (
     <div className="p-2">
-      <LogIn />
+      <Registration />
     </div>
   )
 }
