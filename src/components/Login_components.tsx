@@ -19,7 +19,7 @@ const LoginComponent = () => {
        const email= emailInputRef.current?.value
         const password=passwordInputRef.current?.value
         const res = await postLogIn(email, password)
-        userID = res.user._id ?? '';
+        userID = res._id ?? '';
         console.log(res)
         if (res.accessToken) {
             localStorage.setItem('accessToken', res.accessToken);
@@ -37,13 +37,6 @@ const LoginComponent = () => {
 
   <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>LogIn</h1>
-
-
-
-
-
-
-
 
             <div className="form-floating">
                 <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />

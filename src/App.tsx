@@ -97,8 +97,8 @@
 //import Profile from "./components/Profile_edit"
 
 // import Post from "./components/Post_edit"
-// import Registration from "./components/Registration"
-// import Feed from "./components/Feed"
+ import Registration from "./components/Registration"
+ import Feed from "./components/Feed"
 // import Currancy from "./components/Currancy-convertion"
 // import LogIn from "./components/Login_components"
 import LogIn from "./components/Login_components"
@@ -109,7 +109,7 @@ function App() {
   return (
     <div className="p-2">
 
-      <LogIn />
+      <Feed />
 
     </div>
   )
