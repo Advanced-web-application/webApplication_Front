@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { IUser } from '../Profile'
 import profileService, { CanceledError } from "../services/profile-service"
 import Profile from "../Profile"
+import { userID } from './Registration';
 
 const handleEdit = (userId: string) => {
     // render to the edit profile page
@@ -14,7 +15,7 @@ function ProfileDetalis() {
         const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
         useEffect(() => {
-            const { req, abort } = profileService.getUserById('123456789')
+            const { req, abort } = profileService.getUserById(userID)
             req.then((res) => {
                 setUser(res.data)
                 console.log("userId:" +res.data._id)

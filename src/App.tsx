@@ -92,9 +92,10 @@
 
 
 
-//import Profile from "./components/Profile_component"
+import Profile from "./components/Profile_component"
  //import Post from "./components/Post_component"
 //import Profile from "./components/Profile_edit"
+
 // import Post from "./components/Post_edit"
 // import Registration from "./components/Registration"
 // import Feed from "./components/Feed"
@@ -103,10 +104,13 @@
 import LogIn from "./components/Login_components"
 // import Registration from "./components/Registration"
 
+
 function App() {
   return (
     <div className="p-2">
+
       <LogIn />
+
     </div>
   )
 }
