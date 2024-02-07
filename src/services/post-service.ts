@@ -44,8 +44,27 @@ const deletePost = (id: string) => {
 
 
 export const addPost = (postData: PostData) => {
+    // const accessToken = localStorage.getItem("accessToken");
+    // if (!accessToken) {
+    //     throw new Error("No access token found");
+    // }
+    // return new Promise<PostData>((resolve, reject) => {
+    //     apiClient.post<PostData>("/post", postData).then((response) => {
+    //         resolve(response.data)
+    //     }).catch((error) => {
+    //         reject(error)
+    //     })
+    // })
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+        throw new Error("No access token found");
+    }
     return new Promise<PostData>((resolve, reject) => {
-        apiClient.put<PostData>("/post", postData).then((response) => {
+        apiClient.post<PostData>("/post", postData, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }).then((response) => {
             resolve(response.data)
         }).catch((error) => {
             reject(error)

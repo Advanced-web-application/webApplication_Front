@@ -71,6 +71,7 @@ function Feed() {
             }
             const res = await addPost(post)
             postID = res._id ?? '';
+            console.log("postID: " + postID);
             console.log(res)
             
         }
