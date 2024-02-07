@@ -23,6 +23,7 @@ function Feed() {
             const { req, abort } = postService.getPosts()
             req.then((res) => {
                 setPost(res.data)
+                console.log(res.data)
             }).catch((err) => {
                 console.log(err)
                 if (err instanceof CanceledError) return

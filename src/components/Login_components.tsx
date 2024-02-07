@@ -16,7 +16,7 @@ const LoginComponent = () => {
        const email= emailInputRef.current?.value
         const password=passwordInputRef.current?.value
         const res = await postLogIn(email, password)
-        userID = res.user._id ?? '';
+        userID = res._id ?? '';
         console.log(res)
         if (res.accessToken) {
             localStorage.setItem('accessToken', res.accessToken);
