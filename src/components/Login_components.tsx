@@ -2,19 +2,27 @@
 
 import React, { useState } from 'react';
 import { login } from "../services/login-service"
+// import { userID } from './Registration';
+
+export let userIDLogin : string;
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const user = await login(username, password);
-    if (user) {
-      // Handle successful login here
-    } else {
-      // Handle failed login here
-    }
+    const res = await login(username, password);
+    
+    userIDLogin = res.user._id ?? '';
+      console.log(userIDLogin);
+    if (res.accessToken) {
+      localStorage.setItem('accessToken', res.accessToken);
+  }
+if (res.refreshToken) {
+  localStorage.setItem('refreshToken', res.refreshToken);
+}
   };
 
   return (
