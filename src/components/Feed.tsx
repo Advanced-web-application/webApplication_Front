@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { PostData } from '../Post'
-import postService, { CanceledError } from "../services/post-service"
+import postService, { CanceledError, addPost } from "../services/post-service"
 import place_holder_image from '../assets/place_holder_image.png'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -56,9 +56,6 @@ function Feed() {
         console.log("Selecting image...")
         fileInputRef.current?.click()
     }
-
-
-
     
     const addNewPost = async () => {
         const url = await uploadPhoto(imgSrc!);
@@ -70,65 +67,50 @@ function Feed() {
                 description: descriptionInputRef.current?.value,
                 price: Number(priceInputRef.current?.value),
                 owner: ownerInputRef.current?.value,    
-               image: url
+                image: url
             }
             const res = await addPost(post)
-            postID = res.data._id ?? '';
+            postID = res._id ?? '';
             console.log(res)
-
-            // Store tokens in localStorage
-            if (res.accessToken) {
-                localStorage.setItem('accessToken', res.accessToken);
-            }
-        if (res.refreshToken) {
-            localStorage.setItem('refreshToken', res.refreshToken);
-        }
+            
         }
     }
-
-
         return (
-
             <>
-            
 
-          
-            
-            
+            <div className="card">
+                <div className="card-body">
+                    <div className="vstack gap-3 col-md-7 mx-auto">
+                        <h1>add new post:</h1>
+                        <div className="d-flex justify-content-center position-relative">
+                            <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "230px", width: "230px" }} className="img-fluid" />
+                            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
+                                <FontAwesomeIcon icon={faImage} className="fa-xl" />
+                            </button>
+                        </div>
 
-            <div className="vstack gap-3 col-md-7 mx-auto">
-            <h1>Register</h1>
+                        <input style={{ display: "none" }} ref={fileInputRef} type="file" onChange={imgSelected}></input>
 
-            <div className="d-flex justify-content-center position-relative">
-              <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "230px", width: "230px" }} className="img-fluid" />
-              <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
-                <FontAwesomeIcon icon={faImage} className="fa-xl" />
-              </button>
+                        <div className="form-floating">
+                            <input ref={titleInputRef} type="text" className="form-control" id="floatingName" placeholder="" />
+                            <label htmlFor="floatingName">Title</label>
+                        </div>
+                        <div className="form-floating">
+                            <input ref={descriptionInputRef} type="text" className="form-control" id="floatingdescription" placeholder="" />
+                            <label htmlFor="floatingdescription">description</label>
+                        </div>
+                        <div className="form-floating">
+                            <input ref={priceInputRef} type="number" className="form-control" id="floatingprice" placeholder="" />
+                            <label htmlFor="floatingprice">Price</label>
+                        </div>
+                        <div className="form-floating">
+                            <input ref={ownerInputRef} type="text" className="form-control" id="floatingowner" placeholder="" />
+                            <label htmlFor="floatingowner">owner</label>
+                        </div>   
+                        <button type="button" className="btn btn-primary" onClick={addNewPost}>Add new post☺</button>
+                    </div>
+                </div>
             </div>
-
-            <input style={{ display: "none" }} ref={fileInputRef} type="file" onChange={imgSelected}></input>
-
-            <div className="form-floating">
-                <input ref={titleInputRef} type="text" className="form-control" id="floatingName" placeholder="" />
-                <label htmlFor="floatingName">Name</label>
-            </div>
-            <div className="form-floating">
-                <input ref={descriptionInputRef} type="number" className="form-control" id="floatingAge" placeholder="" />
-                <label htmlFor="floatingAge">Age</label>
-            </div>
-            <div className="form-floating">
-                <input ref={priceInputRef} type="text" className="form-control" id="floatingGender" placeholder="" />
-                <label htmlFor="floatingGender">Gender</label>
-            </div>
-            <div className="form-floating">
-                <input ref={ownerInputRef} type="text" className="form-control" id="floatingId" placeholder="" />
-                <label htmlFor="floatingId">ID</label>
-            </div>
-
-            
-            <button type="button" className="btn btn-primary" onClick={addNewPost}>Add new post☺</button>
-
-        </div>
 
              <h1>See Our Posts...</h1>
             <div>
@@ -169,8 +151,4 @@ function Feed() {
 
 export default Feed
 
-
-function addPost(post: PostData) {
-    throw new Error('Function not implemented.')
-}
 

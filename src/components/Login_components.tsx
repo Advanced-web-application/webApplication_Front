@@ -38,13 +38,6 @@ const LoginComponent = () => {
   <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>LogIn</h1>
 
-
-
-
-
-
-
-
             <div className="form-floating">
                 <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />
                 <label htmlFor="floatingInput">Email</label>

@@ -6,6 +6,8 @@ export interface PostData {
     owner: string
     image: string
     comments?: string[];
+    _id?: string;
+  
 }
 
 interface PostProps {
