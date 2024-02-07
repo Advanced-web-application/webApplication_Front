@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export interface ILogin {
-    username: string;
+    email: string;
     password: string;
 }
 
