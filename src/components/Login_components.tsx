@@ -1,22 +1,19 @@
 // Login_component.tsx
 
 import React, { useState } from 'react';
-import { login } from "../services/login-service"
-// import { userID } from './Registration';
+import { postLogIn } from "../services/login-service"
+export let userID: string
 
-export let userIDLogin : string;
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const res = await login(username, password);
-    
-    userIDLogin = res.user._id ?? '';
-      console.log(userIDLogin);
+    const res = await postLogIn(username, password);
+    userID = res.user._id ?? '';
+    console.log(res)
     if (res.accessToken) {
       localStorage.setItem('accessToken', res.accessToken);
   }
