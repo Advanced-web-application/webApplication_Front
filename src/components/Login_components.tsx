@@ -1,40 +1,50 @@
-// Login_component.tsx
 
-import React, { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react'
 import { postLogIn } from "../services/login-service"
 export let userID: string
 
 
 const LoginComponent = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const res = await postLogIn(username, password);
-    userID = res.user._id ?? '';
-    console.log(res)
-    if (res.accessToken) {
-      localStorage.setItem('accessToken', res.accessToken);
-  }
-if (res.refreshToken) {
-  localStorage.setItem('refreshToken', res.refreshToken);
+
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
+
+
+  const login = async () => {  
+    if (emailInputRef.current?.value && passwordInputRef.current?.value) {
+       const email= emailInputRef.current?.value
+        const password=passwordInputRef.current?.value
+        const res = await postLogIn(email, password)
+        userID = res.user._id ?? '';
+        console.log(res)
+        if (res.accessToken) {
+            localStorage.setItem('accessToken', res.accessToken);
+        }
+      if (res.refreshToken) {
+          localStorage.setItem('refreshToken', res.refreshToken);
+      }
+    }
 }
-  };
+
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-      </label>
-      <input type="submit" value="Submit" />
-    </form>
-  );
+
+  <div className="vstack gap-3 col-md-7 mx-auto">
+            <h1>LogIn</h1>
+            <div className="form-floating">
+                <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />
+                <label htmlFor="floatingInput">Email</label>
+            </div>
+            <div className="form-floating">
+                <input ref={passwordInputRef} type="password" className="form-control" id="floatingPassword" placeholder="" />
+                <label htmlFor="floatingPassword">Password</label>
+            </div>
+            <button type="button" className="btn btn-primary" onClick={login}>LogIn</button>
+        </div>
+        )
+
+
 };
 
 export default LoginComponent;

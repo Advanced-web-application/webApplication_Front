@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { PostData } from '../Post'
 import postService, { CanceledError } from "../services/post-service"
-import Post from "../Post"
+//import Post from "../Post"
 
 
 //when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name

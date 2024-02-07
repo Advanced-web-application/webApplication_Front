@@ -92,7 +92,7 @@
 
 
 
-import Profile from "./components/Profile_component"
+//import Profile from "./components/Profile_component"
  //import Post from "./components/Post_component"
 //import Profile from "./components/Profile_edit"
 
