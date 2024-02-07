@@ -36,4 +36,9 @@ const deletePost = (id: string) => {
     return { req, abort: () => abortController.abort() }
 }
 
-export default { getPosts, editPost, addComment, deletePost}
+const addPost = (postData: PostData) => {
+    const abortController = new AbortController()
+    const req = apiClient.post<PostData>('post', postData, { signal: abortController.signal })
+    return { req, abort: () => abortController.abort() }
+}
+export default { getPosts, editPost, addComment, deletePost , addPost}

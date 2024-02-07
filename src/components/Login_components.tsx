@@ -1,7 +1,10 @@
 
 import { ChangeEvent, useRef, useState } from 'react'
 import { postLogIn } from "../services/login-service"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
 export let userID: string
+
 
 
 const LoginComponent = () => {
@@ -28,10 +31,20 @@ const LoginComponent = () => {
 }
 
 
+
+    
   return (
 
   <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>LogIn</h1>
+
+
+
+
+
+
+
+
             <div className="form-floating">
                 <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />
                 <label htmlFor="floatingInput">Email</label>
@@ -48,3 +61,4 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
+
