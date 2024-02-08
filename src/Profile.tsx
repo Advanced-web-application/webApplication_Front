@@ -7,7 +7,7 @@ export interface IUser {
     _id: string;
     image?: string;
     email: string;
-    password: string;
+    password?: string;
 }
 
 interface ProfileProps {

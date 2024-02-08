@@ -5,11 +5,10 @@ import Profile from "../Profile"
 import { userIDLogin } from './Login_components'
 import { userID } from './Registration';
 
-let Id='';
+ export let Id='';
 if(userID)
 {
-    Id = userID;
-   
+    Id = userID;  
 }
 else
 {

@@ -3,6 +3,18 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import profileService , { CanceledError } from '../services/profile-service';
 import { IUser } from '../Profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { userIDLogin } from '../components/Login_components'
+import { userID } from '../components/Registration'
+
+ let Id='';
+if(userID)
+{
+    Id = userID;  
+}
+else
+{
+    Id = userIDLogin;
+}
 
 
 function EditProfile() {
@@ -14,10 +26,10 @@ function EditProfile() {
     const [_id, setId] = useState('');
     const [image, setImage] =useState('')
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    //const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const { req, abort } = profileService.getUserById('123456789')
+        const { req, abort } = profileService.getUserById(Id)
         req.then((res) => {
             const data = res.data;
             const user = data;
@@ -28,7 +40,7 @@ function EditProfile() {
                 setId(user._id);
                 setImage(user.image?? '');
                 setEmail(user.email);
-                setPassword('');
+                //setPassword('');
             }
         }).catch((err) => {
             console.log(err)
@@ -45,16 +57,13 @@ function EditProfile() {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-
-    
         const updatedProfile = {
             fullName,
             age,
             gender,
             _id,
             image,
-            email,
-            password,
+            email,  
         };
 
         const res =  profileService.editUser(_id, updatedProfile)
@@ -88,10 +97,10 @@ function EditProfile() {
             <label className="form-label">Email:</label>
             <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
             <label className="form-label">Password:</label>
             <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
+        </div> */}
         <button type="submit" className="btn btn-primary">Save Changes</button>
     </form>
     )

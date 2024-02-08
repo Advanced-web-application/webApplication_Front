@@ -7,17 +7,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { uploadPhoto } from '../services/file-service'
 
 //import Post from "../Post"
-
+export let postID : string;
+export let PostIdDetails : string;
 
 //when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
-const handleEdit = (postname: string) => {
+const handleEdit = (id: string) => { 
     // render to the edit profile page
-    console.log(`Moving to post page ${postname}`);
+    PostIdDetails = id;
+    console.log(`Moving to post page ${PostIdDetails}`);
 }
 
 //when we will have the postID, we need to send it as ObjectId (the id itself) and not filter according to name
 
-let postID : string;
+
 
 function Feed() {
 
@@ -139,10 +141,10 @@ function Feed() {
                             <p><strong>Price:</strong> {post.price}</p>
                             <p><strong>Owner:</strong> {post.owner}</p>
                             <p><strong>Number of Comments:</strong> {post.comments ? post.comments.length : 0}</p>
-                            <button className="btn btn-primary" onClick={() => handleEdit(post.name)}>See Post Details And Comment</button> 
+                            <button className="btn btn-primary" onClick={() => handleEdit(post._id ?? '')}>See Post Details And Comment</button> 
                         </div>
-            </div>
-        ))}
+                    </div>
+                ))}
     </div>
 
            </>
