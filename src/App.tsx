@@ -93,10 +93,11 @@
 
 
 //import Profile from "./components/Profile_component"
- //import Post from "./components/Post_component"
-//import Profile from "./components/Profile_edit"
+// import Post from "./components/Post_component"
+import Profile from "./components/Profile_edit"
 
-// import Post from "./components/Post_edit"
+ import Post from "./components/Post_edit"
+ //import Post from "./components/Post_component"
  import Registration from "./components/Registration"
  import Feed from "./components/Feed"
 // import Currancy from "./components/Currancy-convertion"
@@ -109,7 +110,7 @@ function App() {
   return (
     <div className="p-2">
 
-      <Feed />
+      <Post />
 
     </div>
   )

@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import postService , { CanceledError } from '../services/post-service';
 import { PostData } from '../Post';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { PostIdEdit } from '../components/Post_component'
+
 
 
 //when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
@@ -17,10 +19,9 @@ function EditPost() {
     const [owner, setOwner] = useState('');
 
     useEffect(() => {
-        const { req, abort } = postService.getPosts()
+        const { req, abort } = postService.getPostByID(PostIdEdit)
         req.then((res) => {
-            const data = res.data;
-            const post = data.filter((post: PostData) => post.name === 'test post')[0]; //needs to get the post id...
+            const post = res.data;
             if (post) {
                 setImage(post.image);
                 setName(post.name);

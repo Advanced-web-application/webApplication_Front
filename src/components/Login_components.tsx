@@ -3,9 +3,9 @@ import { ChangeEvent, useRef, useState } from 'react'
 import { postLogIn } from "../services/login-service"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-export let userID: string
 
 
+export let userIDLogin: string
 
 const LoginComponent = () => {
 
@@ -16,22 +16,20 @@ const LoginComponent = () => {
 
   const login = async () => {  
     if (emailInputRef.current?.value && passwordInputRef.current?.value) {
-       const email= emailInputRef.current?.value
-        const password=passwordInputRef.current?.value
-        const res = await postLogIn(email, password)
-        userID = res._id ?? '';
-        console.log(res)
-        if (res.accessToken) {
-            localStorage.setItem('accessToken', res.accessToken);
-        }
+      const email = emailInputRef.current?.value;
+      const password = passwordInputRef.current?.value;
+      const res = await postLogIn(email, password);
+      userIDLogin = res._id as string; // Add type assertion here
+      console.log("userIDLogin: " + userIDLogin);
+      console.log(res);
+      if (res.accessToken) {
+        localStorage.setItem('accessToken', res.accessToken);
+      }
       if (res.refreshToken) {
-          localStorage.setItem('refreshToken', res.refreshToken);
+        localStorage.setItem('refreshToken', res.refreshToken);
       }
     }
 }
-
-
-
     
   return (
 
