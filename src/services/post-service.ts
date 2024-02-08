@@ -55,6 +55,7 @@ export const addPost = (postData: PostData) => {
     //         reject(error)
     //     })
     // })
+    //TODO: CHECK WHEN THE TOKEN ISN'T VALID ANYMORE
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
         throw new Error("No access token found");
