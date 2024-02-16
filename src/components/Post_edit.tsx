@@ -42,7 +42,7 @@ function EditPost() {
 
     const handleDelete = () => {
         console.log("deleting post: " + name );
-        postService.deletePost(name) //needs to get the post id...      
+        postService.deletePost(PostIdEdit)     
     };
 
 
@@ -57,7 +57,7 @@ function EditPost() {
             owner
         };
 
-        const res =  postService.editPost(name, updatedPost) //needs to get the post id...
+        const res =  postService.editPost(PostIdEdit, updatedPost) //needs to get the post id...
         console.log(res);
 
     };

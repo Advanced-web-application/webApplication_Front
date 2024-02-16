@@ -6,22 +6,22 @@ import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { uploadPhoto } from '../services/file-service'
 
+import { useNavigate } from 'react-router-dom'
+
 //import Post from "../Post"
 export let postID : string;
 export let PostIdDetails : string;
 
+
 //when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
-const handleEdit = (id: string) => { 
-    // render to the edit profile page
-    PostIdDetails = id;
-    console.log(`Moving to post page ${PostIdDetails}`);
-}
+
 
 //when we will have the postID, we need to send it as ObjectId (the id itself) and not filter according to name
 
 
 
 function Feed() {
+    const navigate = useNavigate();
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState()
@@ -78,7 +78,21 @@ function Feed() {
             
         }
     }
-        return (
+
+    const handleEdit = (id: string) => { 
+       
+        // render to the edit profile page
+        PostIdDetails = id;
+        console.log(`Moving to post page ${PostIdDetails}`);
+        navigate('/post');
+    }
+
+    const handleButtonClick = () => {
+        navigate('/profile');
+      };
+
+
+ return (
             <>
 
             <div className="card">
@@ -130,6 +144,9 @@ function Feed() {
             </div> */}
 
             <div className="container">
+            <button onClick={handleButtonClick} className="btn btn-primary">
+                Go to Profile
+            </button>
                 {post.map((post, index) => (
                     <div key={index} className="card mb-3">
                         <div className="card-header">

@@ -4,10 +4,13 @@ import { postLogIn } from "../services/login-service"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 
+import { useNavigate } from 'react-router-dom'
+
 
 export let userIDLogin: string
 
 const LoginComponent = () => {
+  const navigate = useNavigate();
 
 
   const emailInputRef = useRef<HTMLInputElement>(null)
@@ -28,10 +31,16 @@ const LoginComponent = () => {
       if (res.refreshToken) {
         localStorage.setItem('refreshToken', res.refreshToken);
       }
+      navigate('/feed');
     }
+   
 }
+
+const handleButtonClick = () => {
+  navigate('/registration');
+};
     
-  return (
+return (
 
   <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>LogIn</h1>
@@ -45,6 +54,10 @@ const LoginComponent = () => {
                 <label htmlFor="floatingPassword">Password</label>
             </div>
             <button type="button" className="btn btn-primary" onClick={login}>LogIn</button>
+
+            <button onClick={handleButtonClick} className="btn btn-primary">
+              Don't have a member yet? Register here
+            </button>
         </div>
         )
 

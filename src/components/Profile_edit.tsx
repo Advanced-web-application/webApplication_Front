@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { userIDLogin } from '../components/Login_components'
 import { userID } from '../components/Registration'
 
- let Id='';
+ let Id:string;
 if(userID)
 {
     Id = userID;  

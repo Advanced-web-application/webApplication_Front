@@ -6,8 +6,10 @@ import { userIDLogin } from '../components/Login_components'
 import { userID } from '../components/Registration'
 import { PostIdDetails } from './Feed'
 
+import { useNavigate } from 'react-router-dom'
+
 export let PostIdEdit : string;
-let ID='';
+let ID: string;
 if(userID)
 {
     ID = userID;
@@ -19,15 +21,12 @@ else
 
 
 //when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
-const handleEdit = (id: string) => {
-    PostIdEdit=id;
-    // render to the edit Post page
-    console.log(`Editing post with name: ${id}`);
-}
+
 
 //when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function PostDetalis() {
+    const navigate = useNavigate();
 
     const [post, setPost] = useState<PostData>()
     const [error, setError] = useState()
@@ -78,7 +77,15 @@ function PostDetalis() {
             }
         
         }, [])
-        return (
+
+        const handleEdit = (id: string) => {
+            PostIdEdit=id;
+            // render to the edit Post page
+            console.log(`Editing post with name: ${id}`);
+            navigate('/postedit');
+        }
+        
+ return (
             <>
                 <h1>Post</h1>
                 <div>

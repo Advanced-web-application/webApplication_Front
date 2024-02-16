@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import z from "zod"
 
+import { useNavigate } from 'react-router-dom'
+
 export let userID: string
 
 const schema = z.object({
@@ -24,6 +26,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 function Registration() {
+
+    const navigate = useNavigate();
+    
     const [imgSrc, setImgSrc] = useState<File>()
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
 
@@ -52,6 +57,8 @@ function Registration() {
         if (res.refreshToken) {
             localStorage.setItem('refreshToken', res.refreshToken);
         }
+
+        navigate('/feed');
     }
 
     const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
@@ -68,7 +75,11 @@ function Registration() {
         console.log("Google login failed")
     }
 
-    return (
+    const handleButtonClick = () => {
+        navigate('/login');
+    };
+
+return (
         <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>Register</h1>
             <div className="d-flex justify-content-center position-relative">
@@ -115,7 +126,13 @@ function Registration() {
             </form>
 
             <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+
+            <button onClick={handleButtonClick} className="btn btn-primary">
+              Already have a member? Log in here
+            </button>
         </div>
+
+        
     )
 }
 

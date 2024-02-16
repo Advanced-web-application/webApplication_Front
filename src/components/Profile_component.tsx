@@ -5,7 +5,9 @@ import Profile from "../Profile"
 import { userIDLogin } from './Login_components'
 import { userID } from './Registration';
 
- export let Id='';
+import { useNavigate } from 'react-router-dom'
+
+ export let Id:string;
 if(userID)
 {
     Id = userID;  
@@ -15,14 +17,9 @@ else
     Id = userIDLogin;
 }
 
-const handleEdit = (userId: string) => {
-    // render to the edit profile page
-    console.log(`Editing user with id: ${userId}`);
-}
-
-
 
 function ProfileDetalis() {
+    const navigate = useNavigate();
         const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
         useEffect(() => {
@@ -40,6 +37,12 @@ function ProfileDetalis() {
             }
         
         }, [])
+
+        const handleEdit = (userId: string) => {
+            // render to the edit profile page
+            console.log(`Editing user with id: ${userId}`);
+            navigate('/profileedit');
+        }
         return (
             <>
              <h1>Profile Details</h1>
