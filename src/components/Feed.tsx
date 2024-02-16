@@ -10,10 +10,22 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { postLogout } from '../services/logout-service'
 
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 //import Post from "../Post"
 export let postID : string;
 export let PostIdDetails : string;
 
+const PostSchema = z.object({
+    name: z.string().min(1, { message: 'Title is required' }),
+    description: z.string().min(1, { message: 'Description is required' }),
+    price: z.number().min(0, { message: 'Price must be a positive number' }),
+    owner: z.string().min(1, { message: 'Owner is required' }),
+   // image: z.string().url({ message: 'Invalid image URL' }),
+  });
+  type FormData = z.infer<typeof PostSchema>
 
 //when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
 
@@ -23,6 +35,7 @@ export let PostIdDetails : string;
 
 
 function Feed() {
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
@@ -63,25 +76,41 @@ function Feed() {
         fileInputRef.current?.click()
     }
     
-    const addNewPost = async () => {
+
+    const addNewPost = async (data: FormData) => {
         const url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
-        if (titleInputRef.current?.value &&  descriptionInputRef.current?.value &&
-            priceInputRef.current?.value&& ownerInputRef.current?.value) {
-            const post : PostData = {
-                name: titleInputRef.current?.value,
-                description: descriptionInputRef.current?.value,
-                price: Number(priceInputRef.current?.value),
-                owner: ownerInputRef.current?.value,    
-                image: url
-            }
-            const res = await addPost(post)
-            postID = res._id ?? '';
-            console.log("postID: " + postID);
-            console.log(res)
-            
+        const post : PostData = {
+          ...data,
+          image: url
         }
-    }
+        const res = await addPost(post)
+        postID = res._id ?? '';
+        console.log("postID: " + postID);
+        console.log(res)
+      }
+    
+
+
+    // const addNewPost = async () => {
+    //     const url = await uploadPhoto(imgSrc!);
+    //     console.log("upload returned:" + url);
+    //     if (titleInputRef.current?.value &&  descriptionInputRef.current?.value &&
+    //         priceInputRef.current?.value&& ownerInputRef.current?.value) {
+    //         const post : PostData = {
+    //             name: titleInputRef.current?.value,
+    //             description: descriptionInputRef.current?.value,
+    //             price: Number(priceInputRef.current?.value),
+    //             owner: ownerInputRef.current?.value,    
+    //             image: url
+    //         }
+    //         const res = await addPost(post)
+    //         postID = res._id ?? '';
+    //         console.log("postID: " + postID);
+    //         console.log(res)
+            
+    //     }
+    // }
 
     const handleEdit = (id: string) => { 
        
@@ -108,41 +137,46 @@ function Feed() {
 
 
  return (
-            <>
+    <>
+    <div className="card">
+      <div className="card-body">
+        <div className="vstack gap-3 col-md-7 mx-auto">
+          <h1>add new post:</h1>
+          <div className="d-flex justify-content-center position-relative">
+            <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "230px", width: "230px" }} className="img-fluid" />
+            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
+              <FontAwesomeIcon icon={faImage} className="fa-xl" />
+            </button>
+          </div>
 
-            <div className="card">
-                <div className="card-body">
-                    <div className="vstack gap-3 col-md-7 mx-auto">
-                        <h1>add new post:</h1>
-                        <div className="d-flex justify-content-center position-relative">
-                            <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "230px", width: "230px" }} className="img-fluid" />
-                            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
-                                <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                            </button>
-                        </div>
+          <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
 
-                        <input style={{ display: "none" }} ref={fileInputRef} type="file" onChange={imgSelected}></input>
-
-                        <div className="form-floating">
-                            <input ref={titleInputRef} type="text" className="form-control" id="floatingName" placeholder="" />
-                            <label htmlFor="floatingName">Title</label>
-                        </div>
-                        <div className="form-floating">
-                            <input ref={descriptionInputRef} type="text" className="form-control" id="floatingdescription" placeholder="" />
-                            <label htmlFor="floatingdescription">description</label>
-                        </div>
-                        <div className="form-floating">
-                            <input ref={priceInputRef} type="number" className="form-control" id="floatingprice" placeholder="" />
-                            <label htmlFor="floatingprice">Price</label>
-                        </div>
-                        <div className="form-floating">
-                            <input ref={ownerInputRef} type="text" className="form-control" id="floatingowner" placeholder="" />
-                            <label htmlFor="floatingowner">owner</label>
-                        </div>   
-                        <button type="button" className="btn btn-primary" onClick={addNewPost}>Add new post☺</button>
-                    </div>
-                </div>
+          <form onSubmit={handleSubmit(addNewPost)}>
+            <div className="form-floating">
+              <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
+              <label htmlFor="floatingName">Title</label>
+              {errors.name && <p className="text-danger">{errors.name.message}</p>}
             </div>
+            <div className="form-floating">
+              <input {...register("description")} type="text" className="form-control" id="floatingdescription" placeholder="" />
+              <label htmlFor="floatingdescription">description</label>
+              {errors.description && <p className="text-danger">{errors.description.message}</p>}
+            </div>
+            <div className="form-floating">
+              <input {...register("price", { valueAsNumber: true })} type="number" className="form-control" id="floatingprice" placeholder="" />
+              <label htmlFor="floatingprice">Price</label>
+              {errors.price && <p className="text-danger">{errors.price.message}</p>}
+            </div>
+            <div className="form-floating">
+              <input {...register("owner")} type="text" className="form-control" id="floatingowner" placeholder="" />
+              <label htmlFor="floatingowner">owner</label>
+              {errors.owner && <p className="text-danger">{errors.owner.message}</p>}
+            </div>   
+            <button type="submit" className="btn btn-primary">Add new post☺</button>
+          </form>
+        </div>
+      </div>
+    </div>
 
              <h1>See Our Posts...</h1>
             <div>
@@ -191,5 +225,3 @@ function Feed() {
 }
 
 export default Feed
-
-
