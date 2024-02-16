@@ -1,7 +1,49 @@
-// import { useEffect, useState } from "react";
-// import restAPIService  from "../services/rest-api-service"
-// import { CanceledError } from "../services/post-service"
+import { useEffect, useState } from "react";
+import restAPIService  from "../services/rest-api-service"
+import { CanceledError } from "../services/post-service"
 
+
+
+const CurrencyConversion = () => {
+  const [error, setError] = useState(null);
+  const [rates, setRates] = useState(null);
+
+  useEffect(() => {
+    const { req, abort } = restAPIService.getCurrencyRate();
+    req.then((res) => {
+      setRates(res.data.conversion_rates); 
+    }).catch((err) => {
+      console.error(err);
+      setError(err);
+    });
+    return () => {
+      abort();
+    };
+  }, []);
+
+if (error) {
+    return <div>Error: {error}</div>;
+} else if (!rates) {
+    return <div>Loading...</div>;
+} else {
+    return (
+        <div>
+            {/* Render your rates here */}
+            {Object.entries(rates as Record<string, number>).map(([currency, rate]) => (
+                <div key={currency}>{currency}: {rate}</div>
+            ))}
+         </div>
+        // <div>
+        //     {/* Render your rates here */}
+        //     {Object.entries(rates).map(([currency, rate]) => (
+        //         <div key={currency}>{currency}: {rate}</div>
+        //     ))}
+        // </div>
+    );
+}
+};
+
+export default CurrencyConversion;
 
 // function Currancy() {
 //     let conversionRates = new Map()

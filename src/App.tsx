@@ -133,6 +133,7 @@ import Post from "./components/Post_component"
 import Registration from './components/Registration';
 import Feed from './components/Feed';
 import LogIn from './components/Login_components';
+import CurrancyConvert from './components/Currancy-convertion';
 
 const App = () => {
   return (
@@ -143,6 +144,7 @@ const App = () => {
       <Route path="/post" element={<Post />} />
       <Route path="/postedit" element={<PostEdit />} />
       <Route path="/registration" element={<Registration />} />
+      <Route path="/CurrancyConvert" element={<CurrancyConvert />} />
       <Route path="/feed" element={<Feed />} />
       <Route path="/login" element={<LogIn />} />
       <Route path="/" element={<Registration />} /> {/* Default route */}

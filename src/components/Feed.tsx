@@ -101,6 +101,10 @@ function Feed() {
         postLogout();
         //navigate('/');
       };
+      const handleCurrancyConvert = () => {
+        console.log("CurrancyConvert");
+        navigate('/CurrancyConvert');
+      };
 
 
  return (
@@ -160,6 +164,9 @@ function Feed() {
             </button>
             <button onClick={handleLogout} className="btn btn-secondary">
                 Logout
+            </button>
+            <button onClick={handleCurrancyConvert} className="btn btn-secondary">
+             Currancy Convertion
             </button>
                 {post.map((post, index) => (
                     <div key={index} className="card mb-3">
