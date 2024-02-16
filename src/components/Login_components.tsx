@@ -1,67 +1,62 @@
-
-import { ChangeEvent, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { postLogIn } from "../services/login-service"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
-
 import { useNavigate } from 'react-router-dom'
-
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import z from "zod"
 
 export let userID: string
 
+const schema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+type FormData = z.infer<typeof schema>
+
 const LoginComponent = () => {
   const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
 
-
-  const emailInputRef = useRef<HTMLInputElement>(null)
-  const passwordInputRef = useRef<HTMLInputElement>(null)
-
-
-  const login = async () => {  
-    if (emailInputRef.current?.value && passwordInputRef.current?.value) {
-      const email = emailInputRef.current?.value;
-      const password = passwordInputRef.current?.value;
-      const res = await postLogIn(email, password);
-      userID = res._id as string; 
-      console.log("userIDLogin: " + userID);
-      console.log(res);
-      if (res.accessToken) {
-        localStorage.setItem('accessToken', res.accessToken);
-      }
-      if (res.refreshToken) {
-        localStorage.setItem('refreshToken', res.refreshToken);
-      }
-      navigate('/feed', { state: { userID } });
+  const login = async (data: FormData) => {  
+    const res = await postLogIn(data.email, data.password);
+    userID = res._id as string; 
+    console.log("userIDLogin: " + userID);
+    console.log(res);
+    if (res.accessToken) {
+      localStorage.setItem('accessToken', res.accessToken);
     }
-   
-}
+    if (res.refreshToken) {
+      localStorage.setItem('refreshToken', res.refreshToken);
+    }
+    navigate('/feed', { state: { userID } });
+  }
 
-const handleButtonClick = () => {
-  navigate('/registration');
-};
+  const handleButtonClick = () => {
+    navigate('/registration');
+  };
     
-return (
-
-  <div className="vstack gap-3 col-md-7 mx-auto">
-            <h1>LogIn</h1>
-
-            <div className="form-floating">
-                <input ref={emailInputRef} type="text" className="form-control" id="floatingInput" placeholder="" />
-                <label htmlFor="floatingInput">Email</label>
-            </div>
-            <div className="form-floating">
-                <input ref={passwordInputRef} type="password" className="form-control" id="floatingPassword" placeholder="" />
-                <label htmlFor="floatingPassword">Password</label>
-            </div>
-            <button type="button" className="btn btn-primary" onClick={login}>LogIn</button>
-
-            <button onClick={handleButtonClick} className="btn btn-primary">
-              Don't have a member yet? Register here
-            </button>
+  return (
+    <div className="vstack gap-3 col-md-7 mx-auto">
+      <h1>LogIn</h1>
+      <form onSubmit={handleSubmit(login)}>
+        <div className="form-floating">
+          <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="" />
+          <label htmlFor="floatingInput">Email</label>
+          {errors.email && <p className="text-danger">{errors.email.message}</p>}
         </div>
-        )
-
-
+        <div className="form-floating">
+          <input {...register("password")} type="password" className="form-control" id="floatingPassword" placeholder="" />
+          <label htmlFor="floatingPassword">Password</label>
+          {errors.password && <p className="text-danger">{errors.password.message}</p>}
+        </div>
+        <button type="submit" className="btn btn-primary">LogIn</button>
+      </form>
+      <button onClick={handleButtonClick} className="btn btn-primary">
+        Don't have a member yet? Register here
+      </button>
+    </div>
+  )
 };
 
 export default LoginComponent;

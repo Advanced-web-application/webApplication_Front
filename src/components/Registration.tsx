@@ -17,8 +17,8 @@ export let userID: string
 const schema = z.object({
     fullName: z.string().min(3, "Name must be longer than 3 characters").max(20, "Name must be less than 20 characters"),
     age: z.number().min(18, "Age must be more than 18"),
-    gender: z.string(),
-    _id: z.string(),
+    gender: z.enum(["Male", "Female", "Other"], "Invalid gender. Must be 'Male', 'Female', or 'Other'"),
+    _id: z.string().length(9, "ID must be exactly 9 digits"),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
 });
@@ -32,10 +32,18 @@ function Registration() {
     const [imgSrc, setImgSrc] = useState<File>()
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
 
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value)
         if (e.target.files && e.target.files.length > 0) {
             setImgSrc(e.target.files[0])
+        }
+    }
+
+    const onImageUploadButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
         }
     }
 
@@ -92,12 +100,12 @@ return (
             <h1>Register</h1>
             <div className="d-flex justify-content-center position-relative">
                 <img src={imgSrc ? URL.createObjectURL(imgSrc) : avatar} style={{ height: "230px", width: "230px" }} className="img-fluid" />
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={() => register("image")}>
+                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
                     <FontAwesomeIcon icon={faImage} className="fa-xl" />
                 </button>
             </div>
 
-            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected}></input>
+            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
 
             <form onSubmit={handleSubmit(registerUser)}>
                 <div className="form-floating">
