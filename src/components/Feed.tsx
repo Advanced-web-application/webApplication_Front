@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { uploadPhoto } from '../services/file-service'
 
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import { postLogout } from '../services/logout-service'
 
 //import Post from "../Post"
 export let postID : string;
@@ -22,6 +24,8 @@ export let PostIdDetails : string;
 
 function Feed() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const userID = location.state?.userID;
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState()
@@ -84,11 +88,18 @@ function Feed() {
         // render to the edit profile page
         PostIdDetails = id;
         console.log(`Moving to post page ${PostIdDetails}`);
-        navigate('/post');
+        navigate('/post' , { state: { userID, PostIdDetails } });
     }
 
     const handleButtonClick = () => {
-        navigate('/profile');
+        console.log(`userID: ${userID}`);
+        navigate('/profile', { state: { userID } });
+      };
+
+      const handleLogout = () => {
+        console.log("logging out");
+        postLogout();
+        //navigate('/');
       };
 
 
@@ -146,6 +157,9 @@ function Feed() {
             <div className="container">
             <button onClick={handleButtonClick} className="btn btn-primary">
                 Go to Profile
+            </button>
+            <button onClick={handleLogout} className="btn btn-secondary">
+                Logout
             </button>
                 {post.map((post, index) => (
                     <div key={index} className="card mb-3">

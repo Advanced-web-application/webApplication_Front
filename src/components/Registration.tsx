@@ -58,14 +58,22 @@ function Registration() {
             localStorage.setItem('refreshToken', res.refreshToken);
         }
 
-        navigate('/feed');
+        navigate('/feed', { state: { userID } });
     }
 
     const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
         console.log(credentialResponse)
         try {
             const res = await googleSignin(credentialResponse)
+            userID = res._id ?? '';
             console.log(res)
+            if (res.accessToken) {
+                localStorage.setItem('accessToken', res.accessToken);
+            }
+            if (res.refreshToken) {
+                localStorage.setItem('refreshToken', res.refreshToken);
+            }
+            navigate('/feed', { state: { userID } });
         } catch (e) {
             console.log(e)
         }

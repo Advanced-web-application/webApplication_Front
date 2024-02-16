@@ -6,18 +6,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { userIDLogin } from '../components/Login_components'
 import { userID } from '../components/Registration'
 
- let Id:string;
-if(userID)
-{
-    Id = userID;  
-}
-else
-{
-    Id = userIDLogin;
-}
+import { useLocation } from 'react-router-dom';
+
+//  let Id:string;
+// if(userID)
+// {
+//     Id = userID;  
+// }
+// else
+// {
+//     Id = userIDLogin;
+// }
 
 
 function EditProfile() {
+    const location = useLocation();
+    const userID = location.state?.userID;
    
     const [error, setError] = useState()
     const [fullName, setFullName] = useState('');
@@ -29,7 +33,7 @@ function EditProfile() {
     //const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const { req, abort } = profileService.getUserById(Id)
+        const { req, abort } = profileService.getUserById(userID)
         req.then((res) => {
             const data = res.data;
             const user = data;

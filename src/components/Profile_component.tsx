@@ -6,24 +6,28 @@ import { userIDLogin } from './Login_components'
 import { userID } from './Registration';
 
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
  export let Id:string;
-if(userID)
-{
-    Id = userID;  
-}
-else
-{
-    Id = userIDLogin;
-}
+// if(userID)
+// {
+//     Id = userID;  
+// }
+// else
+// {
+//     Id = userIDLogin;
+// }
 
 
 function ProfileDetalis() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const userID = location.state?.userID;
+
         const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
         useEffect(() => {
-            const { req, abort } = profileService.getUserById(Id)
+            const { req, abort } = profileService.getUserById(userID)
             req.then((res) => {
                 setUser(res.data)
                 console.log("userId:" +res.data._id)
@@ -41,7 +45,7 @@ function ProfileDetalis() {
         const handleEdit = (userId: string) => {
             // render to the edit profile page
             console.log(`Editing user with id: ${userId}`);
-            navigate('/profileedit');
+            navigate('/profileedit', { state: { userID } });
         }
         return (
             <>

@@ -7,15 +7,15 @@ import { userID } from '../components/Registration'
 
 export { CanceledError }
 
-let ID='';
-if(userID)
-{
-    ID = userID;
-}
-else
-{
-    ID = userIDLogin;
-}
+// let ID='';
+// if(userID)
+// {
+//     ID = userID;
+// }
+// else
+// {
+//     ID = userIDLogin;
+// }
 
 
 const getUserById = (id: string) => {
