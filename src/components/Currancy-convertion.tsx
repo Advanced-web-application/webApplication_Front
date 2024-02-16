@@ -22,25 +22,19 @@ const CurrencyConversion = () => {
   }, []);
 
 if (error) {
-    return <div>Error: {error}</div>;
-} else if (!rates) {
+    return <div>Error: {(error as { message: string }).message}</div>;
+  } else if (!rates) {
     return <div>Loading...</div>;
-} else {
+  } else {
     return (
-        <div>
-            {/* Render your rates here */}
-            {Object.entries(rates as Record<string, number>).map(([currency, rate]) => (
-                <div key={currency}>{currency}: {rate}</div>
-            ))}
-         </div>
-        // <div>
-        //     {/* Render your rates here */}
-        //     {Object.entries(rates).map(([currency, rate]) => (
-        //         <div key={currency}>{currency}: {rate}</div>
-        //     ))}
-        // </div>
+      <div>
+        {/* Render your rates here */}
+        {Object.entries(rates).map(([currency, rate]) => (
+          <div key={currency}>{currency}: {rate}</div>
+        ))}
+      </div>
     );
-}
+  }
 };
 
 export default CurrencyConversion;

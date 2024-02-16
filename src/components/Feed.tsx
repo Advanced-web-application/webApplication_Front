@@ -109,7 +109,6 @@ function Feed() {
 
  return (
             <>
-
             <div className="card">
                 <div className="card-body">
                     <div className="vstack gap-3 col-md-7 mx-auto">
@@ -191,5 +190,3 @@ function Feed() {
 }
 
 export default Feed
-
-
