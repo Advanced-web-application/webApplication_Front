@@ -91,30 +91,64 @@
 // }
 
 
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// //import Profile from "./components/Profile_component"
+// // import Post from "./components/Post_component"
+// import Profile from "./components/Profile_edit"
 
-//import Profile from "./components/Profile_component"
-// import Post from "./components/Post_component"
-import Profile from "./components/Profile_edit"
-
- import Post from "./components/Post_edit"
- //import Post from "./components/Post_component"
- import Registration from "./components/Registration"
- import Feed from "./components/Feed"
-// import Currancy from "./components/Currancy-convertion"
+//  import Post from "./components/Post_edit"
+//  //import Post from "./components/Post_component"
+//  import Registration from "./components/Registration"
+//  import Feed from "./components/Feed"
+// // import Currancy from "./components/Currancy-convertion"
+// // import LogIn from "./components/Login_components"
 // import LogIn from "./components/Login_components"
-import LogIn from "./components/Login_components"
-// import Registration from "./components/Registration"
+// // import Registration from "./components/Registration"
 
 
-function App() {
+// function App() {
+//   return (
+//     <div className="p-2">
+//       <Router>
+//       <Switch>
+//         <Route path="/about">
+//           <Registration />
+//         </Route>
+//       </Switch>
+//     </Router>
+
+//     </div>
+//   )
+// }
+
+
+// export default App
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Profile from "./components/Profile_component"
+import ProfileEdit from './components/Profile_edit';
+import PostEdit from './components/Post_edit';
+import Post from "./components/Post_component"
+import Registration from './components/Registration';
+import Feed from './components/Feed';
+import LogIn from './components/Login_components';
+
+const App = () => {
   return (
-    <div className="p-2">
+    <Router>
+    <Routes>
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/profileedit" element={<ProfileEdit />} />
+      <Route path="/post" element={<Post />} />
+      <Route path="/postedit" element={<PostEdit />} />
+      <Route path="/registration" element={<Registration />} />
+      <Route path="/feed" element={<Feed />} />
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/" element={<Registration />} /> {/* Default route */}
+    </Routes>
+</Router>
+  );
+};
 
-      <Post />
-
-    </div>
-  )
-}
-
-
-export default App
+export default App;
