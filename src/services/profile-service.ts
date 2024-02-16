@@ -18,43 +18,81 @@ export { CanceledError }
 // }
 
 
-const getUserById = (id: string) => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-        throw new Error("No access token found");
-    }
-    const abortController = new AbortController();
-    const req = apiClient.get<IUser>(`user/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        },
-        signal: abortController.signal
+// const getUserById = (id: string) => {
+//     const accessToken = localStorage.getItem("accessToken");
+//     if (!accessToken) {
+//         throw new Error("No access token found");
+//     }
+//     const abortController = new AbortController();
+//     const req = apiClient.get<IUser>(`user/${id}`, {
+//         headers: {
+//             'Authorization': `Bearer ${accessToken}`
+//         },
+//         signal: abortController.signal
 
-    })
-    .catch( err => {
-            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-            const currentTimestamp = Math.floor(Date.now() / 1000);
-            if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
-                console.error("error expiration time:" + err);
-                console.error("going to refreshToken");
-                refreshToken(); 
-                // return getUserById(id);
-                const newAccessToken = localStorage.getItem("accessToken");
-                return apiClient.get<IUser>(`user/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${newAccessToken}`
-                },
-                signal: abortController.signal
-            });
+//     })
+//     .catch( err => {
+//             const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+//             const currentTimestamp = Math.floor(Date.now() / 1000);
+//             if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+//                 console.error("error expiration time:" + err);
+//                 console.error("going to refreshToken");
+//                 refreshToken(); 
+//                 const newAccessToken = localStorage.getItem("accessToken");
+//                 return apiClient.get<IUser>(`user/${id}`, {
+//                 headers: {
+//                     'Authorization': `Bearer ${newAccessToken}`
+//                 },
+//                 signal: abortController.signal
+//                 //return getUserById(id);
+//             });
+//         } else {
+//             throw err;
+//         }
+        
+//     });
+    
+//     console.log("getting the user sucsses");
+//     return { req, abort: () => abortController.abort() };
+// }
+
+
+
+const getUserById = (id: string) => {
+    const abortController = new AbortController();
+    const makeRequest = () => {
+    console.log("making the request");
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            throw new Error("No access token found");
+        }
+        return  apiClient.get<IUser>(`user/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            signal: abortController.signal
+        });
+    };
+
+    const req = makeRequest().catch(err => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            throw new Error("No access token found");
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+            console.error("error expiration time:" + err);
+            console.error("going to refreshToken");
+             refreshToken();
+            return makeRequest();
         } else {
             throw err;
         }
-        
     });
-    
-    console.log("getting the user sucsses");
     return { req, abort: () => abortController.abort() };
-}
+};
+
 
 const refreshToken = async () => {
     console.log("refreshing the Token");
@@ -77,6 +115,9 @@ const refreshToken = async () => {
     console.log("new refresh token:" + newRefreshToken);
     console.log("refreshing sucsses");
 }
+
+
+
 
 const editUser = (id: string, userData: IUser) => {
     const abortController = new AbortController()

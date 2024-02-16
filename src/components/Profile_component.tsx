@@ -28,9 +28,11 @@ function ProfileDetalis() {
         const [error, setError] = useState()
         useEffect(() => {
             const { req, abort } = profileService.getUserById(userID)
-            req.then((res) => {
-                setUser(res.data)
-                console.log("userId:" +res.data._id)
+            req.then((res) => { 
+                if (res) {
+                    setUser(res.data)
+                    console.log("userId:" +res.data._id)
+                }
             }).catch((err) => {
                 console.log(err)
                 if (err instanceof CanceledError) return
