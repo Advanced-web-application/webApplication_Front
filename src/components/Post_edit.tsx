@@ -3,13 +3,16 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import postService , { CanceledError } from '../services/post-service';
 import { PostData } from '../Post';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PostIdEdit } from '../components/Post_component'
+//import { PostIdEdit } from '../components/Post_component'
+import { useLocation } from 'react-router-dom';
 
 
 
 //when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function EditPost() {
+    const location = useLocation();
+    const PostIdEdit = location.state?.PostIdEdit;
    
     const [error, setError] = useState()
     const [image, setImage] =useState('')
@@ -57,7 +60,7 @@ function EditPost() {
             owner
         };
 
-        const res =  postService.editPost(PostIdEdit, updatedPost) //needs to get the post id...
+        const res =  postService.editPost(PostIdEdit, updatedPost) 
         console.log(res);
 
     };

@@ -7,7 +7,7 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
 
 
-export let userIDLogin: string
+export let userID: string
 
 const LoginComponent = () => {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ const LoginComponent = () => {
       const email = emailInputRef.current?.value;
       const password = passwordInputRef.current?.value;
       const res = await postLogIn(email, password);
-      userIDLogin = res._id as string; // Add type assertion here
-      console.log("userIDLogin: " + userIDLogin);
+      userID = res._id as string; 
+      console.log("userIDLogin: " + userID);
       console.log(res);
       if (res.accessToken) {
         localStorage.setItem('accessToken', res.accessToken);
@@ -31,7 +31,7 @@ const LoginComponent = () => {
       if (res.refreshToken) {
         localStorage.setItem('refreshToken', res.refreshToken);
       }
-      navigate('/feed');
+      navigate('/feed', { state: { userID } });
     }
    
 }
