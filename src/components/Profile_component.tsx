@@ -26,20 +26,48 @@ function ProfileDetalis() {
 
         const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
+
+        // useEffect(() => {
+        //     const { req, abort } = profileService.getUserById(userID)
+        //     req.then((res) => { 
+        //         if (res) {
+        //             setUser(res.data)
+        //             console.log("userId:" +res.data._id)
+        //         }
+        //     }).catch((err) => {
+        //         console.log(err)
+        //         if (err instanceof CanceledError) return
+        //         setError(err.message)
+        //     })
+        //     return () => {
+        //         abort()
+        //     }
+        
+        // }, [])
+
         useEffect(() => {
-            const { req, abort } = profileService.getUserById(userID)
-            req.then((res) => { 
-                if (res) {
-                    setUser(res.data)
-                    console.log("userId:" +res.data._id)
+           const abortController = new AbortController();
+            const fetchData = async () => { 
+                try {
+                    const { req, abort } = await profileService.getUserById(userID);
+                    abortController.abort = abort;
+                    const res = await req;
+
+                    if (res) {
+                        setUser(res.data);
+                        console.log("userId:" + res.data._id);
+                    }
+                } catch (err) {
+                    console.log(err);
+                    if (err instanceof CanceledError) return;
+                    //setError(err.message);
                 }
-            }).catch((err) => {
-                console.log(err)
-                if (err instanceof CanceledError) return
-                setError(err.message)
-            })
+            };
+          
+            fetchData();
             return () => {
-                abort()
+                //abort()
+                abortController.abort();
             }
         
         }, [])
