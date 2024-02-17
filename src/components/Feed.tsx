@@ -128,7 +128,7 @@ function Feed() {
       const handleLogout = () => {
         console.log("logging out");
         postLogout();
-        //navigate('/');
+        navigate('/login' , {replace: true});
       };
       const handleCurrancyConvert = () => {
         console.log("CurrancyConvert");
@@ -225,3 +225,4 @@ function Feed() {
 }
 
 export default Feed
+
