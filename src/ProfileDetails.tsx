@@ -15,7 +15,7 @@ interface ProfileProps {
 }
 
 
-function Profile({ profile }: ProfileProps) {
+function ProfileDetails({ profile }: ProfileProps) {
     return (
         <div className="card">
             <img src={profile.image} className="card-img-top img-fluid" style={{maxWidth: '200px'}} alt={profile.fullName} />
@@ -32,4 +32,4 @@ function Profile({ profile }: ProfileProps) {
     )
 }
 
-export default Profile
+export default ProfileDetails

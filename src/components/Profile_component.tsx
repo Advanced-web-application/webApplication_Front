@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { IUser } from '../Profile'
+import { IUser } from '../ProfileDetails'
 import profileService, { CanceledError } from "../services/profile-service"
-import Profile from "../Profile"
+import ProfileDetails from "../ProfileDetails"
 import { userIDLogin } from './Login_components'
 import { userID } from './Registration';
 
@@ -19,7 +19,7 @@ import { useLocation } from 'react-router-dom';
 // }
 
 
-function ProfileDetalis() {
+function Profile() {
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
@@ -48,6 +48,7 @@ function ProfileDetalis() {
         useEffect(() => {
            const abortController = new AbortController();
             const fetchData = async () => { 
+                console.log("making the request id useeffect", userID);
                 try {
                     const { req, abort } = await profileService.getUserById(userID);
                     abortController.abort = abort;
@@ -63,7 +64,7 @@ function ProfileDetalis() {
                     //setError(err.message);
                 }
             };
-          
+          console.log("cakk fetch data");
             fetchData();
             return () => {
                 //abort()
@@ -103,7 +104,7 @@ function ProfileDetalis() {
             <div className="p-4">
                 {user && 
                     <div key={user._id}>
-                        <Profile profile={user} />     
+                        <ProfileDetails profile={user} />     
                         <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
                     </div>
                 }
@@ -114,4 +115,4 @@ function ProfileDetalis() {
         
 }
 
-export default ProfileDetalis
+export default Profile
