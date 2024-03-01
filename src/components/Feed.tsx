@@ -78,8 +78,8 @@ function Feed() {
         console.log(res)
     }
 
-    const handleEdit = (id: string) => { 
-        PostIdDetails = id;
+    const handleEdit = (id: string | undefined) => { 
+        PostIdDetails = id ?? '';
         console.log(`Moving to post page ${PostIdDetails}`);
         navigate('/post' , { state: { userID, PostIdDetails } });
     }
@@ -165,7 +165,7 @@ function Feed() {
             <p className="card-text">{post.description}</p>
             <p className="card-text">{post.price}</p>
             <p className="card-text">{post.owner}</p>
-            <button onClick={() => handleEdit(post._id)} className="btn btn-primary">Edit</button>
+            <button onClick={() => handleEdit(post._id)} className="btn btn-primary">See Post Details</button>
         </div>
     </div>
 ))}

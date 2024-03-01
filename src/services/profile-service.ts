@@ -1,5 +1,5 @@
 import apiClient, { CanceledError } from "./api-client"
-import { IUser } from '../Profile'
+import { IUser } from '../ProfileDetails'
 import jwt_decode from 'jwt-decode';
 //import { Id } from '../components/Profile_component';
 import { userIDLogin } from '../components/Login_components'
@@ -101,6 +101,7 @@ const refreshToken = async () => {
     if (!refreshToken) {
         throw new Error("No refresh token found");
     }
+    console.log( refreshToken);
     const res = await apiClient.get('auth/refreshToken', { 
         headers: {
             'Authorization': `Bearer ${refreshToken}`
@@ -109,6 +110,7 @@ const refreshToken = async () => {
      });
     const newAccessToken = res.data.accessToken; 
     const newRefreshToken = res.data.refreshToken; 
+    console.log( res );
     localStorage.setItem("accessToken", newAccessToken);
     localStorage.setItem("refreshToken", newRefreshToken);
     console.log("new access token:" + newAccessToken);

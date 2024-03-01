@@ -1,7 +1,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import profileService , { CanceledError } from '../services/profile-service';
-import { IUser } from '../Profile';
+import { IUser } from '../ProfileDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { userIDLogin } from '../components/Login_components'
 import { userID } from '../components/Registration'
@@ -32,30 +32,64 @@ function EditProfile() {
     const [email, setEmail] = useState('');
     //const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        const { req, abort } = profileService.getUserById(userID)
-        req.then((res) => {
-            const data = res.data;
-            const user = data;
-            if (user) {
-                setFullName(user.fullName);
-                setAge(user.age);
-                setGender(user.gender);
-                setId(user._id);
-                setImage(user.image?? '');
-                setEmail(user.email);
-                //setPassword('');
-            }
-        }).catch((err) => {
-            console.log(err)
-            if (err instanceof CanceledError) return
-            setError(err.message)
-        })
-        return () => {
-            abort()
-        }
+    // useEffect(() => {
+    //     const { req, abort } = profileService.getUserById(userID)
+    //     req.then((res) => {
+    //         const data = res.data;
+    //         const user = data;
+    //         if (user) {
+    //             setFullName(user.fullName);
+    //             setAge(user.age);
+    //             setGender(user.gender);
+    //             setId(user._id);
+    //             setImage(user.image?? '');
+    //             setEmail(user.email);
+    //             //setPassword('');
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+    //         if (err instanceof CanceledError) return
+    //         setError(err.message)
+    //     })
+    //     return () => {
+    //         abort()
+    //     }
     
-    }, [])
+    // }, [])
+
+    useEffect(() => {
+        const abortController = new AbortController();
+         const fetchData = async () => { 
+             try {
+                 const { req, abort } = await profileService.getUserById(userID);
+                 abortController.abort = abort;
+                 const res = await req;
+                 const data = res.data;
+                 const user = data;
+
+                 if (user) {
+                    setFullName(user.fullName);
+                    setAge(user.age);
+                    setGender(user.gender);
+                    setId(user._id);
+                    setImage(user.image?? '');
+                    setEmail(user.email);
+                 }
+             } catch (err) {
+                 console.log(err);
+                 if (err instanceof CanceledError) return;
+                 //setError(err.message);
+             }
+         };
+       
+         fetchData();
+         return () => {
+             //abort()
+             abortController.abort();
+         }
+     
+     }, [])
+
 
 
 
