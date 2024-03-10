@@ -8,7 +8,7 @@ import { uploadPhoto } from '../services/file-service'
 
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
-import { postLogout } from '../services/logout-service'
+import logoutService from '../services/logout-service'
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -69,11 +69,11 @@ function Feed() {
         const url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
         const post : PostData = {
-          ...data,
-          image: url
+            ...data,
+            image: url
         }
         const res = await addPost(post)
-        postID = res._id ?? '';
+        postID = res.req.data._id ?? '';
         console.log("postID: " + postID);
         console.log(res)
     }
@@ -91,7 +91,7 @@ function Feed() {
 
     const handleLogout = () => {
         console.log("logging out");
-        postLogout();
+        logoutService.postLogout();
         navigate('/login' , {replace: true});
     };
 
