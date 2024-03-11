@@ -5,14 +5,23 @@ import { PostData } from '../Post';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import { PostIdEdit } from '../components/Post_component'
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+
 
 
 
 //when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function EditPost() {
+    const navigate = useNavigate();
     const location = useLocation();
     const PostIdEdit = location.state?.PostIdEdit;
+    console.log("PostIdEdit: " + PostIdEdit);
+    const userID = location.state?.userID;
+    const PostIdDetails = location.state?.PostIdDetails;
+    console.log("PostIdDetails: " + PostIdDetails);
+
+    const [post, setPost] = useState<PostData[]>([])
    
     const [error, setError] = useState()
     const [image, setImage] =useState('')
@@ -22,7 +31,7 @@ function EditPost() {
     const [owner, setOwner] = useState('');
 
     useEffect(() => {
-        const { req, abort } = postService.getPostByID(PostIdEdit)
+        const { req, abort } = postService.getPostByID(PostIdDetails)
         req.then((res) => {
             const post = res.data;
             if (post) {
@@ -43,14 +52,19 @@ function EditPost() {
     
     }, [])
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         console.log("deleting post: " + name );
-        postService.deletePost(PostIdEdit)     
+       await postService.deletePost(PostIdDetails)  
+        const { req } = postService.getPosts()
+        req.then((res) => {
+            setPost(res.data)
+        })
+        navigate('/feed', { state: { userID } });   
     };
 
 
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const updatedPost = {
             name,
@@ -60,8 +74,21 @@ function EditPost() {
             owner
         };
 
-        const res =  postService.editPost(PostIdEdit, updatedPost) 
-        console.log(res);
+        const res=  await postService.editPost(PostIdDetails, updatedPost) 
+         const { req } = postService.getPostByID(PostIdDetails)
+         req.then((res) => {
+             const post = res.data;
+             if (post) {
+                 setImage(post.image);
+                 setName(post.name);
+                 setDescription(post.description);
+                 setPrice(post.price);
+                 setOwner(post.owner);
+                 console.log("updatedPost: " + post.description);
+            }
+         })
+        
+        navigate('/post', { state: { userID, PostIdDetails } });
 
     };
     return (

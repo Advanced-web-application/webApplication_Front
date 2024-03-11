@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import restAPIService  from "../services/rest-api-service"
 import { CanceledError } from "../services/post-service"
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
 interface ConversionRates {
   USD: number;
@@ -11,6 +13,11 @@ interface ConversionRates {
 }
 
 const CurrencyConversion = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userID = location.state?.userID;
+  console.log("userID: " + userID);
+
   const [error, setError] = useState(null);
   const [rates, setRates] = useState<Record<string, number> | null>(null);
 
@@ -56,7 +63,10 @@ const CurrencyConversion = () => {
   //   };
   // }, []);
 
-
+  const handleButtonClick = () => {
+    console.log(`userID: ${userID}`);
+    navigate('/feed', { state: { userID } });
+};
 
   if (error) {
     return <p className='text-danger'>{error}</p>;
@@ -68,6 +78,9 @@ const CurrencyConversion = () => {
     return (
        <div className="container">
         <h1 className="my-3">Conversion Rates Table:</h1>
+        <button onClick={handleButtonClick} className="btn btn-secondary">
+                    go backt to feed
+                </button>
         <table className="table table-striped">
           <thead>
             <tr>
