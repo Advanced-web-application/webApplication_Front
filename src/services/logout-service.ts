@@ -22,3 +22,7 @@ export const postLogout = async (): Promise<void> => {
         });
     });
   };
+
+  
+
+export default {postLogout}

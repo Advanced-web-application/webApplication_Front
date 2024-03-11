@@ -120,12 +120,51 @@ const refreshToken = async () => {
 
 
 
+// const editUser = (id: string, userData: IUser) => {
+//     const abortController = new AbortController()
+//     const req = apiClient.put<IUser>(`user/${id}`, userData, { signal: abortController.signal })
+//     return { req, abort: () => abortController.abort() }
+// }
 
-const editUser = (id: string, userData: IUser) => {
-    const abortController = new AbortController()
-    const req = apiClient.put<IUser>(`user/${id}`, userData, { signal: abortController.signal })
-    return { req, abort: () => abortController.abort() }
-}
+const editUser = async (id: string, userData: IUser) => {
+  const abortController = new AbortController();
+  const makeRequest = async () => {
+    console.log("making the request");
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    return await apiClient.put<IUser>(`user/${id}`,userData, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      },
+      signal: abortController.signal
+    });
+  };
+
+  let req;
+  try {
+    req = await makeRequest();
+  } catch (err) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+      console.error("error expiration time:" + err);
+      console.error("going to refreshToken");
+      await refreshToken();
+      req = await makeRequest();
+    } else {
+      throw err;
+    }
+  }
+
+  return { req, abort: () => abortController.abort() };
+};
+
 
 export default { getUserById, editUser}
 

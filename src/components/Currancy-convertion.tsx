@@ -15,20 +15,46 @@ const CurrencyConversion = () => {
   const [rates, setRates] = useState<Record<string, number> | null>(null);
 
   useEffect(() => {
-    const { req, abort } = restAPIService.getCurrencyRate();
-    req.then((res) => {
-      console.log(res)
-      setRates(res.data.conversion_rates);
-      console.log("conversion_rates:" + res.data.conversion_rates)
-    }).catch((err) => {
-      console.log(err)
-       if (err instanceof CanceledError) return
-      setError(err.message)
-    });
-    return () => {
-      abort();
-    };
-  }, []);
+    const abortController = new AbortController();
+     const fetchData = async () => { 
+         try {
+             const { req, abort } =  await restAPIService.getCurrencyRate();
+             abortController.abort = abort;
+             const res = await req;
+             if (res) {
+              console.log(res)
+              setRates(res.data.conversion_rates);
+              console.log("conversion_rates:" + res.data.conversion_rates)
+             }
+         } catch (err) {
+             console.log(err);
+             if (err instanceof CanceledError) return;
+             //setError(err.message);
+         }
+     };
+     fetchData();
+     return () => {
+        abortController.abort();
+     }
+ 
+ }, [])
+
+
+  // useEffect(() => {
+  //   const { req, abort } = restAPIService.getCurrencyRate();
+  //   req.then((res) => {
+  //     console.log(res)
+  //     setRates(res.data.conversion_rates);
+  //     console.log("conversion_rates:" + res.data.conversion_rates)
+  //   }).catch((err) => {
+  //     console.log(err)
+  //      if (err instanceof CanceledError) return
+  //     setError(err.message)
+  //   });
+  //   return () => {
+  //     abort();
+  //   };
+  // }, []);
 
 
 
