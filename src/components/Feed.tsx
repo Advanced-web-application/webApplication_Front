@@ -76,6 +76,8 @@ function Feed() {
         postID = res.req.data._id ?? '';
         console.log("postID: " + postID);
         console.log(res)
+        
+        setPost(prevPosts => [...prevPosts, post]);
     }
 
     const handleEdit = (id: string | undefined) => { 
