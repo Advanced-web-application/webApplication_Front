@@ -61,6 +61,7 @@ function PostDetalis() {
                             price: post.price,
                             owner:post.owner,
                             _id: post._id,
+                            comments : post.comments
                         };
                         setPost(Post)
                     }
