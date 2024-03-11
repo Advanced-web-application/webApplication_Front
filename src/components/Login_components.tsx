@@ -29,6 +29,7 @@ const LoginComponent = () => {
     if (res.refreshToken) {
       localStorage.setItem('refreshToken', res.refreshToken);
     }
+    localStorage.setItem('userID', userID);
     navigate('/feed', { state: { userID } });
   }
 

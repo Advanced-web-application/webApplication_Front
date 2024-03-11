@@ -94,6 +94,7 @@ function Feed() {
     const handleLogout = () => {
         console.log("logging out");
         logoutService.postLogout();
+        localStorage.removeItem('userID');
         navigate('/login' , {replace: true});
     };
 
