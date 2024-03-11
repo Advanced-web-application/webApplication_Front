@@ -165,6 +165,7 @@ function Feed() {
             <p className="card-text">{post.description}</p>
             <p className="card-text">{post.price}</p>
             <p className="card-text">{post.owner}</p>
+            <p className="card-text">{post.comments?.length}</p>
             <button onClick={() => handleEdit(post._id)} className="btn btn-primary">See Post Details</button>
         </div>
     </div>

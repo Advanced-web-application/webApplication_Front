@@ -44,9 +44,14 @@ function PostDetalis() {
         console.log("userID: " + userID);    
     };
 
-        useEffect(() => {
-            const { req, abort } = postService.getPostByID(PostIdDetails)
-            req.then((res) => {
+    useEffect(() => {
+        const abortController = new AbortController();
+         const fetchData = async () => { 
+             try {
+                 const { req, abort } = await postService.getPostByID(PostIdDetails)
+                 abortController.abort = abort;
+                 const res = await req;
+                 if (res) {
                     const post = res.data;
                     if (post) {
                         const Post = {
@@ -58,18 +63,48 @@ function PostDetalis() {
                             _id: post._id,
                         };
                         setPost(Post)
-                
                     }
-            }).catch((err) => {
-                console.log(err)
-                if (err instanceof CanceledError) return
-                setError(err.message)
-            })
-            return () => {
-                abort()
-            }
+                 }
+             } catch (err) {
+                 console.log(err);
+                 if (err instanceof CanceledError) return;
+                 //setError(err.message);
+             }
+         };
+         fetchData();
+         return () => {
+            abortController.abort();
+         }
+     
+     }, [])
+
+
+        // useEffect(() => {
+        //     const { req, abort } = postService.getPostByID(PostIdDetails)
+        //     req.then((res) => {
+        //             const post = res.data;
+        //             if (post) {
+        //                 const Post = {
+        //                    name: post.name,
+        //                     image: post.image,
+        //                     description: post.description,
+        //                     price: post.price,
+        //                     owner:post.owner,
+        //                     _id: post._id,
+        //                 };
+        //                 setPost(Post)
+                
+        //             }
+        //     }).catch((err) => {
+        //         console.log(err)
+        //         if (err instanceof CanceledError) return
+        //         setError(err.message)
+        //     })
+        //     return () => {
+        //         abort()
+        //     }
         
-        }, [])
+        // }, [])
 
         const handleEdit = (id: string) => {
             PostIdEdit=id;

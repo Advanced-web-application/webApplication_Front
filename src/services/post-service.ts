@@ -18,23 +18,143 @@ const getPostByID = (id: string) => {
     return { req, abort: () => abortController.abort() };
 }
 
-const editPost = (id: string, postData: PostData) => {
-    const abortController = new AbortController()
-    const req = apiClient.put<PostData>(`post/${id}`, postData, { signal: abortController.signal })
-    return { req, abort: () => abortController.abort() }
-}
+// const editPost = (id: string, postData: PostData) => {
+//     const abortController = new AbortController()
+//     const req = apiClient.put<PostData>(`post/${id}`, postData, { signal: abortController.signal })
+//     return { req, abort: () => abortController.abort() }
+// }
 
-const addComment= (id: string, comment: string) => {
-    const abortController = new AbortController()
-    const req = apiClient.put<PostData>(`post/comment/${id}`, {comment}, { signal: abortController.signal })
-    return { req, abort: () => abortController.abort() }
-}
+export const editPost = async (id: string, postData: PostData) => {
+  const abortController = new AbortController();
+  const makeRequest = async () => {
+    console.log("making the request");
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    return await apiClient.put<PostData>(`post/${id}`, postData, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      },
+      signal: abortController.signal
+    });
+  };
 
-const deletePost = (id: string) => {
-    const abortController = new AbortController()
-    const req = apiClient.delete<PostData>(`post/${id}`, { signal: abortController.signal })
-    return { req, abort: () => abortController.abort() }
-}
+  let req;
+  try {
+    req = await makeRequest();
+  } catch (err) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+      console.error("error expiration time:" + err);
+      console.error("going to refreshToken");
+      await refreshToken();
+      req = await makeRequest();
+    } else {
+      throw err;
+    }
+  }
+
+  return { req, abort: () => abortController.abort() };
+};
+
+
+// const addComment= (id: string, comment: string) => {
+//     const abortController = new AbortController()
+//     const req = apiClient.put<PostData>(`post/comment/${id}`, {comment}, { signal: abortController.signal })
+//     return { req, abort: () => abortController.abort() }
+// }
+
+export const addComment = async (id: string, comment: string) => {
+  const abortController = new AbortController();
+  const makeRequest = async () => {
+    console.log("making the request");
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    return await apiClient.put<PostData>(`post/comment/${id}`, {comment}, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      },
+      signal: abortController.signal
+    });
+  };
+
+  let req;
+  try {
+    req = await makeRequest();
+  } catch (err) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+      console.error("error expiration time:" + err);
+      console.error("going to refreshToken");
+      await refreshToken();
+      req = await makeRequest();
+    } else {
+      throw err;
+    }
+  }
+
+  return { req, abort: () => abortController.abort() };
+};
+
+
+// const deletePost = (id: string) => {
+//     const abortController = new AbortController()
+//     const req = apiClient.delete<PostData>(`post/${id}`, { signal: abortController.signal })
+//     return { req, abort: () => abortController.abort() }
+// }
+
+export const deletePost = async (id: string) => {
+  const abortController = new AbortController();
+  const makeRequest = async () => {
+    console.log("making the request");
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    return await apiClient.delete<PostData>(`post/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      },
+      signal: abortController.signal
+    });
+  };
+
+  let req;
+  try {
+    req = await makeRequest();
+  } catch (err) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+    const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (tokenPayload.exp && tokenPayload.exp < currentTimestamp) {
+      console.error("error expiration time:" + err);
+      console.error("going to refreshToken");
+      await refreshToken();
+      req = await makeRequest();
+    } else {
+      throw err;
+    }
+  }
+
+  return { req, abort: () => abortController.abort() };
+};
+
 
 // const addPost = (postData: PostData) => {
 //     const abortController = new AbortController()
