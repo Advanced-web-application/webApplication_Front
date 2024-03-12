@@ -11,6 +11,18 @@ import CurrancyConvert from './components/Currancy-convertion';
 import AddPost from './components/addPost';
 
 const App = () => {
+  let accessToken = localStorage.getItem("accessToken");
+  console.log("accessToken: " + accessToken);
+  if(!accessToken)
+  {
+    accessToken=""
+  }
+  let userID = localStorage.getItem("userID");
+  console.log("userID: " + userID);
+  if(!userID)
+  {
+    userID=""
+  }
 
   return (
     <Router>
@@ -22,9 +34,11 @@ const App = () => {
       <Route path="/postedit" element={<PostEdit />} />
       <Route path="/registration" element={<Registration />} />
       <Route path="/CurrancyConvert" element={<CurrancyConvert />} />
-      <Route path="/feed" element={<Feed />} />
+      <Route path="/feed" element={<Feed ID="" />} />
       <Route path="/login" element={<LogIn />} />
-      <Route path="/" element={<Registration />} /> {/* Default route */}
+      {/* <Route path="/" element={<Registration />} /> Default route */}
+      {/* <Route path="/" element={accessToken ? <Feed ID="" /> : <Registration />} /> */}
+      <Route path="/" element={accessToken !== ""  ? <Feed ID= {userID} /> : <Registration />} />
     </Routes>
 </Router>
   );

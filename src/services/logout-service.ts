@@ -17,8 +17,7 @@ export const postLogout = async (): Promise<IUser> => {
   localStorage.removeItem('refreshToken');
     return new Promise<IUser>((resolve, reject) => {
       apiClient.get<IUser>("/auth/logout")
-        .then((response) => {
-          
+        .then((response) => { 
           resolve(response.data);
         }).catch((error) => {
           reject(error);

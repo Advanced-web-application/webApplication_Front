@@ -243,6 +243,7 @@ function Registration() {
             if (res.refreshToken) {
                 localStorage.setItem('refreshToken', res.refreshToken);
             }
+            localStorage.setItem('userID', userID);
             navigate('/feed', { state: { userID } });
         } catch (e) {
             console.log(e)

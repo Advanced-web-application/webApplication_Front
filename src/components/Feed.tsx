@@ -221,10 +221,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export let postID: string;
 export let PostIdDetails: string;
 
-function Feed() {
+interface FeedProps {
+    ID: string | null
+}
+
+function Feed({ ID }: FeedProps) {
+    //const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     const location = useLocation();
-    const userID = location.state?.userID;
+    //const userID = location.state?.userID;
+    const userID = ID !== "" ? ID : location.state?.userID;
+    console.log("userID: " + userID);
 
     const [post, setPost] = useState<PostData[]>([]);
     const [error, setError] = useState();

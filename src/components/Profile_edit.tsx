@@ -78,6 +78,8 @@ function EditProfile() {
                 {errors.image && <p className="text-danger">{errors.image.message}</p>}
             </div>
 
+         
+
             <div className="mb-3">
                 <label className="form-label">Full Name:</label>
                 <input type="text" className="form-control" {...register("fullName")} defaultValue={user?.fullName} />
