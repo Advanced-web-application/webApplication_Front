@@ -132,7 +132,7 @@ function PostDetalis() {
             console.log(`Editing post with name: ${id}`);
             navigate('/postedit', { state: { userID, PostIdDetails } });
         }
-        
+        const accessToken = localStorage.getItem('accessToken'); 
  return (
             <>
                 <h1>Post</h1>
@@ -145,10 +145,12 @@ function PostDetalis() {
                         <Post post={post} />
                         <form onSubmit={handleCommentSubmit(post._id ?? '')}>
                             <div className="mb-3">
-                                <label className="form-label">New Comment:</label>
-                                <input type="text" className="form-control" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                {accessToken && (
+                            <input type="text" className="form-control" value={newComment} onChange={(e) => setNewComment(e.target.value)} />)}
                             </div>
-                            <button type="submit" className="btn btn-primary">Add Comment</button>
+                           {accessToken && (
+                            <button type="submit" className="btn btn-primary">Add Comment</button> 
+                            )}
                             {post.owner === userID && <button className="btn btn-primary" onClick={() => handleEdit(post._id ?? '')}>Edit Post</button>} 
                         </form>
                         
