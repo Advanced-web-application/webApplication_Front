@@ -5,7 +5,7 @@ import { IUser } from '../ProfileDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { userIDLogin } from '../components/Login_components'
 import { userID } from '../components/Registration'
-
+import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
 //  let Id:string;
@@ -20,8 +20,11 @@ import { useLocation } from 'react-router-dom';
 
 
 function EditProfile() {
+    const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
+
+    const [user, setUser] = useState<IUser>()
    
     const [error, setError] = useState()
     const [fullName, setFullName] = useState('');
@@ -93,7 +96,7 @@ function EditProfile() {
 
 
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const updatedProfile = {
             fullName,
@@ -104,8 +107,13 @@ function EditProfile() {
             email,  
         };
 
-        const res =  profileService.editUser(_id, updatedProfile)
+        const res = await profileService.editUser(_id, updatedProfile)
         console.log(res);
+        const { req} = await profileService.getUserById(userID);
+        if (req) {
+         setUser(req.data);
+        }
+        navigate('/profile', { state: { userID } });
 
     };
     return (

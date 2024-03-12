@@ -36,12 +36,31 @@ function PostDetalis() {
     const [error, setError] = useState()
     const [newComment, setNewComment] = useState('');
 
-    const handleCommentSubmit = (id: string) => (e: React.FormEvent) => {
+    const handleCommentSubmit = (id: string) => async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("adding comment: " + newComment);
-        const res = postService.addComment(id, newComment);
+        const res =  await postService.addComment(id, newComment);
+        const { req } = await postService.getPostByID(PostIdDetails)
+                 const res1 = await req;
+                 if (res1) {
+                    const post = res1.data;
+                    if (post) {
+                        const Post = {
+                           name: post.name,
+                            image: post.image,
+                            description: post.description,
+                            price: post.price,
+                            owner:post.owner,
+                            _id: post._id,
+                            comments : post.comments
+                        };
+                        setPost(Post)
+                    }
+                 }
+
         console.log(res); 
-        console.log("userID: " + userID);    
+        console.log("userID: " + userID);  
+        navigate('/feed', { state: { userID } });  
     };
 
     useEffect(() => {
@@ -61,6 +80,7 @@ function PostDetalis() {
                             price: post.price,
                             owner:post.owner,
                             _id: post._id,
+                            comments : post.comments
                         };
                         setPost(Post)
                     }
@@ -110,7 +130,7 @@ function PostDetalis() {
             PostIdEdit=id;
             // render to the edit Post page
             console.log(`Editing post with name: ${id}`);
-            navigate('/postedit', { state: { PostIdEdit } });
+            navigate('/postedit', { state: { userID, PostIdDetails } });
         }
         
  return (
