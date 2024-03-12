@@ -20,7 +20,7 @@ export let PostIdDetails : string;
 const PostSchema = z.object({
     name: z.string().min(1, { message: 'Title is required' }),
     description: z.string().min(1, { message: 'Description is required' }),
-    price: z.number().min(0, { message: 'Price must be a positive number' }),
+    price: z.number().min(0, { message: 'Price must be a positive number' }).transform(parseFloat),
     owner: z.string().min(1, { message: 'Owner is required' }),
 });
 type FormData = z.infer<typeof PostSchema>
