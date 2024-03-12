@@ -97,11 +97,15 @@ function Feed() {
         navigate('/addPost', { state: { userID } });
     };
 
+    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
+    
     const handleLogout = () => {
+        if(accessToken){
         console.log("logging out");
         logoutService.postLogout();
         localStorage.removeItem('userID');
         navigate('/login' , {replace: true});
+        }
     };
 
     const handleCurrancyConvert = () => {
@@ -109,9 +113,14 @@ function Feed() {
         navigate('/CurrancyConvert' , { state: { userID } });
     };
 
-    const handleFilterMyPosts = () => {
+    
+
+const handleFilterMyPosts = () => {
+    if (accessToken) {
         setViewMyPosts(!viewMyPosts);
-    };
+    }
+};
+
 
     return (
         <>
@@ -160,15 +169,19 @@ function Feed() {
         <button onClick={handleAddNewPost} className="btn btn-secondary">
             Add new post
         </button>
+        {accessToken && (
         <button onClick={handleLogout} className="btn btn-secondary">
             Logout
         </button>
+        )}
         <button onClick={handleCurrancyConvert} className="btn btn-secondary">
             CurrancyConvert
         </button>
+        {accessToken && (
         <button onClick={handleFilterMyPosts} className="btn btn-secondary">
             {viewMyPosts ? "View All Posts" : "View My Posts"}
         </button>
+        )}
         {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
     <div className="card" key={index}>
         <img src={post.image} className="card-img-top" alt="..." style={{ maxHeight: "200px", maxWidth: "200px" }} />

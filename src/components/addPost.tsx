@@ -32,6 +32,15 @@ function AddPost() {
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
+    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
+    if (!accessToken) {
+        return (
+            <div>
+                <p>Error: You are not logged in.</p>
+                <button onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        );
+    }
 
 
     const [imgSrc, setImgSrc] = useState<File>()
