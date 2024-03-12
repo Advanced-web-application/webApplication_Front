@@ -48,6 +48,7 @@ function Registration() {
     }
 
     const registerUser = async (data: FormData) => {
+        console.log("regisrer!")
         const url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
         const user: IUser = {
@@ -65,6 +66,7 @@ function Registration() {
         if (res.refreshToken) {
             localStorage.setItem('refreshToken', res.refreshToken);
         }
+        localStorage.setItem('userID', userID);
 
         navigate('/feed', { state: { userID } });
     }

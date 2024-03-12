@@ -17,19 +17,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export let postID : string;
 export let PostIdDetails : string;
 
-const PostSchema = z.object({
-    name: z.string().min(1, { message: 'Title is required' }),
-    description: z.string().min(1, { message: 'Description is required' }),
-    price: z.number().min(0, { message: 'Price must be a positive number' }),
-    owner: z.string().min(1, { message: 'Owner is required' }),
-});
-type FormData = z.infer<typeof PostSchema>
+// const PostSchema = z.object({
+//     name: z.string().min(1, { message: 'Title is required' }),
+//     description: z.string().min(1, { message: 'Description is required' }),
+//     //price: z.number().min(0, { message: 'Price must be a positive number' }).transform(parseFloat),
+//     price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
+//     owner: z.string().min(1, { message: 'Owner is required' }),
+// });
+// type FormData = z.infer<typeof PostSchema>
 
 function Feed() {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
+    //const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
+    console.log("userID: " + userID);
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState()
@@ -51,34 +53,32 @@ function Feed() {
     
     }, [])
 
-    const [imgSrc, setImgSrc] = useState<File>()
-    const fileInputRef = useRef<HTMLInputElement>(null)
-    const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
-        if (e.target.files && e.target.files.length > 0) {
-            setImgSrc(e.target.files[0])
-        }
-    }
-    const selectImg = () => {
-        console.log("Selecting image...")
-        fileInputRef.current?.click()
-    }
+    // const [imgSrc, setImgSrc] = useState<File>()
+    // const fileInputRef = useRef<HTMLInputElement>(null)
+    // const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    //     console.log(e.target.value)
+    //     if (e.target.files && e.target.files.length > 0) {
+    //         setImgSrc(e.target.files[0])
+    //     }
+    // }
+    // const selectImg = () => {
+    //     console.log("Selecting image...")
+    //     fileInputRef.current?.click()
+    // }
     
 
-    const addNewPost = async (data: FormData) => {
-        const url = await uploadPhoto(imgSrc!);
-        console.log("upload returned:" + url);
-        const post : PostData = {
-            ...data,
-            image: url
-        }
-        const res = await addPost(post)
-        postID = res.req.data._id ?? '';
-        console.log("postID: " + postID);
-        console.log(res)
-        
-        setPost(prevPosts => [...prevPosts, post]);
-    }
+    // const addNewPost = async (data: FormData) => {
+    //     const url = await uploadPhoto(imgSrc!);
+    //     console.log("upload returned:" + url);
+    //     const post : PostData = {
+    //         ...data,
+    //         image: url
+    //     }
+    //     const res = await addPost(post)
+    //     postID = res.req.data._id ?? '';
+    //     console.log("postID: " + postID);
+    //     console.log(res)
+    // }
 
     const handleEdit = (id: string | undefined) => { 
         PostIdDetails = id ?? '';
@@ -91,15 +91,22 @@ function Feed() {
         navigate('/profile', { state: { userID } });
     };
 
+   
+    const handleAddNewPost = () => {
+        console.log(`userID: ${userID}`);
+        navigate('/addPost', { state: { userID } });
+    };
+
     const handleLogout = () => {
         console.log("logging out");
         logoutService.postLogout();
+        localStorage.removeItem('userID');
         navigate('/login' , {replace: true});
     };
 
     const handleCurrancyConvert = () => {
         console.log("CurrancyConvert");
-        navigate('/CurrancyConvert');
+        navigate('/CurrancyConvert' , { state: { userID } });
     };
 
     const handleFilterMyPosts = () => {
@@ -108,7 +115,7 @@ function Feed() {
 
     return (
         <>
-        <div className="card">
+        {/* <div className="card">
           <div className="card-body">
             <div className="vstack gap-3 col-md-7 mx-auto">
               <h1>add new post:</h1>
@@ -146,9 +153,12 @@ function Feed() {
               </form>
             </div>
           </div>
-        </div>
+        </div> */}
         <button onClick={handleButtonClick} className="btn btn-secondary">
             Profile
+        </button>
+        <button onClick={handleAddNewPost} className="btn btn-secondary">
+            Add new post
         </button>
         <button onClick={handleLogout} className="btn btn-secondary">
             Logout
@@ -168,7 +178,7 @@ function Feed() {
             <p className="card-text">{post.price}</p>
             <p className="card-text">{post.owner}</p>
             <p className="card-text">{post.comments?.length}</p>
-            <button onClick={() => handleEdit(post._id)} className="btn btn-primary">See Post Details</button>
+            <button onClick={() => handleEdit(post._id)} className="btn btn-primary">See Post Details</button>    
         </div>
     </div>
 ))}

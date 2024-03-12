@@ -5,6 +5,7 @@ import ProfileDetails from "../ProfileDetails"
 import { userIDLogin } from './Login_components'
 import { userID } from './Registration';
 
+
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
@@ -78,6 +79,11 @@ function Profile() {
             console.log(`Editing user with id: ${userId}`);
             navigate('/profileedit', { state: { userID } });
         }
+
+        const handleButtonClick = () => {
+            console.log(`userID: ${userID}`);
+            navigate('/feed', { state: { userID } });
+        };
         return (
             <>
              <h1>Profile Details</h1>
@@ -99,7 +105,9 @@ function Profile() {
                 ))}
             </div>  */}
 
-           
+                <button onClick={handleButtonClick} className="btn btn-secondary">
+                    go backt to feed
+                </button>
 
             <div className="p-4">
                 {user && 
@@ -108,6 +116,7 @@ function Profile() {
                         <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
                     </div>
                 }
+                
             </div>
   
            </>
