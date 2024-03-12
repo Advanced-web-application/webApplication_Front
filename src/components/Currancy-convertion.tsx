@@ -25,7 +25,7 @@ const CurrencyConversion = () => {
     const abortController = new AbortController();
      const fetchData = async () => { 
          try {
-             const { req, abort } =  await restAPIService.getCurrencyRate();
+             const { req, abort } =  restAPIService.getCurrencyRate();
              abortController.abort = abort;
              const res = await req;
              if (res) {
