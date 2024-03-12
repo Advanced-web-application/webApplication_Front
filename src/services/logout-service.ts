@@ -13,6 +13,8 @@ export interface IUser {
 
 
 export const postLogout = async (): Promise<void> => {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
     return new Promise<void>((resolve, reject) => {
       apiClient.get("/auth/logout")
         .then(() => {
