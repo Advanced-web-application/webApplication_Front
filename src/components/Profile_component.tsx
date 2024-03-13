@@ -24,7 +24,7 @@ function Profile() {
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
-    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
+    const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
         return (
             <div>
