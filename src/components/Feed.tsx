@@ -230,7 +230,9 @@ function Feed({ ID }: FeedProps) {
     const navigate = useNavigate();
     const location = useLocation();
     //const userID = location.state?.userID;
-    const userID = ID !== "" ? ID : location.state?.userID;
+    const userID= localStorage.getItem('userID');
+
+    //const userID = ID !== "" ? ID : location.state?.userID;
     console.log("userID: " + userID);
 
     const [post, setPost] = useState<PostData[]>([]);
@@ -252,7 +254,8 @@ function Feed({ ID }: FeedProps) {
 
     const handleEdit = (id: string | undefined) => {
         PostIdDetails = id ?? '';
-        navigate('/post', { state: { userID, PostIdDetails } });
+        //navigate('/post', { state: { userID, PostIdDetails } });
+        navigate(`/post/${PostIdDetails}`, { state: { userID ,PostIdDetails } });
     };
 
     const handleButtonClick = () => {

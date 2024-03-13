@@ -21,7 +21,8 @@ type FormData = z.infer<typeof schema>;
 function EditProfile() {
     const navigate = useNavigate();
     const location = useLocation();
-    const userID = location.state?.userID;
+    const userID= localStorage.getItem('userID');
+    //const userID = location.state?.userID;
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
 
@@ -31,7 +32,7 @@ function EditProfile() {
         const abortController = new AbortController();
         const fetchData = async () => {
             try {
-                const { req, abort } = await profileService.getUserById(userID);
+                const { req, abort } = await profileService.getUserById(userID!);
                 abortController.abort = abort;
                 const res = await req;
                 const data = res.data;
@@ -63,7 +64,7 @@ function EditProfile() {
             email: data.email
         };
 
-        const res = await profileService.editUser(userID, updatedProfile);
+        const res = await profileService.editUser(userID!, updatedProfile);
         setUser(res.req.data);
         navigate('/profile', { state: { userID } });
     };

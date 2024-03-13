@@ -31,18 +31,9 @@ function AddPost() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     const location = useLocation();
-    const userID = location.state?.userID;
-    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
-    if (!accessToken) {
-        return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
-        );
-    }
-
-
+    const userID= localStorage.getItem('userID');
+    //const userID = location.state?.userID;
+    
     const [imgSrc, setImgSrc] = useState<File>()
     const fileInputRef = useRef<HTMLInputElement>(null)
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +60,17 @@ function AddPost() {
         console.log("postID: " + postID);
         console.log(res)
         navigate('/feed' , { state: { userID: userID } });
+
+    }
+
+    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
+    if (!accessToken) {
+        return (
+            <div>
+                <p>Error: You are not logged in.</p>
+                <button onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        );
     }
 
     return (

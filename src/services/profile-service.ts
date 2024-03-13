@@ -62,6 +62,8 @@ const getUserById = async (id: string) => {
       if (!accessToken) {
         throw new Error("No access token found");
       }
+      const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+      console.log("tokenPayload.exp: " + tokenPayload.exp);
       return await apiClient.get<IUser>(`user/${id}`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`
