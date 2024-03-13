@@ -285,6 +285,7 @@ import z from "zod";
 import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { uploadPhoto } from '../services/file-service'
 
 const schema = z.object({
     name: z.string().min(3, "Name must be longer than 3 characters"),
@@ -362,12 +363,15 @@ function EditPost() {
 
     const onSubmit = async (data: FormData) => {
         console.log("onSubmit: ");
+        const url = await uploadPhoto(imgSrc!);
+        console.log("upload returned:" + url);
         const updatedPost = {
             name: data.name,
-            image: data.image,
+            //image: data.image,
             description: data.description,
             price: data.price,
-            owner: data.owner
+            owner: data.owner,
+            image: url
         };
         const res=  await postService.editPost(PostIdDetails, updatedPost) 
         console.log(res)
