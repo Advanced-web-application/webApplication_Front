@@ -73,30 +73,33 @@ const CurrencyConversion = () => {
   }
 
   if (!rates) {
-    return <div>Loading...</div>;
+    return <div className="text-center fw-bold fs-1">Loading...</div>
   } else {
     return (
        <div className="container">
-        <h1 className="my-3">Conversion Rates Table:</h1>
-        <button onClick={handleButtonClick} className="btn btn-secondary">
-                    go backt to feed
-                </button>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Currency</th>
-              <th>Rate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(rates).map(([currency, rate]) => (
-              <tr key={currency}>
-                <td>{currency}</td>
-                <td>{Number(rate)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="container">
+        <button onClick={handleButtonClick} className="btn btn-secondary btn-sm text-dark float-end">
+          go back to feed
+        </button>
+      </div>
+      <h1 className="my-3 text-center text-primary">Conversion Rates Table:</h1>
+        <p className="text-center fw-bold">This table displays the current conversion rates for various currencies all over the world.</p>
+        <table className="table border border-primary">
+  <thead>
+    <tr>
+      <th className="text-center">Currency</th>
+      <th className="text-center">Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Object.entries(rates).map(([currency, rate]) => (
+      <tr key={currency}>
+        <td>{currency}</td>
+        <td>{Number(rate)}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       </div>
       // <div>
       //   <h1>Convertion Rates Table:</h1>
