@@ -180,7 +180,11 @@ const schema = z.object({
     _id: z.string().length(9, "ID must be exactly 9 digits"),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
+<<<<<<< HEAD
+    // image: z.string().url("Invalid image URL").nullable(), 
+=======
     //image: z.string().url("Invalid image URL").nullable(), // Allow null or empty string for image
+>>>>>>> main
 });
 
 type FormData = z.infer<typeof schema>
@@ -269,8 +273,13 @@ function Registration() {
             </div>
             <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
 
+<<<<<<< HEAD
+            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            {errors.image && <p className="text-danger">Image is required</p>} */}
+=======
             {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
             {/* {errors.image && <p className="text-danger">Image is required</p>} */}
+>>>>>>> main
 
             <form onSubmit={handleSubmit(registerUser)}>
                 <div className="form-floating">
