@@ -288,12 +288,14 @@ import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
 
 const schema = z.object({
-    name: z.string().min(3, "Name must be longer than 3 characters"),
-    description: z.string().min(10, "Description must be longer than 10 characters"),
-    price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
-    owner: z.string().min(3, "Owner ID must be longer than 3 characters"),
+    name: z.string().min(1, { message: 'Title is required' }),
+    description: z.string().min(1, { message: 'Description is required' }),
+    //price: z.string().min(1, { message: 'Price must be a positive number' }),
+    price: z.number().min(1, { message: 'Price must be a positive number' }),
     image: z.string().url("Invalid image URL")
 });
+
+
 
 type FormData = z.infer<typeof schema>;
 
@@ -318,7 +320,6 @@ function EditPost() {
             name: name,
             description: description,
             price: price,
-            owner: owner,
             image: image
         }
     });
@@ -337,7 +338,6 @@ function EditPost() {
                     name: post.name,
                     description: post.description,
                     price: post.price,
-                    owner: post.owner,
                     image: post.image
                 });
             }
@@ -363,15 +363,18 @@ function EditPost() {
 
     const onSubmit = async (data: FormData) => {
         console.log("onSubmit: ");
-        const url = await uploadPhoto(imgSrc!);
+        let url
+        if(imgSrc) {
+         url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
+        }
         const updatedPost = {
             name: data.name,
             //image: data.image,
             description: data.description,
-            price: data.price,
-            owner: data.owner,
-            image: url
+            price: Number(data.price),
+            owner:owner,
+            image: url? url : data.image
         };
         const res=  await postService.editPost(PostIdDetails, updatedPost) 
         console.log(res)
@@ -416,14 +419,21 @@ function EditPost() {
                 {errors.image && <p className="text-danger">{errors.image.message}</p>} */}
             </div>
 
-            <div className="d-flex justify-content-center position-relative">
+            {/* <div className="d-flex justify-content-center position-relative">
                 <img src={imgSrc ? URL.createObjectURL(imgSrc) : avatar} style={{ height: "230px", width: "230px" }} className="img-fluid" />
                 <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
                     <FontAwesomeIcon icon={faImage} className="fa-xl" />
                 </button>
-            </div>
+            </div> */}
 
-            <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            <div className="d-flex justify-content-center position-relative">
+                {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
+                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
+                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
+                </button>
+            </div>
+            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
             {/* {errors.image && <p className="text-danger">Image is required</p>} */}
 
             <div className="mb-3">
@@ -436,16 +446,21 @@ function EditPost() {
                 <input type="text" className="form-control" {...register("description")}defaultValue={description} />
                 {errors.description && <p className="text-danger">{errors.description.message}</p>}
             </div>
-            <div className="mb-3">
+                <div className="mb-3">
                 <label className="form-label">Price:</label>
-                <input type="number" className="form-control" {...register("price")}defaultValue={price} />
+                <input type="number" min="1" className="form-control" {...register("price", { setValueAs: value => parseFloat(value) })} defaultValue={price} />
                 {errors.price && <p className="text-danger">{errors.price.message}</p>}
             </div>
-            <div className="mb-3">
+                {/* <div className="mb-3">
+                <label className="form-label">Price:</label>
+                <input type="number" min="1" className="form-control" {...register("price")} defaultValue={price} />
+                {errors.price && <p className="text-danger">{errors.price.message}</p>}
+            </div> */}
+            {/* <div className="mb-3">
                 <label className="form-label">Owner ID:</label>
                 <input type="text" className="form-control" {...register("owner")}defaultValue={owner} />
                 {errors.owner && <p className="text-danger">{errors.owner.message}</p>}
-            </div>
+            </div> */}
             <button type="submit" className="btn btn-primary">Save Changes</button>
             <button type="button" className="btn btn-danger ml-2" onClick={handleDelete}>Delete Post</button>
         </form>
