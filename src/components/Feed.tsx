@@ -230,7 +230,8 @@ function Feed({ ID }: FeedProps) {
     const navigate = useNavigate();
     const location = useLocation();
     //const userID = location.state?.userID;
-    const userID = ID !== "" ? ID : location.state?.userID;
+    // const userID = ID !== "" ? ID : location.state?.userID;
+    const userID =localStorage.getItem('userID');
     console.log("userID: " + userID);
 
     const [post, setPost] = useState<PostData[]>([]);

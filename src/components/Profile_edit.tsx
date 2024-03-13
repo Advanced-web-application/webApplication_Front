@@ -23,9 +23,10 @@ function EditProfile() {
     const location = useLocation();
     const userID = location.state?.userID;
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-    const [user, setUser] = useState<IUser>()
+    const [user, setUser] = useState<IUser>();
+    const [age, setAge] = useState<number | undefined>();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -39,6 +40,13 @@ function EditProfile() {
 
                 if (user) {
                     setUser(user);
+                    // Set default values for the form fields
+                    setValue("fullName", user.fullName);
+                    setValue("age", user.age);
+                    setValue("gender", user.gender);
+                    setValue("email", user.email);
+                    setValue("image", user.image);
+                    setAge(user.age); // Set age for the age field
                 }
             } catch (err) {
                 console.log(err);
@@ -50,8 +58,8 @@ function EditProfile() {
         fetchData();
         return () => {
             abortController.abort();
-        }
-    }, [])
+        };
+    }, [userID, setValue]);
 
     const onSubmit = async (data: FormData) => {
         const updatedProfile = {
@@ -73,12 +81,10 @@ function EditProfile() {
             <h1>Edit Profile</h1>
             <div className="mb-3">
                 {user && user.image && <img src={user.image} alt="User" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
-                <label className="form-label"></label>
-                <input type="file" className="form-control" {...register("image")} />
+                <label className="form-label">Image:</label>
+                <input type="text" className="form-control" {...register("image")} defaultValue={user?.image} />
                 {errors.image && <p className="text-danger">{errors.image.message}</p>}
             </div>
-
-         
 
             <div className="mb-3">
                 <label className="form-label">Full Name:</label>
@@ -88,7 +94,7 @@ function EditProfile() {
 
             <div className="mb-3">
                 <label className="form-label">Age:</label>
-                <input type="number" className="form-control" {...register("age")} defaultValue={user?.age} />
+                <input type="number" min="18" className="form-control" {...register("age", { setValueAs: value => parseFloat(value) })} defaultValue={age} />
                 {errors.age && <p className="text-danger">{errors.age.message}</p>}
             </div>
 
