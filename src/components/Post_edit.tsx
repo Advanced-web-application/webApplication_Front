@@ -299,11 +299,23 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+
+
 function EditPost() {
     const navigate = useNavigate();
     const location = useLocation();
     const userID = location.state?.userID;
     const PostIdDetails = location.state?.PostIdDetails;
+
+    const accessToken = localStorage.getItem('accessToken'); 
+    if (!accessToken) {
+        return (
+            <div>
+                <p>Error: You are not logged in.</p>
+                <button onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        );
+    }
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState();

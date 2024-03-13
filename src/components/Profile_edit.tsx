@@ -64,7 +64,7 @@ function EditProfile() {
         };
 
         const res = await profileService.editUser(userID, updatedProfile);
-        setUser(res.data);
+        setUser(res.req.data);
         navigate('/profile', { state: { userID } });
     };
 
