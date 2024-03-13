@@ -23,9 +23,8 @@ const PostSchema = z.object({
     description: z.string().min(1, { message: 'Description is required' }),
     //price: z.number().min(0, { message: 'Price must be a positive number' }).transform(parseFloat),
     price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
-    image: z.string().url("Invalid image URL")
-
-  });
+    owner: z.string().min(1, { message: 'Owner is required' }),
+});
 type FormData = z.infer<typeof PostSchema>
 
 function AddPost() {
@@ -47,15 +46,15 @@ function AddPost() {
     const [imgSrc, setImgSrc] = useState<File>()
     const fileInputRef = useRef<HTMLInputElement>(null)
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-      console.log(e.target.value)
-      if (e.target.files && e.target.files.length > 0) {
-          setImgSrc(e.target.files[0])
-      }
-  }
-  const selectImg = () => {
-    console.log("Selecting image...")
-    fileInputRef.current?.click()
-}
+        console.log(e.target.value)
+        if (e.target.files && e.target.files.length > 0) {
+            setImgSrc(e.target.files[0])
+        }
+    }
+    const selectImg = () => {
+        console.log("Selecting image...")
+        fileInputRef.current?.click()
+    }
     
 
     const addNewPost = async (data: FormData) => {
@@ -77,15 +76,15 @@ function AddPost() {
           <div className="card-body">
             <div className="vstack gap-3 col-md-7 mx-auto">
               <h1>add new post:</h1>
-              { <div className="d-flex justify-content-center position-relative">
-                <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "230px", width: "230px" }} className="img-fluid" />
+              <div className="d-flex justify-content-center position-relative">
+                <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "50px", width: "50px" }} className="img-fluid" />
                 <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
                 <FontAwesomeIcon icon={faImage} className="fa-xl" />
                 </button>
-            </div>}
+            </div>
 
               <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-              {errors.image && <p>{errors.image.message}</p>}
+
               <form onSubmit={handleSubmit(addNewPost)}>
                 <div className="form-floating">
                   <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
@@ -97,10 +96,15 @@ function AddPost() {
                   <label htmlFor="floatingDescription">Description</label>
                   {errors.description && <p>{errors.description.message}</p>}
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Price:</label>
-                  <input type="number" min="1" className="form-control" {...register("price")} defaultValue={price} />
-                  {errors.price && <p className="text-danger">{errors.price.message}</p>}
+                <div className="form-floating">
+                  <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
+                  <label htmlFor="floatingPrice">Price</label>
+                  {errors.price && <p>{errors.price.message}</p>}
+                </div>
+                <div className="form-floating">
+                  <input {...register("owner")} type="text" className="form-control" id="floatingOwner" placeholder="" />
+                  <label htmlFor="floatingOwner">Owner</label>
+                  {errors.owner && <p>{errors.owner.message}</p>}
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
               </form>
