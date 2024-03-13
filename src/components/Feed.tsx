@@ -284,12 +284,19 @@ function Feed({ ID }: FeedProps) {
 
     return (
         <>
+
+            {!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-secondary">Go to Login </button>)}
+
+            {accessToken && (
             <button onClick={handleButtonClick} className="btn btn-secondary">
                 Profile
             </button>
+            )}
+            {accessToken && (
             <button onClick={handleAddNewPost} className="btn btn-secondary">
                 Add new post
             </button>
+            )}
             {accessToken && (
                 <button onClick={handleLogout} className="btn btn-secondary">
                     Logout
