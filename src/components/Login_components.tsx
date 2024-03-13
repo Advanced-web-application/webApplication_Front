@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef , useState} from 'react'
 import { postLogIn } from "../services/login-service"
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,24 +14,52 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
+interface AxiosError {
+  response: {
+    status: number;
+  };
+}
+
 const LoginComponent = () => {
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
 
   const login = async (data: FormData) => {  
-    const res = await postLogIn(data.email, data.password);
-    userID = res._id as string; 
-    console.log("userIDLogin: " + userID);
-    console.log(res);
-    if (res.accessToken) {
-      localStorage.setItem('accessToken', res.accessToken);
+    try {
+      const res = await postLogIn(data.email, data.password);
+      userID = res._id as string; 
+      console.log("userIDLogin: " + userID);
+      console.log(res);
+      if (res.accessToken) {
+        localStorage.setItem('accessToken', res.accessToken);
+      }
+      if (res.refreshToken) {
+        localStorage.setItem('refreshToken', res.refreshToken);
+      }
+      localStorage.setItem('userID', userID);
+      navigate('/feed', { state: { userID } });
+
+    } catch (err) {
+      console.log("err: " +err);
+      setLoginError('Email or password is incorrect');
+      }
     }
-    if (res.refreshToken) {
-      localStorage.setItem('refreshToken', res.refreshToken);
-    }
-    localStorage.setItem('userID', userID);
-    navigate('/feed', { state: { userID } });
-  }
+
+
+    // const res = await postLogIn(data.email, data.password);
+    // userID = res._id as string; 
+    // console.log("userIDLogin: " + userID);
+    // console.log(res);
+    // if (res.accessToken) {
+    //   localStorage.setItem('accessToken', res.accessToken);
+    // }
+    // if (res.refreshToken) {
+    //   localStorage.setItem('refreshToken', res.refreshToken);
+    // }
+    // localStorage.setItem('userID', userID);
+    // navigate('/feed', { state: { userID } });
+  
 
   const handleButtonClick = () => {
     navigate('/registration');
@@ -39,6 +67,9 @@ const LoginComponent = () => {
     
   return (
     <div className="vstack gap-3 col-md-7 mx-auto">
+
+    
+
       <h1>LogIn</h1>
       <form onSubmit={handleSubmit(login)}>
         <div className="form-floating">
@@ -53,9 +84,13 @@ const LoginComponent = () => {
         </div>
         <button type="submit" className="btn btn-primary">LogIn</button>
       </form>
+
+      {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+
       <button onClick={handleButtonClick} className="btn btn-primary">
         Don't have a member yet? Register here
       </button>
+
     </div>
   )
 };

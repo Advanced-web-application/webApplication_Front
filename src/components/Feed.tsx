@@ -285,15 +285,52 @@ function Feed({ ID }: FeedProps) {
 
     return (
         <>
+{!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-primary mb-4">Go to Login </button>)}
+
+{accessToken && (
+<button onClick={handleButtonClick} className="btn btn-primary mb-4">
+    Profile
+</button>
+)}
+{accessToken && (
+<button onClick={handleAddNewPost} className="btn btn-primary mb-4">
+    Add new post
+</button>
+)}
+{accessToken && (
+    <button onClick={handleLogout} className="btn btn-primary mb-4">
+        Logout
+    </button>
+)}
+<button onClick={handleCurrancyConvert} className="btn btn-primary mb-4">
+    CurrencyConvert
+</button>
+{accessToken && (
+    <button onClick={handleFilterMyPosts} className="btn btn-primary mb-4">
+        {viewMyPosts ? "View All Posts" : "View My Posts"}
+    </button>
+)}
+            {/* {!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-secondary">Go to Login </button>)}
+
+            {accessToken && (
             <button onClick={handleButtonClick} className="btn btn-secondary">
                 Profile
             </button>
+<<<<<<< HEAD
             {accessToken  && (
+=======
+            )}
+            {accessToken && (
+>>>>>>> main
             <button onClick={handleAddNewPost} className="btn btn-secondary">
                 Add new post
             </button>
             )}
+<<<<<<< HEAD
             {accessToken  && (
+=======
+            {accessToken && (
+>>>>>>> main
                 <button onClick={handleLogout} className="btn btn-secondary">
                     Logout
                 </button>
@@ -305,7 +342,7 @@ function Feed({ ID }: FeedProps) {
                 <button onClick={handleFilterMyPosts} className="btn btn-secondary">
                     {viewMyPosts ? "View All Posts" : "View My Posts"}
                 </button>
-            )}
+            )} */}
             {post.length === 0 && (
                 <div className="alert alert-info" role="alert">
                     No posts available.
