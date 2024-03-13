@@ -65,7 +65,7 @@ const CurrencyConversion = () => {
 
   const handleButtonClick = () => {
     console.log(`userID: ${userID}`);
-    navigate('/feed', { state: { userID } });
+    navigate('/feed');
 };
 
   if (error) {

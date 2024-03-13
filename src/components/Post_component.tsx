@@ -23,14 +23,10 @@ export let PostIdEdit : string;
 // }
 
 
-//when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
-
-
-//when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function PostDetalis() {
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     const userID= localStorage.getItem('userID');
     //const userID = location.state?.userID;
     const PostIdDetails = useParams().id;
@@ -65,7 +61,7 @@ function PostDetalis() {
 
         console.log(res); 
         console.log("userID: " + userID);  
-        navigate('/feed', { state: { userID } });  
+        navigate('/feed');  
     };
 
     useEffect(() => {
@@ -135,7 +131,7 @@ function PostDetalis() {
             PostIdEdit=id;
             // render to the edit Post page
             console.log(`Editing post with name: ${id}`);
-            navigate(`/postedit/${PostIdDetails}`, { state: { userID, PostIdDetails } });
+            navigate(`/postedit/${PostIdDetails}`);
         }
         const accessToken = localStorage.getItem('accessToken'); 
         return (

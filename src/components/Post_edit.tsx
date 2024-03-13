@@ -300,13 +300,11 @@ type FormData = z.infer<typeof schema>;
 
 function EditPost() {
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     const userID= localStorage.getItem('userID');
    // const userID = location.state?.userID;
     //const PostIdDetails = location.state?.PostIdDetails;
     const PostIdDetails = useParams().id;
-
-
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState();
@@ -361,7 +359,7 @@ function EditPost() {
         req.then((res) => {
             setPost(res.data)
         })
-        navigate('/feed', { state: { userID } });
+        navigate('/feed');
     };
 
     const onSubmit = async (data: FormData) => {
@@ -394,7 +392,7 @@ function EditPost() {
             }
          })
 
-        navigate('/post', { state: { userID, PostIdDetails } });
+        navigate(`/post/${PostIdDetails}` );
     };
 
     const fileInputRef = useRef<HTMLInputElement>(null);

@@ -228,7 +228,7 @@ function Registration() {
         }
         localStorage.setItem('userID', userID);
 
-        navigate('/feed', { state: { userID } });
+        navigate('/feed');
     }
 
     const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
@@ -244,7 +244,7 @@ function Registration() {
                 localStorage.setItem('refreshToken', res.refreshToken);
             }
             localStorage.setItem('userID', userID);
-            navigate('/feed', { state: { userID } });
+            navigate('/feed');
         } catch (e) {
             console.log(e)
         }

@@ -228,7 +228,7 @@ interface FeedProps {
 function Feed({ ID }: FeedProps) {
     //const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     //const userID = location.state?.userID;
     const userID= localStorage.getItem('userID');
 
@@ -255,15 +255,15 @@ function Feed({ ID }: FeedProps) {
     const handleEdit = (id: string | undefined) => {
         PostIdDetails = id ?? '';
         //navigate('/post', { state: { userID, PostIdDetails } });
-        navigate(`/post/${PostIdDetails}`, { state: { userID ,PostIdDetails } });
+        navigate(`/post/${PostIdDetails}` );
     };
 
     const handleButtonClick = () => {
-        navigate('/profile', { state: { userID } });
+        navigate('/profile');
     };
 
     const handleAddNewPost = () => {
-        navigate('/addPost', { state: { userID } });
+        navigate('/addPost' );
     };
 
     const handleLogout = () => {
@@ -274,7 +274,7 @@ function Feed({ ID }: FeedProps) {
     };
 
     const handleCurrancyConvert = () => {
-        navigate('/CurrancyConvert', { state: { userID } });
+        navigate('/CurrancyConvert');
     };
 
     const handleFilterMyPosts = () => {

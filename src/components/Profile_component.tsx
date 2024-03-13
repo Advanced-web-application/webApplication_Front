@@ -22,7 +22,7 @@ import { useLocation } from 'react-router-dom';
 
 function Profile() {
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     const userID= localStorage.getItem('userID');
     //const userID = location.state?.userID;
    
@@ -79,12 +79,12 @@ function Profile() {
         const handleEdit = (userId: string) => {
             // render to the edit profile page
             console.log(`Editing user with id: ${userId}`);
-            navigate('/profileedit', { state: { userID } });
+            navigate('/profileedit');
         }
 
         const handleButtonClick = () => {
             console.log(`userID: ${userID}`);
-            navigate('/feed', { state: { userID } });
+            navigate('/feed');
         };
 
         const accessToken = localStorage.getItem('accessToken');

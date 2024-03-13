@@ -30,7 +30,7 @@ type FormData = z.infer<typeof PostSchema>
 function AddPost() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
-    const location = useLocation();
+    //const location = useLocation();
     const userID= localStorage.getItem('userID');
     //const userID = location.state?.userID;
     
@@ -59,11 +59,11 @@ function AddPost() {
         postID = res.req.data._id ?? '';
         console.log("postID: " + postID);
         console.log(res)
-        navigate('/feed' , { state: { userID: userID } });
+        navigate('/feed');
 
     }
 
-    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
+    const accessToken = localStorage.getItem('accessToken'); 
     if (!accessToken) {
         return (
             <div>
