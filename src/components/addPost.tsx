@@ -1,116 +1,113 @@
-import React, { useState } from 'react';
-import { ChangeEvent, useEffect, useRef} from 'react'
-import { PostData } from '../Post'
-import postService, { CanceledError, addPost } from "../services/post-service"
-import place_holder_image from '../assets/place_holder_image.png'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { uploadPhoto } from '../services/file-service'
-
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
-
-
-import { z } from 'zod';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { PostData } from '../Post';
+import { addPost } from '../services/post-service';
+import { uploadPhoto } from '../services/file-service';
 
-export let postID : string;
-export let PostIdDetails : string;
+export let postID: string;
+export let PostIdDetails: string;
 
 const PostSchema = z.object({
-    name: z.string().min(1, { message: 'Title is required' }),
-    description: z.string().min(1, { message: 'Description is required' }),
-    //price: z.number().min(0, { message: 'Price must be a positive number' }).transform(parseFloat),
-    price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
-    image: z.string().min(1, { message: 'Image is required' }),
-  });
-type FormData = z.infer<typeof PostSchema>
+  name: z.string().min(1, { message: 'Title is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+  price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
+  image: z.string().url({ message: 'Image URL is required' }),
+});
+type FormData = z.infer<typeof PostSchema>;
 
 function AddPost() {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
-    const navigate = useNavigate();
-    const location = useLocation();
-    const userID = location.state?.userID;
-    const accessToken = localStorage.getItem('accessToken'); // Replace with how you access your access token
-    if (!accessToken) {
-        return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
-        );
-    }
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormData>({ resolver: zodResolver(PostSchema) });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userID = location.state?.userID;
+  const accessToken = localStorage.getItem('accessToken');
+  const [imgSrc, setImgSrc] = useState<File>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-
-    const [imgSrc, setImgSrc] = useState<File>()
-    const fileInputRef = useRef<HTMLInputElement>(null)
-    const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
-        if (e.target.files && e.target.files.length > 0) {
-            setImgSrc(e.target.files[0])
-        }
+  useEffect(() => {
+    if (imgSrc) {
+      setValue("image", URL.createObjectURL(imgSrc));
     }
-    const selectImg = () => {
-        console.log("Selecting image...")
-        fileInputRef.current?.click()
-    }
-    
+  }, [imgSrc, setValue]);
 
-    const addNewPost = async (data: FormData) => {
-        if(!imgSrc){
-          alert("Please select an image");
-          return;
-        }
-      const url = await uploadPhoto(imgSrc!);
-        console.log("upload returned:" + url);
-        const post : PostData = {
-            ...data,
-            image: url
-        }
-        const res = await addPost(post)
-        postID = res.req.data._id ?? '';
-        console.log("postID: " + postID);
-        console.log(res)
-        navigate('/feed' , { state: { userID: userID } });
-    }
-
+  if (!accessToken) {
     return (
-        <div className="card">
-          <div className="card-body">
-            <div className="vstack gap-3 col-md-7 mx-auto">
-              <h1>add new post:</h1>
-              <div className="d-flex justify-content-center position-relative">
-                <img src={imgSrc ? URL.createObjectURL(imgSrc) : place_holder_image} style={{ height: "50px", width: "50px" }} className="img-fluid" />
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
-                <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                </button>
-            </div>
-
-              <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-              {errors.image && <p>{errors.image.message}</p>}
-              <form onSubmit={handleSubmit(addNewPost)}>
-                <div className="form-floating">
-                  <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
-                  <label htmlFor="floatingName">Title</label>
-                  {errors.name && <p>{errors.name.message}</p>}
-                </div>
-                <div className="form-floating">
-                  <input {...register("description")} type="text" className="form-control" id="floatingDescription" placeholder="" />
-                  <label htmlFor="floatingDescription">Description</label>
-                  {errors.description && <p>{errors.description.message}</p>}
-                </div>
-                <div className="form-floating">
-                  <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
-                  <label htmlFor="floatingPrice">Price</label>
-                  {errors.price && <p>{errors.price.message}</p>}
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
+      <div>
+        <p>Error: You are not logged in.</p>
+        <button onClick={() => navigate('/login')}>Go to Login</button>
+      </div>
     );
+  }
+
+  const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImgSrc(e.target.files[0]);
+    }
+  };
+
+  const selectImg = () => {
+    fileInputRef.current?.click();
+  };
+
+  const addNewPost = async (data: FormData) => {
+    if (!imgSrc) {
+      alert("Please select an image");
+      return;
+    }
+
+    const url = await uploadPhoto(imgSrc!);
+    
+    const post: PostData = {
+      ...data,
+      image: url,
+      owner: userID,
+    };
+    const res = await addPost(post);
+    postID = res.req.data._id ?? '';
+    navigate('/feed', { state: { userID: userID } });
+  };
+
+  return (
+    <div className="card">
+      <div className="card-body">
+        <div className="vstack gap-3 col-md-7 mx-auto">
+          <h1>Add New Post:</h1>
+          <div className="d-flex justify-content-center position-relative">
+            {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
+              <FontAwesomeIcon icon={faImage} className="fa-xl" />
+            </button>
+          </div>
+
+          <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+          {errors.image && <p>{errors.image.message}</p>}
+          <form onSubmit={handleSubmit(addNewPost)}>
+            <div className="form-floating">
+              <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
+              <label htmlFor="floatingName">Title</label>
+              {errors.name && <p>{errors.name.message}</p>}
+            </div>
+            <div className="form-floating">
+              <input {...register("description")} type="text" className="form-control" id="floatingDescription" placeholder="" />
+              <label htmlFor="floatingDescription">Description</label>
+              {errors.description && <p>{errors.description.message}</p>}
+            </div>
+            <div className="form-floating">
+              <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
+              <label htmlFor="floatingPrice">Price</label>
+              {errors.price && <p>{errors.price.message}</p>}
+            </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default AddPost;
