@@ -188,6 +188,7 @@ type FormData = z.infer<typeof schema>
 function Registration() {
 
     const navigate = useNavigate();
+    const [registerError, setregisterError] = useState<string | null>(null);
     
     const [imgSrc, setImgSrc] = useState<File>()
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
@@ -208,6 +209,7 @@ function Registration() {
     }
 
     const registerUser = async (data: FormData) => {
+        try {
         console.log("register!")
         let url
         if(imgSrc) {
@@ -238,7 +240,11 @@ function Registration() {
         localStorage.setItem('userID', userID);
 
         navigate('/feed');
+    } catch (err) {
+        console.log("err: " + err);
+        setregisterError("email or id already exist...");
     }
+}
 
     const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
         console.log(credentialResponse)
@@ -293,11 +299,21 @@ function Registration() {
                     <label htmlFor="floatingAge">Age</label>
                     {errors.age && <p className="text-danger">{errors.age.message}</p>}
                 </div>
-                <div className="form-floating">
+                {/* <div className="form-floating">
                     <input {...register("gender")} type="text" className="form-control" id="floatingGender" placeholder="Gender" />
                     <label htmlFor="floatingGender">Gender</label>
                     {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
-                </div>
+                </div> */}
+                <div className="form-floating">
+                <select {...register("gender")} className="form-control" id="floatingGender">
+                    <option value="">Select Gender</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label htmlFor="floatingGender">Gender</label>
+                {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
+            </div>
                 <div className="form-floating">
                     <input {...register("_id")} type="text" className="form-control" id="floatingId" placeholder="ID" />
                     <label htmlFor="floatingId">ID</label>
@@ -315,6 +331,8 @@ function Registration() {
                 </div>
                 <button type="submit" className="btn btn-primary">Register</button>
             </form>
+
+            {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
 
             <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
 

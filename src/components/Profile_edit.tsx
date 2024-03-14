@@ -197,7 +197,7 @@ function ProfileEdit() {
             age: user?.age,
             gender: user?.gender as 'Female',
             email: user?.email,
-            image: user?.image
+            //image: user?.image
         }
         });
 
