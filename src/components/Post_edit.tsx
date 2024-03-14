@@ -286,6 +286,7 @@ import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
+import { useParams } from 'react-router-dom';
 
 const schema = z.object({
     name: z.string().min(1, { message: 'Title is required' }),
@@ -295,27 +296,15 @@ const schema = z.object({
     image: z.string().url("Invalid image URL")
 });
 
-
-
 type FormData = z.infer<typeof schema>;
-
-
 
 function EditPost() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const userID = location.state?.userID;
-    const PostIdDetails = location.state?.PostIdDetails;
-
-    const accessToken = localStorage.getItem('accessToken'); 
-    if (!accessToken) {
-        return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
-        );
-    }
+    //const location = useLocation();
+    const userID= localStorage.getItem('userID');
+   // const userID = location.state?.userID;
+    //const PostIdDetails = location.state?.PostIdDetails;
+    const PostIdDetails = useParams().id;
 
     const [post, setPost] = useState<PostData[]>([])
     const [error, setError] = useState();
@@ -337,7 +326,7 @@ function EditPost() {
     });
 
     useEffect(() => {
-        const { req, abort } = postService.getPostByID(PostIdDetails)
+        const { req, abort } = postService.getPostByID(PostIdDetails!)
         req.then((res) => {
             const post = res.data;
             if (post) {
@@ -365,12 +354,12 @@ function EditPost() {
 
         const handleDelete = async () => {
         console.log("deleting post: " + name);
-        await postService.deletePost(PostIdDetails)
+        await postService.deletePost(PostIdDetails!)
         const { req } = postService.getPosts()
         req.then((res) => {
             setPost(res.data)
         })
-        navigate('/feed', { state: { userID } });
+        navigate('/feed');
     };
 
     const onSubmit = async (data: FormData) => {
@@ -388,9 +377,9 @@ function EditPost() {
             owner:owner,
             image: url? url : data.image
         };
-        const res=  await postService.editPost(PostIdDetails, updatedPost) 
+        const res=  await postService.editPost(PostIdDetails!, updatedPost) 
         console.log(res)
-         const { req } = postService.getPostByID(PostIdDetails)
+         const { req } = postService.getPostByID(PostIdDetails!)
          req.then((res) => {
              const post = res.data;
              if (post) {
@@ -403,7 +392,7 @@ function EditPost() {
             }
          })
 
-        navigate('/post', { state: { userID, PostIdDetails } });
+        navigate(`/post/${PostIdDetails}` );
     };
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -419,6 +408,16 @@ function EditPost() {
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
+    }
+
+    const accessToken = localStorage.getItem('accessToken'); 
+    if (!accessToken) {
+        return (
+            <div>
+                <p>Error: You are not logged in.</p>
+                <button onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        );
     }
 
     return (

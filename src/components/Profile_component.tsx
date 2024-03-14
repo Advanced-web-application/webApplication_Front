@@ -22,17 +22,10 @@ import { useLocation } from 'react-router-dom';
 
 function Profile() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const userID = location.state?.userID;
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-        return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
-        );
-    }
+    //const location = useLocation();
+    const userID= localStorage.getItem('userID');
+    //const userID = location.state?.userID;
+   
 
         const [user, setUser] = useState<IUser>()
         const [error, setError] = useState()
@@ -60,11 +53,12 @@ function Profile() {
             const fetchData = async () => { 
                 console.log("making the request id useeffect", userID);
                 try {
-                    const { req, abort } = await profileService.getUserById(userID);
+                    const { req, abort } = await profileService.getUserById(userID!);
                     abortController.abort = abort;
                     const res = await req;
 
                     if (res) {
+                        console.log("response image:" + res.data.image);
                         setUser(res.data);
                         console.log("userId:" + res.data._id);
                     }
@@ -86,13 +80,23 @@ function Profile() {
         const handleEdit = (userId: string) => {
             // render to the edit profile page
             console.log(`Editing user with id: ${userId}`);
-            navigate('/profileedit', { state: { userID } });
+            navigate('/profileedit');
         }
 
         const handleButtonClick = () => {
             console.log(`userID: ${userID}`);
-            navigate('/feed', { state: { userID } });
+            navigate('/feed');
         };
+
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            return (
+                <div>
+                    <p>Error: You are not logged in.</p>
+                    <button onClick={() => navigate('/login')}>Go to Login</button>
+                </div>
+            );
+        }
         return (
             <>
              <h1>Profile Details</h1>

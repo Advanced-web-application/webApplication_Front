@@ -9,6 +9,8 @@ import Post from "../Post"
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
+import { useParams } from 'react-router-dom';
+
 export let PostIdEdit : string;
 // let ID: string;
 // if(userID)
@@ -21,16 +23,15 @@ export let PostIdEdit : string;
 // }
 
 
-//when we will have the post ID, we need to send it as ObjectId (the id itself) and not filter according to name
-
-
-//when we will have the podt, we need to send it as ObjectId (the id itself) and not filter according to name
 
 function PostDetalis() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const userID = location.state?.userID;
-    const PostIdDetails = location.state?.PostIdDetails;
+    //const location = useLocation();
+    const userID= localStorage.getItem('userID');
+    //const userID = location.state?.userID;
+    const PostIdDetails = useParams().id;
+    console.log("PostIdDetails: " + PostIdDetails);
+    //const PostIdDetails = location.state?.PostIdDetails;
 
     const [post, setPost] = useState<PostData>()
     const [error, setError] = useState()
@@ -40,7 +41,7 @@ function PostDetalis() {
         e.preventDefault();
         console.log("adding comment: " + newComment);
         const res =  await postService.addComment(id, newComment);
-        const { req } = await postService.getPostByID(PostIdDetails)
+        const { req } = await postService.getPostByID(PostIdDetails!)
                  const res1 = await req;
                  if (res1) {
                     const post = res1.data;
@@ -60,14 +61,14 @@ function PostDetalis() {
 
         console.log(res); 
         console.log("userID: " + userID);  
-        navigate('/feed', { state: { userID } });  
+        navigate('/feed');  
     };
 
     useEffect(() => {
         const abortController = new AbortController();
          const fetchData = async () => { 
              try {
-                 const { req, abort } = await postService.getPostByID(PostIdDetails)
+                 const { req, abort } = await postService.getPostByID(PostIdDetails!)
                  abortController.abort = abort;
                  const res = await req;
                  if (res) {
@@ -130,10 +131,10 @@ function PostDetalis() {
             PostIdEdit=id;
             // render to the edit Post page
             console.log(`Editing post with name: ${id}`);
-            navigate('/postedit', { state: { userID, PostIdDetails } });
+            navigate(`/postedit/${PostIdDetails}`);
         }
         const accessToken = localStorage.getItem('accessToken'); 
- return (
+        return (
             <>
                 <h1>Post</h1>
                 <div>

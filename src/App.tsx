@@ -77,9 +77,10 @@ const App = () => {
     <Routes>
       <Route path="/profile" element={<Profile />} />
       <Route path="/profileedit" element={<ProfileEdit />} />
-      <Route path="/post" element={<Post />} /> {/* This is the route for the /post component */}
+      {/* <Route path="/post" element={<Post />} /> */}
+      <Route path="/post/:id" element={<Post />} />
       <Route path="/addPost" element={<AddPost />} />
-      <Route path="/postedit" element={<PostEdit />} />
+      <Route path="/postedit/:id" element={<PostEdit />} />
       <Route path="/registration" element={<Registration />} />
       <Route path="/CurrancyConvert" element={<CurrancyConvert />} />
       <Route path="/feed" element={<Feed ID="" />} />

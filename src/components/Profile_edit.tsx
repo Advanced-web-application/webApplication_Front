@@ -188,8 +188,9 @@ type FormData = z.infer<typeof schema>;
 
 function ProfileEdit() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const userID = location.state?.userID;
+    //const location = useLocation();
+   // const userID = location.state?.userID;
+    const userID= localStorage.getItem('userID');
     const [user, setUser] = useState<IUser>();
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -198,7 +199,7 @@ function ProfileEdit() {
             age: user?.age,
             gender: user?.gender as 'Female',
             email: user?.email,
-            image: user?.image
+            //image: user?.image
         }
     });
 
@@ -209,7 +210,7 @@ function ProfileEdit() {
         const abortController = new AbortController();
         const fetchData = async () => {
            try {
-                const { req, abort } = await profileService.getUserById(userID);
+                const { req, abort } = await profileService.getUserById(userID!);
                 abortController.abort = abort;
                 const res = await req;
                 const data = res.data;
