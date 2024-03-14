@@ -23,8 +23,8 @@ const PostSchema = z.object({
     description: z.string().min(1, { message: 'Description is required' }),
     //price: z.number().min(0, { message: 'Price must be a positive number' }).transform(parseFloat),
     price: z.string().min(1, { message: 'Price must be a positive number' }).transform(parseFloat),
-    owner: z.string().min(1, { message: 'Owner is required' }),
-});
+   // image: z.string().min(1, { message: 'Image is required' }),
+  });
 type FormData = z.infer<typeof PostSchema>
 
 function AddPost() {
@@ -49,10 +49,15 @@ function AddPost() {
     
 
     const addNewPost = async (data: FormData) => {
-        const url = await uploadPhoto(imgSrc!);
+        if(!imgSrc){
+          alert("Please select an image");
+          return;
+        }
+      const url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
         const post : PostData = {
             ...data,
+            owner: userID ?? '',
             image: url
         }
         const res = await addPost(post)
@@ -86,7 +91,8 @@ function AddPost() {
             </div>
 
               <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-
+              {errors.image && <p>{errors.image.message}</p>}
+              
               <form onSubmit={handleSubmit(addNewPost)}>
                 <div className="form-floating">
                   <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
@@ -102,11 +108,6 @@ function AddPost() {
                   <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
                   <label htmlFor="floatingPrice">Price</label>
                   {errors.price && <p>{errors.price.message}</p>}
-                </div>
-                <div className="form-floating">
-                  <input {...register("owner")} type="text" className="form-control" id="floatingOwner" placeholder="" />
-                  <label htmlFor="floatingOwner">Owner</label>
-                  {errors.owner && <p>{errors.owner.message}</p>}
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
               </form>

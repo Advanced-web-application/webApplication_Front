@@ -318,13 +318,21 @@ function Feed({ ID }: FeedProps) {
             <button onClick={handleButtonClick} className="btn btn-secondary">
                 Profile
             </button>
+<<<<<<< HEAD
+            {accessToken  && (
+=======
             )}
             {accessToken && (
+>>>>>>> main
             <button onClick={handleAddNewPost} className="btn btn-secondary">
                 Add new post
             </button>
             )}
+<<<<<<< HEAD
+            {accessToken  && (
+=======
             {accessToken && (
+>>>>>>> main
                 <button onClick={handleLogout} className="btn btn-secondary">
                     Logout
                 </button>
@@ -332,7 +340,7 @@ function Feed({ ID }: FeedProps) {
             <button onClick={handleCurrancyConvert} className="btn btn-secondary">
                 CurrencyConvert
             </button>
-            {accessToken && (
+            {accessToken  && (
                 <button onClick={handleFilterMyPosts} className="btn btn-secondary">
                     {viewMyPosts ? "View All Posts" : "View My Posts"}
                 </button>

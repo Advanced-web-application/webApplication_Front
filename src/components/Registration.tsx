@@ -176,11 +176,11 @@ export let userID: string
 const schema = z.object({
     fullName: z.string().min(3, "Name must be longer than 3 characters").max(20, "Name must be less than 20 characters"),
     age: z.number().min(18, "Age must be more than 18"),
-    gender: z.enum(["Male", "Female", "Other"], "Invalid gender. Must be 'Male', 'Female', or 'Other'"),
+    gender: z.enum(["Male", "Female", "Other"]),
     _id: z.string().length(9, "ID must be exactly 9 digits"),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
-    //image: z.string().url("Invalid image URL").nullable(), // Allow null or empty string for image
+     //image: z.string().url("Invalid image URL") 
 });
 
 type FormData = z.infer<typeof schema>
@@ -209,15 +209,24 @@ function Registration() {
 
     const registerUser = async (data: FormData) => {
         console.log("register!")
-        const url = await uploadPhoto(imgSrc!);
+        let url
+        if(imgSrc) {
+         url = await uploadPhoto(imgSrc!);
         console.log("upload returned:" + url);
+        }
+        // const url = await uploadPhoto(imgSrc!);
+        // console.log("upload returned:" + url);
         const user: IUser = {
             ...data,
             image: url
         }
+        console.log(" image: " + user.image)
+        console.log(" email: " + user.email)
+        console.log("password: " + user.password)
         const res = await registrUser(user)
         userID = res._id ?? '';
         console.log(res)
+        console.log("register image: " + res.image)
 
         // Store tokens in localStorage
         if (res.accessToken) {
@@ -267,10 +276,11 @@ function Registration() {
                     <FontAwesomeIcon icon={faImage} className="fa-xl" />
                 </button>
             </div>
-            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            <input style={{ display: "none" }}  type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            {/* <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
 
-            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
-            {/* {errors.image && <p className="text-danger">Image is required</p>} */}
+            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            {errors.image && <p className="text-danger">Image is required</p>} */}
 
             <form onSubmit={handleSubmit(registerUser)}>
                 <div className="form-floating">

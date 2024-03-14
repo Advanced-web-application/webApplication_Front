@@ -58,6 +58,7 @@ function Profile() {
                     const res = await req;
 
                     if (res) {
+                        console.log("response image:" + res.data.image);
                         setUser(res.data);
                         console.log("userId:" + res.data._id);
                     }
