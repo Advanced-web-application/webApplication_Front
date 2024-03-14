@@ -162,6 +162,8 @@
 
 
 
+ //working code start here 
+
 import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import profileService, { CanceledError } from '../services/profile-service';
 import { IUser } from '../ProfileDetails';
@@ -177,10 +179,9 @@ import { uploadPhoto } from '../services/file-service'
 const schema = z.object({
     fullName: z.string().min(3, "Full Name must be longer than 3 characters"),
     age: z.number().min(18, "Age must be more than 18"),
-    gender: z.string(),
+    gender: z.string().min(3, "Gender must be provided").max(10, "Gender must be shorter than 10 characters"),
     email: z.string().email("Invalid email address"),
     image: z.string().url("Invalid image URL")
-
 });
 
 type FormData = z.infer<typeof schema>;
@@ -190,7 +191,8 @@ function ProfileEdit() {
     const location = useLocation();
     const userID = location.state?.userID;
     const [user, setUser] = useState<IUser>();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({ resolver: zodResolver(schema),
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+        resolver: zodResolver(schema),
         defaultValues: {
             fullName: user?.fullName,
             age: user?.age,
@@ -198,9 +200,8 @@ function ProfileEdit() {
             email: user?.email,
             image: user?.image
         }
-        });
+    });
 
-    
     const [imgSrc, setImgSrc] = useState<File>(); 
     const [error, setError] = useState<string>();
 
@@ -217,16 +218,10 @@ function ProfileEdit() {
                 if (user) {
                     setUser(user);
                     reset(user);
-                    // setValue("fullName", user.fullName);
-                    // setValue("age", user.age);
-                    // setValue("gender", user.gender as "Male" | "Female" | "Other"); // Fix: Cast user.gender to the correct type
-                    // setValue("email", user.email);
-                    //setImgSrc(user.image); // Set image URL
                 }
             } catch (err) {
                 console.log("the error is here: " +err);
                 if (err instanceof CanceledError) return;
-            // setError(err.message);
             }
         };
 
@@ -238,37 +233,34 @@ function ProfileEdit() {
 
     const onSubmit = async (data: FormData) => {
         console.log("checking if getting here");
-        try{
-        let url;
-        if (imgSrc) {
-            url = await uploadPhoto(imgSrc!);
+        try {
+            let url;
+            if (imgSrc) {
+                url = await uploadPhoto(imgSrc!);
             }
     
-        const updatedProfile = {
-            fullName: data.fullName,
-            age: data.age,
-            gender: data.gender,
-            _id: user?._id ?? '',
-            image: url ? url : user?.image,
-            email: data.email
-        };
+            const updatedProfile = {
+                fullName: data.fullName,
+                age: data.age,
+                gender: data.gender,
+                _id: user?._id ?? '',
+                image: url ? url : user?.image,
+                email: data.email
+            };
 
-        const res = await profileService.editUser(userID, updatedProfile);
-        setUser(res.req.data);
-        navigate('/profile', { state: { userID: userID } }); // Redirect to /post after successful submission
-    } catch (err) {
-        console.log("the error is here: " +err);
-        //setError(err.message);
+            const res = await profileService.editUser(userID, updatedProfile);
+            setUser(res.req.data);
+            navigate('/profile', { state: { userID: userID } });
+        } catch (err) {
+            console.log("the error is here: " +err);
+        }
     }
-}
-
-    
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setImgSrc(e.target.files[0]); // Set image File
+            setImgSrc(e.target.files[0]);
         }
     }
 
@@ -288,28 +280,19 @@ function ProfileEdit() {
         );
     }
 
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="m-3">
             <h1>Edit Profile</h1>
             <div className="mb-3">
-                {/* {imgSrc && <img src={typeof imgSrc === 'string' ? imgSrc : URL.createObjectURL(imgSrc)} alt="User" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />} */}
-                {user?.image && <img src={user?.image} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
-                {/* <div className="d-flex justify-content-center position-relative">
+                {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+                <div className="d-flex justify-content-center position-relative">
+                    {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
                     <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
                         <FontAwesomeIcon icon={faImage} className="fa-xl" />
                     </button>
-                    <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
                 </div>
-                {errors.image && <p className="text-danger">{errors.image.message}</p>} */}
+                <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
             </div>
-            <div className="d-flex justify-content-center position-relative">
-                {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
-                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                </button>
-            </div>
-            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
 
             <div className="mb-3">
                 <label className="form-label">Full Name:</label>
@@ -320,6 +303,7 @@ function ProfileEdit() {
             <div className="mb-3">
                 <label className="form-label">Age:</label>
                 <input type="number" min="18" className="form-control" {...register("age", { setValueAs: value => parseFloat(value)})} defaultValue={user?.age} />
+                {errors.age && <p className="text-danger">{errors.age.message}</p>}
             </div>
 
             <div className="mb-3">
@@ -340,5 +324,5 @@ function ProfileEdit() {
 }
 
 export default ProfileEdit;
-
+//working code ends here 
 
