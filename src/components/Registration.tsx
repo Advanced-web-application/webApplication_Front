@@ -157,7 +157,7 @@
 // export default Registration
 
 
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState, useEffect } from 'react'
 import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
@@ -180,7 +180,7 @@ const schema = z.object({
     _id: z.string().length(9, "ID must be exactly 9 digits"),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
-     //image: z.string().url("Invalid image URL") 
+    image: z.string().url({ message: 'Image URL is required' }),
 });
 
 type FormData = z.infer<typeof schema>
@@ -191,16 +191,36 @@ function Registration() {
     const [registerError, setregisterError] = useState<string | null>(null);
     
     const [imgSrc, setImgSrc] = useState<File>()
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) })
+    const { register, handleSubmit, formState: { errors } ,setValue,trigger} = useForm<FormData>({ resolver: zodResolver(schema) })
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (imgSrc) {
+          setValue("image", URL.createObjectURL(imgSrc));
+        }
+      }, [imgSrc, setValue]);
+
+    // const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    //     console.log(e.target.value)
+    //     if (e.target.files && e.target.files.length > 0) {
+    //         setImgSrc(e.target.files[0])
+    //     }
+    // }
 
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value)
         if (e.target.files && e.target.files.length > 0) {
-            setImgSrc(e.target.files[0])
+            setImgSrc(e.target.files[0]);
+            setValue("image", URL.createObjectURL(e.target.files[0]));
+            trigger("image");
         }
     }
+    
+
+    const selectImg = () => {
+        fileInputRef.current?.click();
+      };
 
     const onImageUploadButtonClick = () => {
         if (fileInputRef.current) {
@@ -277,12 +297,31 @@ function Registration() {
         <div className="vstack gap-3 col-md-7 mx-auto">
             <h1>Register</h1>
             <div className="d-flex justify-content-center position-relative">
+            {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
+              <FontAwesomeIcon icon={faImage} className="fa-xl" />
+            </button>
+          </div>
+
+          <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+          {errors.image && <p>{errors.image.message}</p>}
+
+
+
+
+
+
+            {/* <div className="d-flex justify-content-center position-relative">
                 <img src={imgSrc ? URL.createObjectURL(imgSrc) : avatar} style={{ height: "230px", width: "230px" }} className="img-fluid" />
                 <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
                     <FontAwesomeIcon icon={faImage} className="fa-xl" />
                 </button>
             </div>
-            <input style={{ display: "none" }}  type="file" onChange={imgSelected} ref={fileInputRef}></input>
+            <input style={{ display: "none" }}  type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
+
+
+
+
             {/* <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
 
             {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input>
