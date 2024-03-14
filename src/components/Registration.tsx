@@ -304,7 +304,7 @@ function Registration() {
           </div>
 
           <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-          {errors.image && <p>{errors.image.message}</p>}
+          {errors.image && <p className="text-danger">{errors.image.message}</p>}
 
 
 
