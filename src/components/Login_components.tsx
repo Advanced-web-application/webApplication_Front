@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import z from "zod"
+import {  googleSignin } from '../services/user-service'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 
 export let userID: string
 
@@ -64,6 +66,29 @@ const LoginComponent = () => {
   const handleButtonClick = () => {
     navigate('/registration');
   };
+
+  const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse)
+    try {
+        const res = await googleSignin(credentialResponse)
+        userID = res._id ?? '';
+        console.log(res)
+        if (res.accessToken) {
+            localStorage.setItem('accessToken', res.accessToken);
+        }
+        if (res.refreshToken) {
+            localStorage.setItem('refreshToken', res.refreshToken);
+        }
+        localStorage.setItem('userID', userID);
+        navigate('/feed');
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const onGoogleLoginFailure = () => {
+    console.log("Google login failed")
+}
     
   return (
     <div className="vstack gap-3 col-md-7 mx-auto">
@@ -86,6 +111,8 @@ const LoginComponent = () => {
       </form>
 
       {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+
+      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
 
       <button onClick={handleButtonClick} className="btn btn-primary">
         Don't have a member yet? Register here
