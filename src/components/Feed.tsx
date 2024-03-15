@@ -269,7 +269,8 @@ function Feed({ ID }: FeedProps) {
     const handleLogout = () => {
         console.log("logging out");
         logoutService.postLogout();
-        localStorage.removeItem('userID');
+        //localStorage.removeItem('userID');
+        localStorage.setItem('logout', 'true');
         navigate('/login', { replace: true });
     };
 
@@ -287,52 +288,52 @@ function Feed({ ID }: FeedProps) {
 
     return (
         <>
-{!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-primary mb-4">Go to Login </button>)}
+<div className="p-3 mb-4 border rounded" style={{ backgroundColor: 'lightgray' }}>
+<h4 className="text-center">Navigate in our website:</h4>
+<div className="d-flex justify-content-center">
+{!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-primary mb-4"  style={{ marginLeft: '1rem' ,backgroundColor: 'brown', color: 'white'}}>Go to Login </button>)}
 
 {accessToken && (
-<button onClick={handleButtonClick} className="btn btn-primary mb-4">
+<button onClick={handleButtonClick} className="btn btn-primary mb-4"  style={{ marginLeft: '1rem',backgroundColor: 'brown', color: 'white' }}>
     Profile
 </button>
 )}
 {accessToken && (
-<button onClick={handleAddNewPost} className="btn btn-primary mb-4">
+<button onClick={handleAddNewPost} className="btn btn-primary mb-4"  style={{ marginLeft: '1rem',backgroundColor: 'brown', color: 'white' }}>
     Add new post
 </button>
 )}
 {accessToken && (
-    <button onClick={handleLogout} className="btn btn-primary mb-4">
+    <button onClick={handleLogout} className="btn btn-primary mb-4"  style={{ marginLeft: '1rem',backgroundColor: 'brown', color: 'white' }}>
         Logout
     </button>
 )}
-<button onClick={handleCurrancyConvert} className="btn btn-primary mb-4">
+<button onClick={handleCurrancyConvert} className="btn btn-primary mb-4" style={{ marginLeft: '1rem', backgroundColor: 'brown', color: 'white' }}>
     CurrencyConvert
 </button>
 {accessToken && (
-    <button onClick={handleFilterMyPosts} className="btn btn-primary mb-4">
+    <button onClick={handleFilterMyPosts} className="btn btn-primary mb-4" style={{ marginLeft: '1rem',backgroundColor: 'brown', color: 'white' }}>
         {viewMyPosts ? "View All Posts" : "View My Posts"}
     </button>
 )}
+</div>
+</div>
+
+<div className="text-center my-5">
+    <h1 className="display-4">See People Posts:</h1>
+</div>
             {/* {!accessToken &&(<button onClick={() => navigate('/login')} className="btn btn-secondary">Go to Login </button>)}
 
             {accessToken && (
             <button onClick={handleButtonClick} className="btn btn-secondary">
                 Profile
             </button>
-<<<<<<< HEAD
             {accessToken  && (
-=======
-            )}
-            {accessToken && (
->>>>>>> main
             <button onClick={handleAddNewPost} className="btn btn-secondary">
                 Add new post
             </button>
             )}
-<<<<<<< HEAD
             {accessToken  && (
-=======
-            {accessToken && (
->>>>>>> main
                 <button onClick={handleLogout} className="btn btn-secondary">
                     Logout
                 </button>
@@ -345,12 +346,32 @@ function Feed({ ID }: FeedProps) {
                     {viewMyPosts ? "View All Posts" : "View My Posts"}
                 </button>
             )} */}
-            {post.length === 0 && (
+            { post.length === 0 && (
                 <div className="alert alert-info" role="alert">
-                    No posts available.
+                    No posts available...
                 </div>
             )}
-            {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
+            
+           
+           {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
+             <div className="d-flex justify-content-center">
+        <div className="card m-2" style={{ width: "40rem" }} key={index}>
+        <img src={post.image} className="card-img-top" alt="..." style={{ maxHeight: "200px", maxWidth: "200px", objectFit: "cover" }} />
+        <div className="card-body">
+            <h5 className="card-title"><strong>Title:</strong> {post.name}</h5>
+            <p className="card-text"><strong>Description:</strong> {post.description}</p>
+            <p className="card-text"><strong>Price:</strong> {post.price}</p>
+            <p className="card-text"><strong>Owner:</strong> {post.owner}</p>
+            <p className="card-text"> <strong>Number Of Comments:</strong> {post.comments?.length}</p>
+            <button onClick={() => handleEdit(post._id)} className="btn" style={{ backgroundColor: 'brown', color: 'white' }}>See Post Details</button>
+        </div>
+        
+     </div>
+     </div>
+   
+))}
+
+            {/* {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
                 <div className="card" key={index}>
                     <img src={post.image} className="card-img-top" alt="..." style={{ maxHeight: "200px", maxWidth: "200px" }} />
                     <div className="card-body">
@@ -362,7 +383,7 @@ function Feed({ ID }: FeedProps) {
                         <button onClick={() => handleEdit(post._id)} className="btn btn-primary">See Post Details</button>
                     </div>
                 </div>
-            ))}
+            ))} */}
         </>
     )
 }

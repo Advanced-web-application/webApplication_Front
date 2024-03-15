@@ -136,17 +136,32 @@ function PostDetalis() {
         const accessToken = localStorage.getItem('accessToken'); 
         return (
             <>
-                <h1>Post</h1>
+                <h1 className="text-center">Post</h1>
                 <div>
                     {error && <p className='text-danger'>{error}</p>}
                 </div>
             <div className="p-4">
-                {post && (
+            {post && (
+    <div key={post._id}>
+        <Post post={post} />
+        <form onSubmit={handleCommentSubmit(post._id ?? '')}>
+            <div className="mb-3">
+            {accessToken && (
+            <input type="text" className="form-control" value={newComment} onChange={(e) => setNewComment(e.target.value)} />)}
+            </div>
+            {accessToken && (
+            <button type="submit" className="btn btn-primary mr-3">Add Comment</button> 
+            )}
+            {post.owner === userID && <button className="btn btn-success" style={{ marginLeft: '1rem' }} onClick={() => handleEdit(post._id ?? '')}>Edit Post</button>} 
+        </form>
+    </div>
+)}
+                {/* {post && (
                     <div key={post._id}>
                         <Post post={post} />
                         <form onSubmit={handleCommentSubmit(post._id ?? '')}>
                             <div className="mb-3">
-                {accessToken && (
+                            {accessToken && (
                             <input type="text" className="form-control" value={newComment} onChange={(e) => setNewComment(e.target.value)} />)}
                             </div>
                            {accessToken && (
@@ -156,7 +171,7 @@ function PostDetalis() {
                         </form>
                         
                     </div>
-                )}
+                )} */}
             </div>
            </>
         )

@@ -37,10 +37,10 @@ function AddPost() {
 
   if (!accessToken) {
     return (
-      <div>
-        <p>Error: You are not logged in.</p>
-        <button onClick={() => navigate('/login')}>Go to Login</button>
-      </div>
+      <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8d7da" }}>
+      <p className="mb-4 text-danger">Error: You are not logged in.</p>
+      <button onClick={() => navigate('/login')} className="btn btn-primary">Go to Login</button>
+    </div>
     );
   }
 
@@ -76,7 +76,7 @@ function AddPost() {
     <div className="card">
       <div className="card-body">
         <div className="vstack gap-3 col-md-7 mx-auto">
-          <h1>Add New Post:</h1>
+          <h1 className="text-center">Add New Post:</h1>
           <div className="d-flex justify-content-center position-relative">
             {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
             <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
@@ -102,7 +102,9 @@ function AddPost() {
               <label htmlFor="floatingPrice">Price</label>
               {errors.price && <p>{errors.price.message}</p>}
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <div className="d-flex justify-content-center">
+              <button type="submit" className="btn btn-primary mt-3">Submit</button>
+          </div>
           </form>
         </div>
       </div>

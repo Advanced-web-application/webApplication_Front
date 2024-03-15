@@ -91,15 +91,15 @@ function Profile() {
         const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) {
             return (
-                <div>
-                    <p>Error: You are not logged in.</p>
-                    <button onClick={() => navigate('/login')}>Go to Login</button>
-                </div>
+            <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8d7da" }}>
+                <p className="mb-4 text-danger">Error: You are not logged in.</p>
+                <button onClick={() => navigate('/login')} className="btn btn-primary">Go to Login</button>
+            </div>
             );
         }
         return (
             <>
-             <h1>Profile Details</h1>
+             <h1 className="text-center">Profile Details</h1>
             <div>
                 {error && <p className='text-danger'>{error}</p>}
             </div>

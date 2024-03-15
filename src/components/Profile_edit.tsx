@@ -274,16 +274,16 @@ function ProfileEdit() {
     const accessToken = localStorage.getItem('accessToken'); 
     if (!accessToken) {
         return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
+            <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8d7da" }}>
+      <p className="mb-4 text-danger">Error: You are not logged in.</p>
+      <button onClick={() => navigate('/login')} className="btn btn-primary">Go to Login</button>
+    </div>
         );
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1>Edit Profile</h1>
+            <h1 className="text-center">Edit Profile</h1>
             <div className="mb-3">
                 {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
                 <div className="d-flex justify-content-center position-relative">

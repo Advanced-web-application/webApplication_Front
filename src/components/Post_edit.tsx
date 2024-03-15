@@ -413,16 +413,16 @@ function EditPost() {
     const accessToken = localStorage.getItem('accessToken'); 
     if (!accessToken) {
         return (
-            <div>
-                <p>Error: You are not logged in.</p>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
+            <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8d7da" }}>
+            <p className="mb-4 text-danger">Error: You are not logged in.</p>
+            <button onClick={() => navigate('/login')} className="btn btn-primary">Go to Login</button>
+        </div>
         );
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1>Edit Post</h1>
+            <h1 className="text-center">Edit Post</h1>
             <div className="mb-3">
                 {image && <img src={image} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
                 {/* <label className="form-label"></label>
@@ -473,7 +473,7 @@ function EditPost() {
                 {errors.owner && <p className="text-danger">{errors.owner.message}</p>}
             </div> */}
             <button type="submit" className="btn btn-primary">Save Changes</button>
-            <button type="button" className="btn btn-danger ml-2" onClick={handleDelete}>Delete Post</button>
+            <button type="button" className="btn btn-danger ml-2"  style={{ marginLeft: '1rem' }} onClick={handleDelete}>Delete Post</button>
         </form>
     )
 }
