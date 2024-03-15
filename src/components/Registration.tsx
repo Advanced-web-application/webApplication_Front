@@ -293,9 +293,19 @@ function Registration() {
         navigate('/login');
     };
 
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+    return (
+        <div>
+        <p>Error: You are already logged in.</p>
+        <button onClick={() => navigate('/feed')}>Go to back to Feed </button>
+        </div>
+    );
+    }
+
     return (
         <div className="vstack gap-3 col-md-7 mx-auto">
-            <h1>Register</h1>
+            <h1 className="text-center">Register</h1>
             <div className="d-flex justify-content-center position-relative">
             {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
             <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
@@ -368,7 +378,7 @@ function Registration() {
                     <label htmlFor="floatingPassword">Password</label>
                     {errors.password && <p className="text-danger">{errors.password.message}</p>}
                 </div>
-                <button type="submit" className="btn btn-primary">Register</button>
+                <button type="submit" className="btn btn-success mt-3">Register</button>
             </form>
 
             {registerError && <p style={{ color: 'red' }}>{registerError}</p>}

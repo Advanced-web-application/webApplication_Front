@@ -99,7 +99,7 @@ function Profile() {
         }
         return (
             <>
-             <h1>Profile Details</h1>
+             <h1 className="text-center">Profile Details</h1>
             <div>
                 {error && <p className='text-danger'>{error}</p>}
             </div>

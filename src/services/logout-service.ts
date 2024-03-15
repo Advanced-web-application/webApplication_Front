@@ -27,6 +27,7 @@ export const postLogout = async () => {
    });
    localStorage.removeItem('accessToken');
    localStorage.removeItem('refreshToken');
+   localStorage.removeItem('userID');
 
 
 

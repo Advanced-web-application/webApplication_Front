@@ -422,7 +422,7 @@ function EditPost() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1>Edit Post</h1>
+            <h1 className="text-center">Edit Post</h1>
             <div className="mb-3">
                 {image && <img src={image} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
                 {/* <label className="form-label"></label>
@@ -473,7 +473,7 @@ function EditPost() {
                 {errors.owner && <p className="text-danger">{errors.owner.message}</p>}
             </div> */}
             <button type="submit" className="btn btn-primary">Save Changes</button>
-            <button type="button" className="btn btn-danger ml-2" onClick={handleDelete}>Delete Post</button>
+            <button type="button" className="btn btn-danger ml-2"  style={{ marginLeft: '1rem' }} onClick={handleDelete}>Delete Post</button>
         </form>
     )
 }

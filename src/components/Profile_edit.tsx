@@ -283,7 +283,7 @@ function ProfileEdit() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1>Edit Profile</h1>
+            <h1 className="text-center">Edit Profile</h1>
             <div className="mb-3">
                 {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
                 <div className="d-flex justify-content-center position-relative">

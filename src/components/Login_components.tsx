@@ -89,13 +89,27 @@ const LoginComponent = () => {
 const onGoogleLoginFailure = () => {
     console.log("Google login failed")
 }
+
+const accessToken = localStorage.getItem('accessToken');
+const logout = localStorage.getItem('logout');
+if(logout==="true"){
+  localStorage.removeItem('logout');
+}
+if (accessToken && logout!=="true") {
+  return (
+    <div>
+      <p>Error: You are already logged in.</p>
+      <button onClick={() => navigate('/feed')}>Go to back to Feed </button>
+    </div>
+  );
+}
     
   return (
     <div className="vstack gap-3 col-md-7 mx-auto">
 
     
 
-      <h1>LogIn</h1>
+      <h1 className="text-center">LogIn</h1>
       <form onSubmit={handleSubmit(login)}>
         <div className="form-floating">
           <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="" />
@@ -107,7 +121,7 @@ const onGoogleLoginFailure = () => {
           <label htmlFor="floatingPassword">Password</label>
           {errors.password && <p className="text-danger">{errors.password.message}</p>}
         </div>
-        <button type="submit" className="btn btn-primary">LogIn</button>
+        <button type="submit" className="btn btn-success mt-3">LogIn</button>
       </form>
 
       {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
