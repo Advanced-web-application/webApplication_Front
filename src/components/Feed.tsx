@@ -221,11 +221,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export let postID: string;
 export let PostIdDetails: string;
 
-interface FeedProps {
-    ID: string | null
-}
 
-function Feed({ ID }: FeedProps) {
+
+function Feed() {
     //const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     //const location = useLocation();
