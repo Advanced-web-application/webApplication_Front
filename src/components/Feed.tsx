@@ -346,11 +346,12 @@ function Feed({ ID }: FeedProps) {
                     {viewMyPosts ? "View All Posts" : "View My Posts"}
                 </button>
             )} */}
-            {post.length === 0 && (
+            { post.length === 0 && (
                 <div className="alert alert-info" role="alert">
-                    No posts available.
+                    No posts available...
                 </div>
             )}
+            
            
            {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
              <div className="d-flex justify-content-center">

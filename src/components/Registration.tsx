@@ -296,10 +296,10 @@ function Registration() {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
     return (
-        <div>
-        <p>Error: You are already logged in.</p>
-        <button onClick={() => navigate('/feed')}>Go to back to Feed </button>
-        </div>
+        <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8d7da" }}>
+        <p className="mb-4 text-danger">Error: You are already logged in.</p>
+        <button onClick={() => navigate('/feed')} className="btn btn-primary">Go back to Feed</button>
+    </div>
     );
     }
 
