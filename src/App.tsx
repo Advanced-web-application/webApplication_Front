@@ -83,11 +83,11 @@ const App = () => {
       <Route path="/postedit/:id" element={<PostEdit />} />
       <Route path="/registration" element={<Registration />} />
       <Route path="/CurrancyConvert" element={<CurrancyConvert />} />
-      <Route path="/feed" element={<Feed ID="" />} />
+      <Route path="/feed" element={<Feed />} />
       <Route path="/login" element={<LogIn />} />
       {/* <Route path="/" element={<Registration />} /> Default route */}
       {/* <Route path="/" element={accessToken ? <Feed ID="" /> : <Registration />} /> */}
-      <Route path="/" element={accessToken !== ""  ? <Feed ID= {userID} /> : <Registration />} />
+      <Route path="/" element={accessToken !== ""  ? <Feed  /> : <Registration />} />
     </Routes>
 </Router>
   );

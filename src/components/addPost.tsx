@@ -73,8 +73,10 @@ function AddPost() {
   };
 
   return (
+    
     <div className="card">
       <div className="card-body">
+      <div style={{ backgroundColor: "#FFF8DC" }}>
         <div className="vstack gap-3 col-md-7 mx-auto">
           <h1 className="text-center">Add New Post:</h1>
           <div className="d-flex justify-content-center position-relative">
@@ -86,29 +88,35 @@ function AddPost() {
 
           <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
           {errors.image && <p>{errors.image.message}</p>}
-          <form onSubmit={handleSubmit(addNewPost)}>
-            <div className="form-floating">
-              <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
-              <label htmlFor="floatingName">Title</label>
-              {errors.name && <p>{errors.name.message}</p>}
-            </div>
-            <div className="form-floating">
-              <input {...register("description")} type="text" className="form-control" id="floatingDescription" placeholder="" />
-              <label htmlFor="floatingDescription">Description</label>
-              {errors.description && <p>{errors.description.message}</p>}
-            </div>
-            <div className="form-floating">
-              <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
-              <label htmlFor="floatingPrice">Price</label>
-              {errors.price && <p>{errors.price.message}</p>}
-            </div>
-            <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary mt-3">Submit</button>
-          </div>
-          </form>
+          <div className="card p-3">
+          
+    <form onSubmit={handleSubmit(addNewPost)}>
+        <div className="form-floating mb-3 d-flex justify-content-center">
+            <input {...register("name")} type="text" className="form-control" id="floatingName" placeholder="" />
+            <label htmlFor="floatingName">Title</label>
+            {errors.name && <p>{errors.name.message}</p>}
+        </div>
+        <div className="form-floating mb-3 d-flex justify-content-center">
+            <input {...register("description")} type="text" className="form-control" id="floatingDescription" placeholder="" />
+            <label htmlFor="floatingDescription">Description</label>
+            {errors.description && <p>{errors.description.message}</p>}
+        </div>
+        <div className="form-floating mb-3 d-flex justify-content-center">
+            <input {...register("price")} type="number" className="form-control" id="floatingPrice" placeholder="" />
+            <label htmlFor="floatingPrice">Price</label>
+            {errors.price && <p>{errors.price.message}</p>}
+        </div>
+        <div className="d-flex justify-content-center">
+            <button type="submit" className="btn btn-primary mt-3">Submit</button>
+        </div>
+    </form>
+</div>
+        </div>
         </div>
       </div>
     </div>
+
+    
   );
 }
 

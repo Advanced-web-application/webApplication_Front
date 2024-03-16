@@ -221,11 +221,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export let postID: string;
 export let PostIdDetails: string;
 
-interface FeedProps {
-    ID: string | null
-}
 
-function Feed({ ID }: FeedProps) {
+
+function Feed() {
     //const { register, handleSubmit, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(PostSchema) })
     const navigate = useNavigate();
     //const location = useLocation();
@@ -288,6 +286,9 @@ function Feed({ ID }: FeedProps) {
 
     return (
         <>
+        <div style={{ backgroundColor: "#FFF8DC" }}>
+    <h1 className="text-center font-weight-bold display-4" style={{ color: 'brown' }}>Yad-2</h1>
+</div>
 <div className="p-3 mb-4 border rounded" style={{ backgroundColor: 'lightgray' }}>
 <h4 className="text-center">Navigate in our website:</h4>
 <div className="d-flex justify-content-center">
@@ -318,6 +319,7 @@ function Feed({ ID }: FeedProps) {
 )}
 </div>
 </div>
+<div style={{ backgroundColor: "#FFF8DC" }}>
 
 <div className="text-center my-5">
     <h1 className="display-4">See People Posts:</h1>
@@ -370,6 +372,7 @@ function Feed({ ID }: FeedProps) {
      </div>
    
 ))}
+</div>
 
             {/* {post.filter(p => !viewMyPosts || p.owner === userID).map((post, index) => (
                 <div className="card" key={index}>

@@ -282,45 +282,102 @@ function ProfileEdit() {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1 className="text-center">Edit Profile</h1>
-            <div className="mb-3">
-                {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
-                <div className="d-flex justify-content-center position-relative">
-                    {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
-                    <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
-                        <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                    </button>
-                </div>
+<div style={{ backgroundColor: "#FFF8DC" }}>
+    <form onSubmit={handleSubmit(onSubmit)} className="m-3">
+        <h1 className="text-center">Edit Profile</h1>
+        <div className="card p-3">
+            <div className="mb-3 d-flex justify-content-center">
+                {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ height: "200px", width: "200px" }} />}
+                <div className="d-flex justify-content-start position-relative">
+            {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "200px", width: "200px" }} className="img-fluid" />}
+            <button type="button" className="btn position-absolute" style={{ bottom: '10px', right: '10px' }} onClick={onImageUploadButtonClick}>
+                <FontAwesomeIcon icon={faImage} className="fa-xl" />
+            </button>
+        </div>
                 <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
             </div>
 
-            <div className="mb-3">
-                <label className="form-label">Full Name:</label>
-                <input type="text" className="form-control" {...register("fullName")} defaultValue={user?.fullName} />
-                {errors.fullName && <p className="text-danger">{errors.fullName.message}</p>}
-            </div>
+            <div className="mb-3 d-flex justify-content-center">
+    <label className="form-label fw-bold">Full Name:</label>
+    <input type="text" className="form-control" style={{ width: '50%' }} {...register("fullName")} defaultValue={user?.fullName} />
+    {errors.fullName && <p className="text-danger">{errors.fullName.message}</p>}
+</div>
 
-            <div className="mb-3">
-                <label className="form-label">Age:</label>
-                <input type="number" min="18" className="form-control" {...register("age", { setValueAs: value => parseFloat(value)})} defaultValue={user?.age} />
-                {errors.age && <p className="text-danger">{errors.age.message}</p>}
-            </div>
+<div className="mb-3 d-flex justify-content-center">
+    <label className="form-label fw-bold">Age:</label>
+    <input type="number" min="18" className="form-control" style={{ width: '50%' }} {...register("age", { setValueAs: value => parseFloat(value)})} defaultValue={user?.age} />
+    {errors.age && <p className="text-danger">{errors.age.message}</p>}
+</div>
 
-            <div className="mb-3">
-                <label className="form-label">Gender:</label>
-                <input type="text" className="form-control" {...register("gender")} defaultValue={user?.gender} />
-                {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
-            </div>
+{/* <div className="mb-3 d-flex justify-content-center">
+    <label className="form-label fw-bold">Gender:</label>
+    <input type="text" className="form-control" style={{ width: '50%' }} {...register("gender")} defaultValue={user?.gender} />
+    {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
+</div> */}
+<div className="mb-3 d-flex justify-content-center">
+    <label className="form-label fw-bold">Gender:</label>
+    <select className="form-control" style={{ width: '50%' }} {...register("gender")} defaultValue={user?.gender}>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+        <option value="Other">Other</option>
+    </select>
+    {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
+</div>
 
-            <div className="mb-3">
-                <label className="form-label">Email:</label>
-                <input type="email" className="form-control" {...register("email")} defaultValue={user?.email} />
-                {errors.email && <p className="text-danger">{errors.email.message}</p>}
-            </div>
+<div className="mb-3 d-flex justify-content-center">
+    <label className="form-label fw-bold">Email:</label>
+    <input type="email" className="form-control" style={{ width: '50%' }} {...register("email")} defaultValue={user?.email} />
+    {errors.email && <p className="text-danger">{errors.email.message}</p>}
+</div>
 
-            <button type="submit" className="btn btn-primary">Save Changes</button>
-        </form>
+<div className="d-flex justify-content-center">
+    <button type="submit" className="btn btn-primary ">Save Changes</button>
+</div>
+        </div>
+    </form>
+</div>
+
+        // <div style={{ backgroundColor: "#FFF8DC" }}>
+        // <form onSubmit={handleSubmit(onSubmit)} className="m-3">
+        //     <h1 className="text-center">Edit Profile</h1>
+        //     <div className="mb-3">
+        //         {user?.image && <img src={user?.image} alt="Current Profile" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+        //         <div className="d-flex justify-content-center position-relative">
+        //             {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
+        //             <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
+        //                 <FontAwesomeIcon icon={faImage} className="fa-xl" />
+        //             </button>
+        //         </div>
+        //         <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+        //     </div>
+
+        //     <div className="mb-3">
+        //         <label className="form-label">Full Name:</label>
+        //         <input type="text" className="form-control" {...register("fullName")} defaultValue={user?.fullName} />
+        //         {errors.fullName && <p className="text-danger">{errors.fullName.message}</p>}
+        //     </div>
+
+        //     <div className="mb-3">
+        //         <label className="form-label">Age:</label>
+        //         <input type="number" min="18" className="form-control" {...register("age", { setValueAs: value => parseFloat(value)})} defaultValue={user?.age} />
+        //         {errors.age && <p className="text-danger">{errors.age.message}</p>}
+        //     </div>
+
+        //     <div className="mb-3">
+        //         <label className="form-label">Gender:</label>
+        //         <input type="text" className="form-control" {...register("gender")} defaultValue={user?.gender} />
+        //         {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
+        //     </div>
+
+        //     <div className="mb-3">
+        //         <label className="form-label">Email:</label>
+        //         <input type="email" className="form-control" {...register("email")} defaultValue={user?.email} />
+        //         {errors.email && <p className="text-danger">{errors.email.message}</p>}
+        //     </div>
+
+        //     <button type="submit" className="btn btn-primary">Save Changes</button>
+        // </form>
+        // </div>
     )
 }
 

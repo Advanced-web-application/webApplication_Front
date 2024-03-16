@@ -421,60 +421,44 @@ function EditPost() {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="m-3">
-            <h1 className="text-center">Edit Post</h1>
-            <div className="mb-3">
-                {image && <img src={image} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
-                {/* <label className="form-label"></label>
-                <input type="file" className="form-control" {...register("image")}/>
-                {errors.image && <p className="text-danger">{errors.image.message}</p>} */}
-            </div>
+        <div style={{ backgroundColor: "#FFF8DC" }}>
 
-            {/* <div className="d-flex justify-content-center position-relative">
-                <img src={imgSrc ? URL.createObjectURL(imgSrc) : avatar} style={{ height: "230px", width: "230px" }} className="img-fluid" />
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
-                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                </button>
-            </div> */}
-
-            <div className="d-flex justify-content-center position-relative">
-                {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "230px", width: "230px" }} className="img-fluid" />}
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
-                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                </button>
-            </div>
-            <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
-            {/* {errors.image && <p className="text-danger">Image is required</p>} */}
-
-            <div className="mb-3">
-                <label className="form-label">Name:</label>
-                <input type="text" className="form-control" {...register("name")}defaultValue={name} />
-                {errors.name && <p className="text-danger">{errors.name.message}</p>}
-            </div>
-            <div className="mb-3">
-                <label className="form-label">Description:</label>
-                <input type="text" className="form-control" {...register("description")}defaultValue={description} />
-                {errors.description && <p className="text-danger">{errors.description.message}</p>}
-            </div>
-                <div className="mb-3">
-                <label className="form-label">Price:</label>
-                <input type="number" min="1" className="form-control" {...register("price", { setValueAs: value => parseFloat(value) })} defaultValue={price} />
-                {errors.price && <p className="text-danger">{errors.price.message}</p>}
-            </div>
-                {/* <div className="mb-3">
-                <label className="form-label">Price:</label>
-                <input type="number" min="1" className="form-control" {...register("price")} defaultValue={price} />
-                {errors.price && <p className="text-danger">{errors.price.message}</p>}
-            </div> */}
-            {/* <div className="mb-3">
-                <label className="form-label">Owner ID:</label>
-                <input type="text" className="form-control" {...register("owner")}defaultValue={owner} />
-                {errors.owner && <p className="text-danger">{errors.owner.message}</p>}
-            </div> */}
+<form onSubmit={handleSubmit(onSubmit)} className="m-3">
+    <h1 className="text-center">Edit Post</h1>
+    <div className="card p-3">
+        <div className="mb-3 d-flex justify-content-center">
+            {image && <img src={image} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+        </div>
+        <div className="d-flex justify-content-center position-relative" style={{ marginTop: '-20px' }}>
+            {imgSrc && <img src={URL.createObjectURL(imgSrc)} style={{ height: "200px", width: "200px" }} className="img-fluid" />}
+            <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
+                <FontAwesomeIcon icon={faImage} className="fa-xl" />
+            </button>
+        </div>
+        <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+        <div className="mb-3 d-flex justify-content-center">
+            <label className="form-label fw-bold">Name:</label>
+            <input type="text" className="form-control w-50" {...register("name")} defaultValue={name} />
+            {errors.name && <p className="text-danger">{errors.name.message}</p>}
+        </div>
+        <div className="mb-3 d-flex justify-content-center">
+            <label className="form-label fw-bold">Description:</label>
+            <input type="text" className="form-control w-50" {...register("description")} defaultValue={description} />
+            {errors.description && <p className="text-danger">{errors.description.message}</p>}
+        </div>
+        <div className="mb-3 d-flex justify-content-center">
+            <label className="form-label fw-bold">Price:</label>
+            <input type="number" min="1" className="form-control w-50" {...register("price", { setValueAs: value => parseFloat(value) })} defaultValue={price} />
+            {errors.price && <p className="text-danger">{errors.price.message}</p>}
+        </div>
+        <div className="d-flex justify-content-center">
             <button type="submit" className="btn btn-primary">Save Changes</button>
-            <button type="button" className="btn btn-danger ml-2"  style={{ marginLeft: '1rem' }} onClick={handleDelete}>Delete Post</button>
-        </form>
+            <button type="button" className="btn btn-danger ml-2" style={{ marginLeft: '1rem' }} onClick={handleDelete}>Delete Post</button>
+        </div>
+    </div>
+</form>
+
+        </div>
     )
 }
 
