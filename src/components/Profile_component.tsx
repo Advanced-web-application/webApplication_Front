@@ -99,25 +99,12 @@ function Profile() {
         }
         return (
             <>
+            <div style={{ backgroundColor: "#FFF8DC" }}>
              <h1 className="text-center">Profile Details</h1>
             <div>
                 {error && <p className='text-danger'>{error}</p>}
             </div>
-            
-            {/* <div className="p-4">
-                {user && user.filter(user => user._id === '12345678').map(user => <Profile key={user._id} profile={user} />)}
-        
-           </div> */}
-
-            {/* <div className="p-4">
-                {user && user.filter(user => user._id === '123456789').map(user => (
-                    <div key={user._id}>
-                        <Profile profile={user} />
-                        <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
-                    </div>
-                ))}
-            </div>  */}
-
+    
                 <button onClick={handleButtonClick} className="btn btn-secondary">
                     go backt to feed
                 </button>
@@ -126,10 +113,13 @@ function Profile() {
                 {user && 
                     <div key={user._id}>
                         <ProfileDetails profile={user} />     
+                        <div className="d-flex justify-content-center mt-3">
                         <button className="btn btn-primary" onClick={() => handleEdit(user._id)}>Edit Profile</button>
+</                      div>
                     </div>
                 }
                 
+            </div>
             </div>
   
            </>

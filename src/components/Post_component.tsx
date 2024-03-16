@@ -136,6 +136,7 @@ function PostDetalis() {
         const accessToken = localStorage.getItem('accessToken'); 
         return (
             <>
+             <div style={{ backgroundColor: "#FFF8DC" }}>
                 <h1 className="text-center">Post</h1>
                 <div>
                     {error && <p className='text-danger'>{error}</p>}
@@ -145,15 +146,17 @@ function PostDetalis() {
     <div key={post._id}>
         <Post post={post} />
         <form onSubmit={handleCommentSubmit(post._id ?? '')}>
-            <div className="mb-3">
-            {accessToken && (
-            <input type="text" className="form-control" value={newComment} onChange={(e) => setNewComment(e.target.value)} />)}
-            </div>
-            {accessToken && (
-            <button type="submit" className="btn btn-primary mr-3">Add Comment</button> 
-            )}
-            {post.owner === userID && <button className="btn btn-success" style={{ marginLeft: '1rem' }} onClick={() => handleEdit(post._id ?? '')}>Edit Post</button>} 
-        </form>
+    <div className="mb-3 d-flex justify-content-center mt-3">
+        {accessToken && (
+        <input type="text" className="form-control w-25" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Add a comment" />)}
+    </div>
+    <div className="d-flex justify-content-center">
+        {accessToken && (
+        <button type="submit" className="btn btn-primary mr-5" style={{ marginRight: '25px' }}>Add Comment</button> 
+        )}
+        {post.owner === userID && <button className="btn btn-success ml-5" onClick={() => handleEdit(post._id ?? '')}>Edit Post</button>} 
+    </div>
+</form>
     </div>
 )}
                 {/* {post && (
@@ -172,6 +175,7 @@ function PostDetalis() {
                         
                     </div>
                 )} */}
+            </div>
             </div>
            </>
         )

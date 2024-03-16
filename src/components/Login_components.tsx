@@ -105,34 +105,68 @@ if (accessToken && logout!=="true") {
 }
     
   return (
+    <div style={{ backgroundColor: "#FFF8DC" }}>
     <div className="vstack gap-3 col-md-7 mx-auto">
-
-    
-
-      <h1 className="text-center">LogIn</h1>
-      <form onSubmit={handleSubmit(login)}>
-        <div className="form-floating">
-          <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="" />
-          <label htmlFor="floatingInput">Email</label>
-          {errors.email && <p className="text-danger">{errors.email.message}</p>}
+    <h1 className="text-center fw-bold">LogIn</h1>
+    <div className="card">
+        <div className="card-body">
+            <form onSubmit={handleSubmit(login)}>
+                <div className="form-floating mb-3">
+                    <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="" />
+                    <label htmlFor="floatingInput">Email</label>
+                    {errors.email && <p className="text-danger">{errors.email.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <input {...register("password")} type="password" className="form-control" id="floatingPassword" placeholder="" />
+                    <label htmlFor="floatingPassword">Password</label>
+                    {errors.password && <p className="text-danger">{errors.password.message}</p>}
+                </div>
+                <div className="d-flex justify-content-center">
+                    <button type="submit" className="btn btn-success mt-3">LogIn</button>
+                </div>
+            </form>
         </div>
-        <div className="form-floating">
-          <input {...register("password")} type="password" className="form-control" id="floatingPassword" placeholder="" />
-          <label htmlFor="floatingPassword">Password</label>
-          {errors.password && <p className="text-danger">{errors.password.message}</p>}
-        </div>
-        <button type="submit" className="btn btn-success mt-3">LogIn</button>
-      </form>
-
-      {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-
-      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
-
-      <button onClick={handleButtonClick} className="btn btn-primary">
-        Don't have a member yet? Register here
-      </button>
-
     </div>
+
+    {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+
+    <div className="d-flex justify-content-center">
+        <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+    </div>
+
+    <button onClick={handleButtonClick} className="btn btn-primary">
+        Don't have a member yet? Register here
+    </button>
+</div>
+</div>
+
+
+
+    // <div className="vstack gap-3 col-md-7 mx-auto">
+    //   <h1 className="text-center fw-bold">LogIn</h1>
+    //   <form onSubmit={handleSubmit(login)}>
+    //     <div className="form-floating">
+    //       <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="" />
+    //       <label htmlFor="floatingInput">Email</label>
+    //       {errors.email && <p className="text-danger">{errors.email.message}</p>}
+    //     </div>
+    //     <div className="form-floating">
+    //       <input {...register("password")} type="password" className="form-control" id="floatingPassword" placeholder="" />
+    //       <label htmlFor="floatingPassword">Password</label>
+    //       {errors.password && <p className="text-danger">{errors.password.message}</p>}
+    //     </div>
+    //     <button type="submit" className="btn btn-success mt-3">LogIn</button>
+    //   </form>
+
+    //   {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+
+    //   <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+
+    //   <button onClick={handleButtonClick} className="btn btn-primary">
+    //     Don't have a member yet? Register here
+    //   </button>
+
+    // </div>
   )
 };
 

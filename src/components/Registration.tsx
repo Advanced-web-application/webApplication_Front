@@ -304,8 +304,91 @@ function Registration() {
     }
 
     return (
-        <div className="vstack gap-3 col-md-7 mx-auto">
-            <h1 className="text-center">Register</h1>
+        <div>
+    <div style={{ backgroundColor: "#FFF8DC" }}>
+      <div className="d-flex justify-content-center mt-3">
+    <div className="card text-primary bg-white mb-3 w-100 d-flex align-items-center justify-content-center" style={{ minHeight: "10rem" }}>
+        <div className="card-header text-center fw-bold" style={{ fontSize: "3rem", color: "burlywood" }}>WELCOME!</div>
+        <div className="text-center fw-bold" style={{ fontSize: "2rem",color: "brown"}}> To Yad-2 Sales</div>
+    </div>
+</div>
+<div className="vstack gap-3 col-md-7 mx-auto">
+    <h1 className="text-center fw-bold">Register</h1>
+    <div className="d-flex justify-content-center position-relative">
+        {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
+        <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
+            <FontAwesomeIcon icon={faImage} className="fa-xl" />
+        </button>
+    </div>
+
+    <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
+    {errors.image && <p className="text-danger">{errors.image.message}</p>}
+
+    <div className="card">
+        <div className="card-body">
+            <form onSubmit={handleSubmit(registerUser)}>
+                <div className="form-floating mb-3">
+                    <input {...register("fullName")} type="text" className="form-control" id="floatingName" placeholder="Full Name" />
+                    <label htmlFor="floatingName">Full Name</label>
+                    {errors.fullName && <p className="text-danger">{errors.fullName.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <input {...register("age", { valueAsNumber: true })} type="number" className="form-control" id="floatingAge" placeholder="Age" />
+                    <label htmlFor="floatingAge">Age</label>
+                    {errors.age && <p className="text-danger">{errors.age.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <select {...register("gender")} className="form-control" id="floatingGender">
+                        <option value="">Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <label htmlFor="floatingGender">Gender</label>
+                    {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <input {...register("_id")} type="text" className="form-control" id="floatingId" placeholder="ID" />
+                    <label htmlFor="floatingId">ID</label>
+                    {errors._id && <p className="text-danger">{errors._id.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <input {...register("email")} type="text" className="form-control" id="floatingInput" placeholder="Email" />
+                    <label htmlFor="floatingInput">Email</label>
+                    {errors.email && <p className="text-danger">{errors.email.message}</p>}
+                </div>
+                <div className="form-floating mb-3">
+                    <input {...register("password")} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+                    <label htmlFor="floatingPassword">Password</label>
+                    {errors.password && <p className="text-danger">{errors.password.message}</p>}
+                </div>
+                <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-success mt-3">Register</button>
+            </div>
+                {/* <button type="submit" className="btn btn-success mt-3">Register</button> */}
+            </form>
+        </div>
+    </div>
+
+    {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
+
+    <div className="d-flex justify-content-center">
+    <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
+</div>
+
+    {/* <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} /> */}
+
+    <button onClick={handleButtonClick} className="btn btn-primary">
+        Already have a member? Log in here
+    </button>
+</div>
+</div>
+
+
+
+        
+        {/* <div className="vstack gap-3 col-md-7 mx-auto">
+            <h1 className="text-center fw-bold">Register</h1>
             <div className="d-flex justify-content-center position-relative">
             {imgSrc && <img src={URL.createObjectURL(imgSrc)} alt="Post" className="img-thumbnail mb-2" style={{ maxWidth: '200px' }} />}
             <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
@@ -314,30 +397,9 @@ function Registration() {
           </div>
 
           <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-          {errors.image && <p className="text-danger">{errors.image.message}</p>}
+          {errors.image && <p className="text-danger">{errors.image.message}</p>} */}
 
-
-
-
-
-
-            {/* <div className="d-flex justify-content-center position-relative">
-                <img src={imgSrc ? URL.createObjectURL(imgSrc) : avatar} style={{ height: "230px", width: "230px" }} className="img-fluid" />
-                <button type="button" className="btn position-absolute bottom-0 end-0" onClick={onImageUploadButtonClick}>
-                    <FontAwesomeIcon icon={faImage} className="fa-xl" />
-                </button>
-            </div>
-            <input style={{ display: "none" }}  type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
-
-
-
-
-            {/* <input style={{ display: "none" }} {...register("image")} type="file" onChange={imgSelected} ref={fileInputRef}></input> */}
-
-            {/* <input style={{ display: "none" }} {...register("image", { required: "Image is required" })} type="file" onChange={imgSelected} ref={fileInputRef}></input>
-            {errors.image && <p className="text-danger">Image is required</p>} */}
-
-            <form onSubmit={handleSubmit(registerUser)}>
+            {/* <form onSubmit={handleSubmit(registerUser)}>
                 <div className="form-floating">
                     <input {...register("fullName")} type="text" className="form-control" id="floatingName" placeholder="Full Name" />
                     <label htmlFor="floatingName">Full Name</label>
@@ -348,11 +410,6 @@ function Registration() {
                     <label htmlFor="floatingAge">Age</label>
                     {errors.age && <p className="text-danger">{errors.age.message}</p>}
                 </div>
-                {/* <div className="form-floating">
-                    <input {...register("gender")} type="text" className="form-control" id="floatingGender" placeholder="Gender" />
-                    <label htmlFor="floatingGender">Gender</label>
-                    {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
-                </div> */}
                 <div className="form-floating">
                 <select {...register("gender")} className="form-control" id="floatingGender">
                     <option value="">Select Gender</option>
@@ -388,6 +445,8 @@ function Registration() {
             <button onClick={handleButtonClick} className="btn btn-primary">
               Already have a member? Log in here
             </button>
+        </div>
+        </div> */}
         </div>
     )
 }

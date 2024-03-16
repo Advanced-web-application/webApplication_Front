@@ -76,6 +76,7 @@ const CurrencyConversion = () => {
     return <div className="text-center fw-bold fs-1">Loading...</div>
   } else {
     return (
+      <div style={{ backgroundColor: "#FFF8DC" }}>
        <div className="container">
       <div className="container">
         <button onClick={handleButtonClick} className="btn btn-secondary btn-sm text-dark float-end">
@@ -101,14 +102,17 @@ const CurrencyConversion = () => {
   </tbody>
 </table>
       </div>
+      </div>
       // <div>
       //   <h1>Convertion Rates Table:</h1>
       //   {Object.entries(rates).map(([currency, rate]) => (
       //     <div key={currency}>{currency}: {Number(rate)}</div>
       //   ))}
       // </div>
+      
     );
   }
+  
 };
 
 export default CurrencyConversion;
