@@ -4,13 +4,13 @@ import { CanceledError } from "../services/post-service"
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
-interface ConversionRates {
-  USD: number;
-  AED: number;
-  AFN: number;
-  // ... (add all other currencies)
-  ZWL: number;
-}
+// interface ConversionRates {
+//   USD: number;
+//   AED: number;
+//   AFN: number;
+//   // ... (add all other currencies)
+//   ZWL: number;
+// }
 
 const CurrencyConversion = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const CurrencyConversion = () => {
   const userID = location.state?.userID;
   console.log("userID: " + userID);
 
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [rates, setRates] = useState<Record<string, number> | null>(null);
 
   useEffect(() => {

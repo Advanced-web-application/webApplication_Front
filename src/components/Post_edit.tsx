@@ -276,13 +276,13 @@
 
 import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import postService, { CanceledError } from '../services/post-service';
-import { PostData } from '../Post';
+//import { PostData } from '../Post';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import avatar from '../assets/avatar.jpeg'
+//import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
@@ -301,13 +301,13 @@ type FormData = z.infer<typeof schema>;
 function EditPost() {
     const navigate = useNavigate();
     //const location = useLocation();
-    const userID= localStorage.getItem('userID');
+    //const userID= localStorage.getItem('userID');
    // const userID = location.state?.userID;
     //const PostIdDetails = location.state?.PostIdDetails;
     const PostIdDetails = useParams().id;
 
-    const [post, setPost] = useState<PostData[]>([])
-    const [error, setError] = useState();
+    //const [ setPost] = useState<PostData[]>([])
+    //const [ setError] = useState();
     const [image, setImage] =useState('')
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -345,7 +345,7 @@ function EditPost() {
         }).catch((err) => {
             console.log(err)
             if (err instanceof CanceledError) return
-            setError(err.message)
+            //setError(err.message)
         })
         return () => {
             abort()
@@ -355,10 +355,10 @@ function EditPost() {
         const handleDelete = async () => {
         console.log("deleting post: " + name);
         await postService.deletePost(PostIdDetails!)
-        const { req } = postService.getPosts()
-        req.then((res) => {
-            setPost(res.data)
-        })
+        // const { req } = postService.getPosts()
+        // req.then((res) => {
+        //     setPost(res.data)
+        // })
         navigate('/feed');
     };
 

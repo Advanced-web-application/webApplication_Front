@@ -168,7 +168,7 @@ import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import profileService, { CanceledError } from '../services/profile-service';
 import { IUser } from '../ProfileDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -204,7 +204,7 @@ function ProfileEdit() {
     });
 
     const [imgSrc, setImgSrc] = useState<File>(); 
-    const [error, setError] = useState<string>();
+    //const [error, setError] = useState<string>();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -249,7 +249,7 @@ function ProfileEdit() {
                 email: data.email
             };
 
-            const res = await profileService.editUser(userID, updatedProfile);
+            const res = await profileService.editUser(userID!, updatedProfile);
             setUser(res.req.data);
             navigate('/profile', { state: { userID: userID } });
         } catch (err) {

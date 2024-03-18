@@ -1,9 +1,9 @@
 import apiClient, { CanceledError } from "./api-client"
 import { IUser } from '../ProfileDetails'
-import jwt_decode from 'jwt-decode';
+//import jwt_decode from 'jwt-decode';
 //import { Id } from '../components/Profile_component';
-import { userIDLogin } from '../components/Login_components'
-import { userID } from '../components/Registration'
+//import { userIDLogin } from '../components/Login_components'
+//import { userID } from '../components/Registration'
 
 export { CanceledError }
 

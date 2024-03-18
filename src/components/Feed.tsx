@@ -203,19 +203,19 @@
 // export default Feed
 
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { PostData } from '../Post';
-import postService, { CanceledError, addPost } from "../services/post-service";
-import place_holder_image from '../assets/place_holder_image.png';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { uploadPhoto } from '../services/file-service';
+import postService, { CanceledError } from "../services/post-service";
+//import place_holder_image from '../assets/place_holder_image.png';
+//import { faImage } from '@fortawesome/free-solid-svg-icons';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { uploadPhoto } from '../services/file-service';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 import logoutService from '../services/logout-service';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+//import { z } from 'zod';
+//import { useForm } from 'react-hook-form';
+//import { zodResolver } from '@hookform/resolvers/zod';
 
 // Define postID and PostIdDetails if needed elsewhere
 export let postID: string;
@@ -234,7 +234,7 @@ function Feed() {
     console.log("userID: " + userID);
 
     const [post, setPost] = useState<PostData[]>([]);
-    const [error, setError] = useState();
+    //const [ setError] = useState();
     const [viewMyPosts, setViewMyPosts] = useState<boolean>(false);
 
     useEffect(() => {
@@ -243,7 +243,9 @@ function Feed() {
             setPost(res.data);
         }).catch((err) => {
             if (err instanceof CanceledError) return;
-            setError(err.message);
+            // if (setError) {
+            //     setError(err.message);
+            // }
         });
         return () => {
             abort();

@@ -19,7 +19,7 @@ export const postLogout = async () => {
       throw new Error("No refresh token found");
   }
   console.log( refreshToken);
-  const res = await apiClient.get('auth/logout', { 
+  await apiClient.get('auth/logout', { 
       headers: {
           'Authorization': `Bearer ${refreshToken}`
       },

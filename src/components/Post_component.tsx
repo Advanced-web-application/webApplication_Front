@@ -7,7 +7,7 @@ import Post from "../Post"
 // import { PostIdDetails } from './Feed'
 
 import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 import { useParams } from 'react-router-dom';
 
@@ -34,7 +34,7 @@ function PostDetalis() {
     //const PostIdDetails = location.state?.PostIdDetails;
 
     const [post, setPost] = useState<PostData>()
-    const [error, setError] = useState()
+    const [error] = useState()
     const [newComment, setNewComment] = useState('');
 
     const handleCommentSubmit = (id: string) => async (e: React.FormEvent) => {

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { IUser } from '../ProfileDetails'
 import profileService, { CanceledError } from "../services/profile-service"
 import ProfileDetails from "../ProfileDetails"
-import { userIDLogin } from './Login_components'
-import { userID } from './Registration';
+//import { userIDLogin } from './Login_components'
+//import { userID } from './Registration';
 
 
 import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
  export let Id:string;
 // if(userID)
@@ -28,7 +28,7 @@ function Profile() {
    
 
         const [user, setUser] = useState<IUser>()
-        const [error, setError] = useState()
+        const [error] = useState()
 
         // useEffect(() => {
         //     const { req, abort } = profileService.getUserById(userID)
