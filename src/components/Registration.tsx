@@ -158,7 +158,7 @@
 
 
 import { ChangeEvent, useRef, useState, useEffect } from 'react'
-import avatar from '../assets/avatar.jpeg'
+//import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
@@ -222,11 +222,11 @@ function Registration() {
         fileInputRef.current?.click();
       };
 
-    const onImageUploadButtonClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    }
+    // const onImageUploadButtonClick = () => {
+    //     if (fileInputRef.current) {
+    //         fileInputRef.current.click();
+    //     }
+    // }
 
     const registerUser = async (data: FormData) => {
         try {

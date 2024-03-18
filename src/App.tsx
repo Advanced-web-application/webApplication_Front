@@ -46,7 +46,7 @@
 
 //  export default App;
 
-import React from 'react';
+//import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Profile from "./components/Profile_component"
 import ProfileEdit from './components/Profile_edit';

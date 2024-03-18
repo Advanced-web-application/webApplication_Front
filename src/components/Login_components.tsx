@@ -1,4 +1,4 @@
-import { useRef , useState} from 'react'
+import { useState} from 'react'
 import { postLogIn } from "../services/login-service"
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,11 +16,11 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-interface AxiosError {
-  response: {
-    status: number;
-  };
-}
+// interface AxiosError {
+//   response: {
+//     status: number;
+//   };
+// }
 
 const LoginComponent = () => {
   const navigate = useNavigate();
